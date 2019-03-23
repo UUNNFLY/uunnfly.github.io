@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World｜undefined
+        简明XPath｜undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2019/03/22/hello-world/">
+    <link rel="canonical" href="http://yoursite.com/2019/03/23/简明XPath/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -136,12 +136,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>简明XPath</h1>
                     
                     <span class="meta">
                          作者 uunnfly
                         <span>
-                          日期 2019-03-22
+                          日期 2019-03-23
                          </span>
                     </span>
                     <div class="tags text-center">
@@ -153,7 +153,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World
+            简明XPath
         </span>
     </div>
 </header>
@@ -164,25 +164,59 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <p>XPath是一门在XML文档中查找信息的语言，当然也可以在html中使用</p>
+<p>XPath十分简单：你只要把条件连在一起。在节点的集合里选中符合条件的，再作为新的集合继续这个过程。</p>
+<h1 id="vs"><a href="#vs" class="headerlink" title="/ vs []"></a><code>/</code> vs <code>[]</code></h1><ul>
+<li>在<code>/</code>之后的条件意思是：下一步选择匹配的子节点</li>
+<li>在<code>[]</code>之内的条件意思是：在原有的集合中排除那些不符合条件的节点，也就是只选择符合<code>[]</code>内条件的节点</li>
+</ul>
+<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;foo&gt;</span><br><span class="line">    &lt;bar&gt;test1&lt;/bar&gt;</span><br><span class="line">&lt;/foo&gt;</span><br><span class="line">&lt;foo&gt;</span><br><span class="line">    test2</span><br><span class="line">&lt;/foo&gt;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li><code>/foo/bar</code></li>
+</ul>
+<ol>
+<li>从根节点开始</li>
+<li>接着<code>/foo</code>：根节点下有两个子节点，比较一下，把所有的<code>foo</code>元素组成新的集合供下一步使用</li>
+<li>接着<code>/bar</code>: 抓取每个节点的子节点，如果该子节点是<code>bar</code>则把<strong>该子节点</strong>放入新的集合</li>
+<li>得出结果：<code>&lt;bar&gt;test1&lt;/bar&gt;</code></li>
+</ol>
+<ul>
+<li><code>/foo[bar]</code></li>
+</ul>
+<ol>
+<li>从根节点开始</li>
+<li>接着<code>/foo</code>：根节点下有两个子节点，比较一下，把所有的<code>foo</code>元素组成新的集合供下一步使用</li>
+<li>接着<code>/bar</code>: 抓取每个节点的子节点，如果该子节点有<code>bar</code>元素则把<strong>该节点</strong>放入新的集合</li>
+<li>得出结果：<code>&lt;foo&gt;&lt;bar&gt;test1&lt;/bar&gt;&lt;/foo&gt;</code></li>
+</ol>
+<h1 id="轴"><a href="#轴" class="headerlink" title="轴 ::"></a>轴 <code>::</code></h1><p>轴是用<code>::</code>分割的前缀，轴指定相对于当前节点集的任意元素，既可以是子节点，又可以是当前节点、兄弟节点或者其祖先节点</p>
+<p>举个例子：</p>
+<p><code>/foo/following-sibling:bar</code></p>
+<ol>
+<li>从根节点开始</li>
+<li>接着<code>/foo</code>：检查节点集中的每个节点（这里就一个根节点）的子节点，把所有的<code>foo</code>元素组成新的集合供下一步使用</li>
+<li>接着<code>/following-sibling::bar</code>: 检查节点集中的每个节点的同级节点，如果存在同级节点是<code>bar</code>则把<strong>该节点</strong>放入新的集合(此处实际没什么作用，还是取得所有的<code>foo</code>节点)</li>
+</ol>
+<p><code>[]</code>内也可以写坐标： <code>[1]</code> 也就是<code>[position() = 1]</code>，会取得符合条件的第一个元素</p>
+<p>实际上<code>/foo/bar</code>意思是<code>/child::foo/child::bar</code>, <code>/foo[bar]</code> 意思是 <code>/child::foo[child::bar]</code></p>
+<p>此外，还有一些语法糖：<code>attribute::foo</code> 可以写成 <code>@foo</code>, <code>/descendant-or-self::foo</code>可以写成<code>//foo</code>，也就是说<code>//</code>表示自身或者任意后代。</p>
+<p><em>参考资料</em></p>
+<blockquote>
+<p><a href="http://plasmasturm.org/log/xpath101/" target="_blank" rel="noopener">Concise XPath</a></p>
+</blockquote>
+<blockquote>
+<p><a href="http://www.w3school.com.cn/xpath/index.asp" target="_blank" rel="noopener">XPath 教程</a></p>
+</blockquote>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2019/03/23/简明XPath/" data-toggle="tooltip" data-placement="top" title="简明XPath">&larr; Previous Post</a>
-                    </li>
                     
+                    <li class="next">
+                        <a href="/2019/03/22/hello-world/" data-toggle="tooltip" data-placement="top" title="Hello World">Next Post &rarr;</a>
+                    </li>
                     
                 </ul>
 
@@ -219,7 +253,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vs"><span class="toc-text">/ vs []</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#轴"><span class="toc-text">轴 ::</span></a></li></ol>
                 </div>
             </div>
         </div>
