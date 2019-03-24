@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        uunnfly&#39;s blog
+        Tags｜uunnfly&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/archives/">
+    <link rel="canonical" href="http://yoursite.com/Tags/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -123,213 +123,156 @@
 </script>
 
 <!-- Main Content -->
-
+<style>
+    .intro-header .site-heading {
+        margin: 50px;
+    }
+    
+    header.intro-header {
+        background-image: url('background.jpg')
+    }
+    
+</style>
 
 <!-- Page Header -->
-<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 visible-xs-block visible-sm-block">
-    <div class="row">
-        <header class="intro-header">
-            <div class="container">
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">
                 <div class="site-heading text-center">
-                    <div class="about-me">
-                        <!--移动端头部显示-->
-                        <img src="http://pord1u2vc.bkt.clouddn.com/dog.jpeg">
-                        <h5><a href="/about/">uunnfly</a></h5>
-                        <p>如切如磋，如琢如磨</p>
-                    </div>
+                    <h1>Tags</h1>
+                    <span class="subheading">uunnfly&#39;blog</span>
                 </div>
             </div>
-        </header>
+        </div>
     </div>
-</div>
+</header>
+
 <!-- Main Content -->
-<div class="container custom-haojen-container">
-    <!-- Post Container -->
+<div class="container">
     <div class="row">
-        <div class="col-lg-8 col-lg-offset-1 col-md-8 col-md-offset-1 col-sm-12 col-xs-12 post-container">
-            <!-- Main Content -->
+        <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+            <!-- 标签云 -->
+            <div id="tag_cloud" class="tags">
+                
+                <a href="#ELK" title="ELK" rel="3">ELK</a>
+                
+                <a href="#docker" title="docker" rel="1">docker</a>
+                
+                <a href="#XPath" title="XPath" rel="1">XPath</a>
+                
+                <a href="#scrapy" title="scrapy" rel="1">scrapy</a>
+                
+                <a href="#ubuntu" title="ubuntu" rel="1">ubuntu</a>
+                
+            </div>
 
-
-
-<div class="post-preview " style="background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg')">
-    <a href="/2019/03/24/使用docker快速部署elk/">
-        <h2 class="post-title">
-            使用docker快速部署elk
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-24
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                系统条件
-4G以上内存
-jdk1.8
-docker
-开启5601、5044、9200端口
-
-安装流程#1. 拉取elk的dockersudo docker pull sebp/elk
-#2. 修改系统配置vim /etc/sysctl.conf增加以下一行：vm.max_map_count=26..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg')">
-    <a href="/2019/03/24/使用elastalert进行告警/">
-        <h2 class="post-title">
-            使用elastalert进行告警
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-24
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                安装git clone https://github.com/Yelp/elastalert.git安装模块12$ pip install &quot;setuptools&gt;=11.3&quot;$ python setup.py install
-安装elasticsearch-py，需要..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg')">
-    <a href="/2019/03/24/在ubuntu16.04上安装ELK/">
-        <h2 class="post-title">
-            在ubuntu16.04上安装ELK
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-24
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                [TOC]
-简介我们的ELK堆栈设置有四个主要组件：
-
-Logstash：处理传入日志的Logstash的服务器组件
-Elasticsearch：存储所有日志
-Kibana：用于搜索和可视化日志的Web界面，将通过Nginx进行代理
-Filebeat：安装在将把日志发送到Logstash的客户端..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg')">
-    <a href="/2019/03/23/简明XPath/">
-        <h2 class="post-title">
-            简明XPath
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-23
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                XPath是一门在XML文档中查找信息的语言，当然也可以在html中使用
-XPath十分简单：你只要把条件连在一起。在节点的集合里选中符合条件的，再作为新的集合继续这个过程。
-/ vs []
-在/之后的条件意思是：下一步选择匹配的子节点
-在[]之内的条件意思是：在原有的集合中排除那些不符合条件的..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-<div class="post-preview " style="background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg')">
-    <a href="/2019/03/22/hello-world/">
-        <h2 class="post-title">
-            Hello World
-        </h2>
-        <p class="post-meta">
-            <i class="fa fa-calendar" aria-hidden="true"></i> 2019-03-22
-        </p>
-        
-        <div class="post-content-preview">
-            <p>
-                Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer i..
-            </p>
-        </div>
-    </a>
-
-</div>
-
-<hr>
-
-
-
-
-<!-- 翻页 pager -->
-
-<ul class="pager">
-    
-    
-</ul>
-
-
-        </div>
-        <!-- Sidebar Container -->
-        <div class="
-                col-lg-3 col-lg-offset-0
-                col-md-3 col-md-offset-0
-                col-sm-12
-                col-xs-12
-                sidebar-container
-            ">
-
-            <!-- About Me -->
-            <section class="visible-md visible-lg" style="padding: 0 18px">
-                <div class="short-about">
-                    <!--侧边栏头像-->
-                    
-                    <img src="http://pord1u2vc.bkt.clouddn.com/dog.jpeg">
-                    
-                    <h5><a href="/about/">uunnfly</a></h5>
-                    
-                    <p>如切如磋，如琢如磨</p>
-                    
-                    <hr>
-                    <!-- SNS Link 社交 -->
-                    <ul class="list-inline">
-                        
-                        
-                        
-
-                        
-
-                        
-
-                        
-
-                        
-                    </ul>
-                </div>
-            </section>
-
-            <!-- Featured Tags  标签 -->
+            <!-- 标签列表 -->
             
-
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="ELK">
+                    <span class="tag-text">ELK</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/2019/03/24/使用docker快速部署elk/">
+                        <h2 class="post-title">
+                            使用docker快速部署elk
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+                <div class="post-preview">
+                    <a href="/2019/03/24/使用elastalert进行告警/">
+                        <h2 class="post-title">
+                            使用elastalert进行告警
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+                <div class="post-preview">
+                    <a href="/2019/03/24/在ubuntu16.04上安装ELK/">
+                        <h2 class="post-title">
+                            在ubuntu16.04上安装ELK
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="docker">
+                    <span class="tag-text">docker</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/2019/03/24/使用docker快速部署elk/">
+                        <h2 class="post-title">
+                            使用docker快速部署elk
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="XPath">
+                    <span class="tag-text">XPath</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/2019/03/23/简明XPath/">
+                        <h2 class="post-title">
+                            简明XPath
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="scrapy">
+                    <span class="tag-text">scrapy</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/2019/03/23/简明XPath/">
+                        <h2 class="post-title">
+                            简明XPath
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
+            
+            <div class="one-tag-list">
+                <span class="fa fa-tag listing-seperator" id="ubuntu">
+                    <span class="tag-text">ubuntu</span>
+                </span>
+                
+                <div class="post-preview">
+                    <a href="/2019/03/24/在ubuntu16.04上安装ELK/">
+                        <h2 class="post-title">
+                            在ubuntu16.04上安装ELK
+                        </h2>
+                        
+                    </a>
+                </div>
+                <hr>
+                
+            </div>
             
 
         </div>

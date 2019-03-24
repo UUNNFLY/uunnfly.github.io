@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        在ubuntu16.04上安装ELK｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2019/03/24/在ubuntu16.04上安装ELK/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Unnnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>在ubuntu16.04上安装ELK</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2019-03-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ELK" title="ELK">ELK</a>
+                        
+                        <a class="tag" href="/tags/#ubuntu" title="ubuntu">ubuntu</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            在ubuntu16.04上安装ELK
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>[TOC]</p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>我们的ELK堆栈设置有四个主要组件：</p>
+<ul>
+<li>Logstash：处理传入日志的Logstash的服务器组件</li>
+<li>Elasticsearch：存储所有日志</li>
+<li>Kibana：用于搜索和可视化日志的Web界面，将通过Nginx进行代理</li>
+<li>Filebeat：安装在将把日志发送到Logstash的客户端服务器上，Filebeat充当日志传送代理</li>
+</ul>
+<p><img src="http://imgjiaxin.u.qiniudn.com/tutorial/images/a3f0ba55-aebe-503b-a060-8ef28bcc6dcc.png" alt></p>
+<p>我们需要两台服务器，一台安装前三个组件，称为ELK服务器，另一台安装filebeat，称为客户端服务器</p>
+<p>使用服务器配置：</p>
+<ul>
+<li>操作系统： Ubuntu 16.04</li>
+<li>内存： 4GB</li>
+<li>CPU： 2</li>
+</ul>
+<h1 id="安装Java8"><a href="#安装Java8" class="headerlink" title="安装Java8"></a>安装Java8</h1><p>将Oracle Java PPA添加到apt：</p>
+<p><code>$ sudo add-apt-repository -y ppa:webupd8team/java</code><br>更新你的apt包数据库：</p>
+<p><code>$ sudo apt-get update</code><br>使用此命令安装Oracle Java 8的最新稳定版本（并接受弹出的许可证协议）：</p>
+<p><code>$ sudo apt-get -y install oracle-java8-installer</code></p>
+<h1 id="安装Elasticsearch"><a href="#安装Elasticsearch" class="headerlink" title="安装Elasticsearch"></a>安装Elasticsearch</h1><p>Elasticsearch可以通过添加Elastic的包源列表来与包管理器一起安装。</p>
+<p>运行以下命令将Elasticsearch公共GPG密钥导入到apt：</p>
+<p><code>wget -qO - https://packages.elastic.co/GPG-KEY-elasticsearch | sudo apt-key add -</code><br>如果您的提示似乎挂起，则可能等待用户的密码（授权sudo命令）。如果是这种情况，请输入您的密码。</p>
+<p>创建Elasticsearch源列表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;deb http://packages.elastic.co/elasticsearch/2.x/debian stable main&quot; | sudo tee -a /etc/apt/sources.list.d/elasticsearch-2.x.list</span><br></pre></td></tr></table></figure></p>
+<p>再次更新apt包数据库：</p>
+<p><code>sudo apt-get update</code><br>用这个命令安装Elasticsearch：</p>
+<p><code>sudo apt-get -y install elasticsearch</code><br>Elasticsearch现在被安装。我们来编辑配置：</p>
+<p><code>sudo vim /etc/elasticsearch/elasticsearch.yml</code><br>您需要限制对Elasticsearch实例（端口9200）的外部访问，这样外部人员无法通过HTTP API读取数据或关闭Elasticsearch集群。找到指定的行network.host，取消注释，并用“localhost”替换它的值，如下所示：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># /etc/elasticsearch/elasticsearch.yml</span><br><span class="line"></span><br><span class="line">network.host: localhost</span><br></pre></td></tr></table></figure></p>
+<p>保存并退出elasticsearch.yml。</p>
+<p>现在，启动Elasticsearch：</p>
+<p><code>$ sudo systemctl restart elasticsearch</code><br>然后，运行以下命令在启动时启动Elasticsearch：</p>
+<p><code>$ sudo systemctl daemon-reload</code><br><code>$ sudo systemctl enable elasticsearch</code><br>现在Elasticsearch已经启动，我们来安装Kibana。</p>
+<h1 id="安装Kibana"><a href="#安装Kibana" class="headerlink" title="安装Kibana"></a>安装Kibana</h1><p>Kibana可以通过添加Elastic的包源列表来与包管理器一起安装。</p>
+<p>将Kibana添加到您的源列表中：</p>
+<p><code>echo &quot;deb http://packages.elastic.co/kibana/4.5/debian stable main&quot; | sudo tee -a /etc/apt/sources.list</code><br>更新你的apt包数据库：</p>
+<p><code>$ sudo apt-get update</code><br>用这个命令安装Kibana：</p>
+<p><code>$ sudo apt-get -y install kibana</code><br>Kibana现在被安装。</p>
+<p>现在启用Kibana服务，并启动它：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl daemon-reload</span><br><span class="line">$ sudo systemctl enable kibana</span><br><span class="line">$ sudo systemctl start kibana</span><br></pre></td></tr></table></figure></p>
+<p>此时访问<code>http://ip:5601</code>应该出现了kibana的界面（如果端口开放的话）</p>
+<h1 id="安装Logstash"><a href="#安装Logstash" class="headerlink" title="安装Logstash"></a>安装Logstash</h1><p>Logstash包可以从与Elasticsearch相同的存储库中获得，并且我们已经安装了该公钥，所以让我们将Logstash添加到我们的源列表中：</p>
+<p><code>$ echo &quot;deb http://packages.elastic.co/logstash/2.3/debian stable main&quot; | sudo tee -a /etc/apt/sources.list</code><br>更新你的apt包数据库：</p>
+<p><code>$ sudo apt-get update</code><br>使用以下命令安装Logstash：</p>
+<p><code>$ sudo apt-get install logstash</code><br>Logstash已安装，但尚未配置。</p>
+<h1 id="生成SSL证书"><a href="#生成SSL证书" class="headerlink" title="生成SSL证书"></a>生成SSL证书</h1><p>由于我们打算使用Filebeat将日志从客户端服务器发送到我们的ELK服务器，因此我们需要创建一个SSL证书和密钥对。Filebeat使用该证书来验证ELK服务器的身份。使用以下命令创建将存储证书和私钥的目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo mkdir -p /etc/pki/tls/certs</span><br><span class="line">$ sudo mkdir /etc/pki/tls/private</span><br></pre></td></tr></table></figure></p>
+<p>现在你有两个选择来生成你的SSL证书。如果您的DNS设置允许您的客户端服务器解析ELK服务器的IP地址，请使用选项2。否则，选项1将允许您使用IP地址。</p>
+<h2 id="选项1：IP地址"><a href="#选项1：IP地址" class="headerlink" title="选项1：IP地址"></a>选项1：IP地址</h2><p>如果您没有DNS设置（这将允许您的服务器，您将从中收集日志，解析您的ELK服务器的IP地址），您将不得不将ELK服务器的私有IP地址添加到subjectAltName（SAN）字段我们即将生成的SSL证书。为此，请打开OpenSSL配置文件：</p>
+<p><code>$ sudo nano /etc/ssl/openssl.cnf</code><br>找到[ v3_ca ]文件中的部分，并在其下面添加这一行（用ELK服务器的私有IP地址代替）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">## /etc/ssl/openssl.cnf</span><br><span class="line">subjectAltName = IP: ELK_server_private_IP</span><br></pre></td></tr></table></figure></p>
+<p>保存并退出。</p>
+<p>现在/etc/pki/tls/…使用以下命令在相应的位置（）中生成SSL证书和私钥：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /etc/pki/tls</span><br><span class="line">$ sudo openssl req -config /etc/ssl/openssl.cnf -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt</span><br></pre></td></tr></table></figure></p>
+<p>该logstash-forwarder.crt文件将被复制到所有将日志发送到Logstash服务器，但我们会做到这一点稍晚。让我们来完成我们的Logstash配置。如果使用此选项，请跳过选项2并转到配置Logstash。</p>
+<h2 id="选项2：FQDN（DNS）"><a href="#选项2：FQDN（DNS）" class="headerlink" title="选项2：FQDN（DNS）"></a>选项2：FQDN（DNS）</h2><p>如果您的私人网络具有DNS设置，则应创建一个包含ELK服务器专用IP地址的A记录，该域名将用于下一个命令中，以生成SSL证书。或者，您可以使用指向服务器的公用IP地址的记录。只要确保您的服务器（即您将要收集日志的服务器）将能够将您的域名解析到您的ELK服务器。</p>
+<p>现在在相应的位置（/etc/pki/tls/…）使用以下代码（在ELK服务器的FQDN中替代）生成SSL证书和私钥：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd /etc/pki/tls</span><br><span class="line">$ sudo openssl req -subj &apos;/CN=ELK_server_fqdn/&apos; -x509 -days 3650 -batch -nodes -newkey rsa:2048 -keyout private/logstash-forwarder.key -out certs/logstash-forwarder.crt</span><br></pre></td></tr></table></figure></p>
+<p>该logstash-forwarder.crt文件将被复制到所有将日志发送到Logstash服务器，但我们会做到这一点稍晚。让我们来完成我们的Logstash配置。</p>
+<h1 id="配置Logstash"><a href="#配置Logstash" class="headerlink" title="配置Logstash"></a>配置Logstash</h1><p>Logstash配置文件是JSON格式，驻留在中/etc/logstash/conf.d。该配置由三部分组成：输入，过滤器和输出。</p>
+<p>让我们创建一个名为的配置文件，02-beats-input.conf并设置我们的“filebeat”输入：</p>
+<p><code>$ sudo vim /etc/logstash/conf.d/02-beats-input.conf</code><br>插入以下输入配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">## /etc/logstash/conf.d/02-beats-input.conf</span><br><span class="line">input &#123;</span><br><span class="line">  beats &#123;</span><br><span class="line">    port =&gt; 5044</span><br><span class="line">    ssl =&gt; true</span><br><span class="line">    ssl_certificate =&gt; &quot;/etc/pki/tls/certs/logstash-forwarder.crt&quot;</span><br><span class="line">    ssl_key =&gt; &quot;/etc/pki/tls/private/logstash-forwarder.key&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>保存并退出。这指定了一个beats将在TCP端口上侦听的输入，它将5044使用我们之前创建的SSL证书和私钥。</p>
+<p>如果您遵循Ubuntu 16.04初始服务器设置指南，则将配置UFW防火墙。要允许Logstash在端口上接收连接5044，我们需要打开该端口：</p>
+<p><code>$ sudo ufw allow 5044</code><br>现在让我们创建一个名为的配置文件10-syslog-filter.conf，在这里我们将为syslog消息添加一个过滤器：</p>
+<p><code>$ sudo nano /etc/logstash/conf.d/10-syslog-filter.conf</code><br>插入以下系统日志filter配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">## /etc/logstash/conf.d/10-syslog-filter.conf</span><br><span class="line">filter &#123;</span><br><span class="line">  if [type] == &quot;syslog&quot; &#123;</span><br><span class="line">    grok &#123;</span><br><span class="line">      match =&gt; &#123; &quot;message&quot; =&gt; &quot;%&#123;SYSLOGTIMESTAMP:syslog_timestamp&#125; %&#123;SYSLOGHOST:syslog_hostname&#125; %&#123;DATA:syslog_program&#125;(?:\[%&#123;POSINT:syslog_pid&#125;\])?: %&#123;GREEDYDATA:syslog_message&#125;&quot; &#125;</span><br><span class="line">      add_field =&gt; [ &quot;received_at&quot;, &quot;%&#123;@timestamp&#125;&quot; ]</span><br><span class="line">      add_field =&gt; [ &quot;received_from&quot;, &quot;%&#123;host&#125;&quot; ]</span><br><span class="line">    &#125;</span><br><span class="line">    syslog_pri &#123; &#125;</span><br><span class="line">    date &#123;</span><br><span class="line">      match =&gt; [ &quot;syslog_timestamp&quot;, &quot;MMM  d HH:mm:ss&quot;, &quot;MMM dd HH:mm:ss&quot; ]</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>保存并退出。此筛选器查找标记为“syslog”类型（由Filebeat）的日志，它将尝试使用grok来解析传入的系统日志日志以使其结构化和可查询。</p>
+<p>最后，我们将创建一个名为30-elasticsearch-output.conf：</p>
+<p><code>$ sudo nano /etc/logstash/conf.d/30-elasticsearch-output.conf</code><br>插入以下output配置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">## /etc/logstash/conf.d/30-elasticsearch-output.conf</span><br><span class="line">output &#123;</span><br><span class="line">  elasticsearch &#123;</span><br><span class="line">    hosts =&gt; [&quot;localhost:9200&quot;]</span><br><span class="line">    sniffing =&gt; true</span><br><span class="line">    manage_template =&gt; false</span><br><span class="line">    index =&gt; &quot;%&#123;[@metadata][beat]&#125;-%&#123;+YYYY.MM.dd&#125;&quot;</span><br><span class="line">    document_type =&gt; &quot;%&#123;[@metadata][type]&#125;&quot;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>保存并退出。这个输出基本上把Logstash配置成将节拍数据存储在运行在Elasticsearch localhost:9200中的一个以使用beat命名的索引（filebeat，在我们的例子中）。</p>
+<p>如果要为使用Filebeat输入的其他应用程序添加过滤器，请务必命名这些文件，以便在输入和输出配置（即02和30之间）之间进行排序。</p>
+<p>使用以下命令测试您的Logstash配置：</p>
+<p><code>$ sudo /opt/logstash/bin/logstash --configtest -f /etc/logstash/conf.d/</code><br>几秒钟后，Configuration OK如果没有语法错误，应该显示。否则，请尝试读取错误输出以查看Logstash配置有什么问题。</p>
+<p>重新启动Logstash并启用它，以使我们的配置更改生效：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ sudo systemctl restart logstash</span><br><span class="line">$ sudo systemctl enable logstash</span><br></pre></td></tr></table></figure></p>
+<p>Logstash将会监听 5044 端口,需要确保此端口开放</p>
+<h2 id="logstash的调试"><a href="#logstash的调试" class="headerlink" title="logstash的调试"></a>logstash的调试</h2><p>将output改为如下代码可将结果输出到控制台<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">output &#123;</span><br><span class="line">    stdout &#123;</span><br><span class="line">        codec =&gt; rubydebug</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><code>sudo /opt/logstash/bin/logstash  -f /etc/logstash/conf.d/ --verbose --debug</code>命令将日志一起输出到控制台<br>接下来，我们将加载示例Kibana仪表板。</p>
+<h1 id="加载Kibana仪表板"><a href="#加载Kibana仪表板" class="headerlink" title="加载Kibana仪表板"></a>加载Kibana仪表板</h1><p>Elastic提供了几个示例Kibana仪表盘和Beats索引模式，可以帮助您开始使用Kibana。我们可以使用它包含的Filebeat索引模式。</p>
+<p>用于curl将文件下载到您的主目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~</span><br><span class="line">$ curl -L -O https://download.elastic.co/beats/dashboards/beats-dashboards-1.2.2.zip</span><br></pre></td></tr></table></figure></p>
+<p>unzip使用以下命令安装软件包：</p>
+<p><code>$ sudo apt-get -y install unzip</code><br>接下来，提取存档的内容：</p>
+<p><code>$ unzip beats-dashboards-*.zip</code><br>并使用以下命令将示例仪表板，可视化和Beats索引模式加载到Elasticsearch中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd beats-dashboards-*</span><br><span class="line">$ ./load.sh</span><br></pre></td></tr></table></figure></p>
+<p>这些是我们刚刚加载的索引模式：</p>
+<ul>
+<li>packetbeat- *</li>
+<li>topbeat- *</li>
+<li>filebeat- *</li>
+<li>winlogbeat- *<br>当我们开始使用Kibana时，我们将选择Filebeat索引模式作为默认值。</li>
+</ul>
+<h1 id="在Elasticsearch中加载Filebeat索引模板"><a href="#在Elasticsearch中加载Filebeat索引模板" class="headerlink" title="在Elasticsearch中加载Filebeat索引模板"></a>在Elasticsearch中加载Filebeat索引模板</h1><p>由于我们正在计划使用Filebeat将日志发送到Elasticsearch，所以我们应该加载一个Filebeat索引模板。索引模板将配置Elasticsearch以智能方式分析传入的Filebeat字段。</p>
+<p>首先，将Filebeat索引模板下载到您的主目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ cd ~</span><br><span class="line">$ curl -O https://gist.githubusercontent.com/thisismitch/3429023e8438cc25b86c/raw/d8c479e2a1adcea8b1fe86570e42abab0f10f364/filebeat-index-template.json</span><br></pre></td></tr></table></figure></p>
+<p>然后用这个命令加载模板：</p>
+<p><code>$ curl -XPUT &#39;http://localhost:9200/_template/filebeat?pretty&#39; -d@filebeat-index-template.json</code><br>如果模板加载正确，你应该看到这样的消息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// Output:</span><br><span class="line">&#123;</span><br><span class="line">  &quot;acknowledged&quot; : true</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在我们的ELK服务器已经准备好接收Filebeat数据了，接下来让我们开始在每个客户端服务器上设置Filebeat。</p>
+<h1 id="设置Filebeat（添加客户端服务器）"><a href="#设置Filebeat（添加客户端服务器）" class="headerlink" title="设置Filebeat（添加客户端服务器）"></a>设置Filebeat（添加客户端服务器）</h1><h2 id="复制SSL证书"><a href="#复制SSL证书" class="headerlink" title="复制SSL证书"></a>复制SSL证书</h2><p>在您的ELK服务器上，将您创建的SSL证书复制到客户端服务器（替换客户端服务器的地址和您自己的登录名）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">elk$ scp /etc/pki/tls/certs/logstash-forwarder.crt user@client_server_private_address:/tmp</span><br></pre></td></tr></table></figure></p>
+<p>提供您的登录凭据后，确保证书复制成功。客户端服务器和ELK服务器之间的通信是必需的。</p>
+<p>现在，在您的客户端服务器上，将ELK服务器的SSL证书复制到适当的位置（/etc/pki/tls/certs）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">client$ sudo mkdir -p /etc/pki/tls/certs</span><br><span class="line">client$ sudo cp /tmp/logstash-forwarder.crt /etc/pki/tls/certs/</span><br></pre></td></tr></table></figure></p>
+<p>现在我们将安装Filebeat软件包。</p>
+<h2 id="安装Filebeat包"><a href="#安装Filebeat包" class="headerlink" title="安装Filebeat包"></a>安装Filebeat包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-5.4.3-amd64.deb</span><br><span class="line">sudo dpkg -i filebeat-5.4.3-amd64.deb</span><br></pre></td></tr></table></figure>
+<h2 id="配置Filebeat"><a href="#配置Filebeat" class="headerlink" title="配置Filebeat"></a>配置Filebeat</h2><p>在客户端服务器上，创建并编辑Filebeat配置文件：</p>
+<p><code>client$ sudo nano /etc/filebeat/filebeat.yml</code><br>在Filebeat inputs部分，找到enabled<br><code>enabled: true</code><br>找到paths<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">paths:</span><br><span class="line">   - /var/log/auth.log</span><br><span class="line">   - /var/log/syslog</span><br><span class="line">   #- /var/log/*.log</span><br></pre></td></tr></table></figure></p>
+<p>在elasticsearch output部分，把这个部分全部注释<br>在Logstash output部分，取消output.Logstash注释，并修改<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">output.logstash:</span><br><span class="line">  # The Logstash hosts</span><br><span class="line">  hosts: [&quot;47.97.165.253:5044&quot;]</span><br><span class="line">  bulk_max_size: 1024</span><br></pre></td></tr></table></figure></p>
+<p>打开SSL功能:<br><code>ssl.certificate_authorities: [&quot;/etc/pki/tls/certs/logstash-forwarder.crt&quot;]</code><br>保存并关闭<br><code>sudo /usr/share/filebeat/bin/filebeat configtest</code>检查配置语法是否正确<br><em>yaml文件用缩进表示层级关系，缩进只能用空格，不能用Tab！缩进空格随便几个，但相同层级元素必须对齐</em></p>
+<ul>
+<li>若提示<code>found a tab character that violate indentation. Exiting.</code>，将该行前面的空格/tab全部删除</li>
+<li>若提示<code>did not find expected key. Exiting</code>找到与其同级的元素并使它们对齐</li>
+</ul>
+<p>最后<code>sudo /etc/init.d/filebeat start</code>命令启动</p>
+<h2 id="测试Filebeat安装"><a href="#测试Filebeat安装" class="headerlink" title="测试Filebeat安装"></a>测试Filebeat安装</h2><p>如果您的ELK堆栈设置正确，Filebeat（在您的客户端服务器上）应该将您的日志发送到您的ELK服务器上的Logstash。Logstash应该使用我们之前导入的索引将Filebeat数据加载到Elasticsearch中。</p>
+<p>在您的ELK服务器上，通过使用以下命令查询Filebeat索引来验证Elasticsearch确实正在接收数据：</p>
+<p><code>elk$ curl -XGET &#39;http://localhost:9200/filebeat-*/_search?pretty&#39;</code><br>你应该看到一堆看起来像这样的输出：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">Sample Output:</span><br><span class="line">...</span><br><span class="line">&#123;</span><br><span class="line">      &quot;_index&quot; : &quot;filebeat-2018.07.11&quot;,</span><br><span class="line">      &quot;_type&quot; : &quot;doc&quot;,</span><br><span class="line">      &quot;_id&quot; : &quot;AWSHFEbva9oX5PGasIk3&quot;,</span><br><span class="line">      &quot;_score&quot; : 1.0,</span><br><span class="line">      &quot;_source&quot; : &#123;</span><br><span class="line">        &quot;message&quot; : &quot;Jul 10 01:23:50 localhost sshd[19069]: pam_unix(sshd:auth): authentication failure; logname= uid=0 euid=0 tty=ssh ruser= rhost=118.212.143.43  user=root&quot;,</span><br><span class="line">        &quot;@version&quot; : &quot;1&quot;,</span><br><span class="line">        &quot;@timestamp&quot; : &quot;2018-07-11T02:03:28.924Z&quot;,</span><br><span class="line">        &quot;prospector&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;log&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;input&quot; : &#123;</span><br><span class="line">          &quot;type&quot; : &quot;log&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;beat&quot; : &#123;</span><br><span class="line">          &quot;name&quot; : &quot;VM-16-12-ubuntu&quot;,</span><br><span class="line">          &quot;hostname&quot; : &quot;VM-16-12-ubuntu&quot;,</span><br><span class="line">          &quot;version&quot; : &quot;6.3.1&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;host&quot; : &#123;</span><br><span class="line">          &quot;name&quot; : &quot;VM-16-12-ubuntu&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        &quot;source&quot; : &quot;/var/log/auth.log&quot;,</span><br><span class="line">        &quot;offset&quot; : 6450510,</span><br><span class="line">        &quot;tags&quot; : [ &quot;beats_input_codec_plain_applied&quot; ]</span><br><span class="line">      &#125;</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>如果您的输出总共显示0个点击(hits)，则Elasticsearch不会在您搜索的索引下加载任何日志，您应该检查设置是否存在错误。如果您收到了预期的输出，请继续下一步。</p>
+<p>若显示0hits，在客户端机器上查询filebeat是否传数据出去<br><code>sudo /usr/share/filebeat/bin/filebeat -e -d &#39;*&#39;</code></p>
+<h1 id="连接到Kibana"><a href="#连接到Kibana" class="headerlink" title="连接到Kibana"></a>连接到Kibana</h1><p>在所有要收集日志的服务器上完成Filebeat设置后，我们来看看我们之前安装的Web界面Kibana。</p>
+<p>在浏览器中访问ip:5601,应该看到一个页面，提示您配置一个默认索引模式：<br><img src="http://imgjiaxin.u.qiniudn.com/tutorial/images/e874ba8b-d0d8-5257-bec3-82c3fac116a0.gif" alt><br>继续从Index Patterns菜单（左侧）选择<code>filebeat- *</code>，然后单击Star（设置为默认索引）按钮将Filebeat索引设置为默认值。</p>
+<p>现在点击顶部导航栏中的Discover链接。默认情况下，这会显示过去15分钟内的所有日志数据。您应该看到一个包含日志事件的直方图，其中包含以下日志消息：<br><img src="https://s1.ax1x.com/2018/07/11/PuEdqe.png" alt></p>
+<blockquote>
+<p><a href="https://jiaxin.im/tutorials/039042892162.htm" target="_blank" rel="noopener">如何在Ubuntu 16.04上安装Elasticsearch，Logstash和Kibana（ELK Stack）
+</a><br><a href="https://www.elastic.co/guide/en/beats/filebeat/5.4/filebeat-getting-started.html" target="_blank" rel="noopener">Getting Started With Filebeatedit
+</a></p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/03/24/使用elastalert进行告警/" data-toggle="tooltip" data-placement="top" title="使用elastalert进行告警">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/03/23/简明XPath/" data-toggle="tooltip" data-placement="top" title="简明XPath">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#简介"><span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Java8"><span class="toc-text">安装Java8</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Elasticsearch"><span class="toc-text">安装Elasticsearch</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Kibana"><span class="toc-text">安装Kibana</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装Logstash"><span class="toc-text">安装Logstash</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#生成SSL证书"><span class="toc-text">生成SSL证书</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#选项1：IP地址"><span class="toc-text">选项1：IP地址</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#选项2：FQDN（DNS）"><span class="toc-text">选项2：FQDN（DNS）</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置Logstash"><span class="toc-text">配置Logstash</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#logstash的调试"><span class="toc-text">logstash的调试</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#加载Kibana仪表板"><span class="toc-text">加载Kibana仪表板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在Elasticsearch中加载Filebeat索引模板"><span class="toc-text">在Elasticsearch中加载Filebeat索引模板</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#设置Filebeat（添加客户端服务器）"><span class="toc-text">设置Filebeat（添加客户端服务器）</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#复制SSL证书"><span class="toc-text">复制SSL证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Filebeat包"><span class="toc-text">安装Filebeat包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置Filebeat"><span class="toc-text">配置Filebeat</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#测试Filebeat安装"><span class="toc-text">测试Filebeat安装</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#连接到Kibana"><span class="toc-text">连接到Kibana</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Unnnfly 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/dog.jpeg">
+</body>
+
+</html>

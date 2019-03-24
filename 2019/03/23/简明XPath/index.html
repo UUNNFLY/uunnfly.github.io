@@ -77,6 +77,14 @@
                     </li>
 					
                     
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
 					
 					
                 </ul>
@@ -146,6 +154,10 @@
                     </span>
                     <div class="tags text-center">
                         
+                        <a class="tag" href="/tags/#XPath" title="XPath">XPath</a>
+                        
+                        <a class="tag" href="/tags/#scrapy" title="scrapy">scrapy</a>
+                        
                     </div>
                 </div>
             </div>
@@ -200,6 +212,12 @@
 </ol>
 <p>实际上<code>/foo/bar</code>意思是<code>/child::foo/child::bar</code>, <code>/foo[bar]</code> 意思是 <code>/child::foo[child::bar]</code></p>
 <p>此外，还有一些语法糖：<code>attribute::foo</code> 可以写成 <code>@foo</code>, <code>/descendant-or-self::foo</code>可以写成<code>//foo</code>，也就是说<code>//</code>表示自身或者任意后代。</p>
+<h1 id="vs-1"><a href="#vs-1" class="headerlink" title=". vs /"></a><code>.</code> vs <code>/</code></h1><ul>
+<li><code>.</code> 是相对路径，指当前节点</li>
+<li><code>/</code> 是绝对路径，从根节点开始</li>
+</ul>
+<p>注意：在scrapy中使用xpath时<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">users = response.xpath(<span class="string">"//*[id='user']"</span>)</span><br><span class="line"><span class="keyword">for</span> user <span class="keyword">in</span> users:</span><br><span class="line">    item[<span class="string">'passwd'</span>] = user.xpath(<span class="string">".//*[id='passwd']"</span>)</span><br></pre></td></tr></table></figure></p>
+<p><code>user.xpath(&quot;.//*[id=&#39;passwd&#39;]&quot;)</code>必须有这个点<code>.</code>，否则会找出<strong>文档中</strong>所有符合条件的节点,而不是当前<code>user</code>下的集合</p>
 <p><em>参考资料</em></p>
 <blockquote>
 <p><a href="http://plasmasturm.org/log/xpath101/" target="_blank" rel="noopener">Concise XPath</a></p>
@@ -212,6 +230,10 @@
                 
 
                 <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/03/24/在ubuntu16.04上安装ELK/" data-toggle="tooltip" data-placement="top" title="在ubuntu16.04上安装ELK">&larr; Previous Post</a>
+                    </li>
                     
                     
                     <li class="next">
@@ -253,7 +275,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vs"><span class="toc-text">/ vs []</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#轴"><span class="toc-text">轴 ::</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vs"><span class="toc-text">/ vs []</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#轴"><span class="toc-text">轴 ::</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vs-1"><span class="toc-text">. vs /</span></a></li></ol>
                 </div>
             </div>
         </div>
