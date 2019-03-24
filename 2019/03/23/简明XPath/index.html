@@ -189,6 +189,7 @@
 <li>接着<code>/bar</code>: 抓取每个节点的子节点，如果该子节点有<code>bar</code>元素则把<strong>该节点</strong>放入新的集合</li>
 <li>得出结果：<code>&lt;foo&gt;&lt;bar&gt;test1&lt;/bar&gt;&lt;/foo&gt;</code></li>
 </ol>
+<p><code>[]</code>内也可以写坐标： <code>[1]</code> 也就是<code>[position() = 1]</code>，会取得符合条件的第一个元素</p>
 <h1 id="轴"><a href="#轴" class="headerlink" title="轴 ::"></a>轴 <code>::</code></h1><p>轴是用<code>::</code>分割的前缀，轴指定相对于当前节点集的任意元素，既可以是子节点，又可以是当前节点、兄弟节点或者其祖先节点</p>
 <p>举个例子：</p>
 <p><code>/foo/following-sibling:bar</code></p>
@@ -197,7 +198,6 @@
 <li>接着<code>/foo</code>：检查节点集中的每个节点（这里就一个根节点）的子节点，把所有的<code>foo</code>元素组成新的集合供下一步使用</li>
 <li>接着<code>/following-sibling::bar</code>: 检查节点集中的每个节点的同级节点，如果存在同级节点是<code>bar</code>则把<strong>该节点</strong>放入新的集合(此处实际没什么作用，还是取得所有的<code>foo</code>节点)</li>
 </ol>
-<p><code>[]</code>内也可以写坐标： <code>[1]</code> 也就是<code>[position() = 1]</code>，会取得符合条件的第一个元素</p>
 <p>实际上<code>/foo/bar</code>意思是<code>/child::foo/child::bar</code>, <code>/foo[bar]</code> 意思是 <code>/child::foo[child::bar]</code></p>
 <p>此外，还有一些语法糖：<code>attribute::foo</code> 可以写成 <code>@foo</code>, <code>/descendant-or-self::foo</code>可以写成<code>//foo</code>，也就是说<code>//</code>表示自身或者任意后代。</p>
 <p><em>参考资料</em></p>
