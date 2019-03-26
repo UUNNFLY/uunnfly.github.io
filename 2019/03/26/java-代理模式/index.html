@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        java-代理模式｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2019/03/26/java-代理模式/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Unnnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>java-代理模式</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2019-03-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                        <a class="tag" href="/tags/#设计模式" title="设计模式">设计模式</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            java-代理模式
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>本文参考自<a href="https://juejin.im/post/5a99048a6fb9a028d5668e62" target="_blank" rel="noopener">10分钟看懂动态代理设计模式</a></p>
+<h1 id="预备知识：-关联、聚合和组合"><a href="#预备知识：-关联、聚合和组合" class="headerlink" title="预备知识： 关联、聚合和组合"></a>预备知识： 关联、聚合和组合</h1><ul>
+<li>关联（association）,仅仅是两个对象有联系，一个对象用到了另一个对象</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123; </span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Baz</span><span class="params">(Bar bar)</span> </span>&#123;</span><br><span class="line">    &#125; </span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>组合（composition），在一个对象生命周期内创建了另一个对象，当Foo死亡时，Bar也会死亡</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Bar bar = <span class="keyword">new</span> Bar(); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>聚合（aggregation）,一个对象借到了另一个对象，但是Foo的生命周期结束时，Bar的生命周期不一定结束</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123; </span><br><span class="line">    <span class="keyword">private</span> Bar bar; </span><br><span class="line">    Foo(Bar bar) &#123; </span><br><span class="line">       <span class="keyword">this</span>.bar = bar; </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p><a href="https://stackoverflow.com/questions/885937/what-is-the-difference-between-association-aggregation-and-composition" target="_blank" rel="noopener">What is the difference between association, aggregation, and composition?</a></p>
+<h1 id="静态代理模式"><a href="#静态代理模式" class="headerlink" title="静态代理模式"></a>静态代理模式</h1><p>现在我们假设一个场景：老司机开车</p>
+<p>先来个接口<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Dirver</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>再来个老司机<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Veteran</span> <span class="keyword">implements</span> <span class="title">Dirver</span></span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"I am driving!"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>运行一下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Driver driver = <span class="keyword">new</span> Veteran();</span><br><span class="line">        driver.drive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>得到结果<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">I am driving!</span><br></pre></td></tr></table></figure></p>
+<p>可老司机觉得一个人开车很无聊，有个人就说：我为你计时吧，看看你有多快。这个帮老司机干与“开车”无关的事的人我们称为“agent”。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">agent</span> <span class="keyword">implements</span> <span class="title">Driver</span></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Driver driver;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">agent</span><span class="params">(Driver driver)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.driver = driver;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drive</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">long</span> start = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"before driving..."</span>);</span><br><span class="line"></span><br><span class="line">        driver.drive();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">long</span> end = System.currentTimeMillis();</span><br><span class="line">        System.out.println(<span class="string">"after driving..."</span>);</span><br><span class="line">        System.out.println(<span class="string">"drive time = "</span> + (end - start));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码用到了聚合，agent从别的地方“借”到了一个driver。</p>
+<p>现在我们再让老司机开车<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Main</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</span><br><span class="line">        Driver driver = <span class="keyword">new</span> Agent(<span class="keyword">new</span> Veteran());</span><br><span class="line">        driver.drive();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">before driving...</span><br><span class="line">I am driving!</span><br><span class="line">after driving...</span><br><span class="line">drive time = 1</span><br></pre></td></tr></table></figure>
+<p>注意到上面我们调用的是agent的drive方法，agent再让veteran开车。</p>
+<p>现在一切ok</p>
+<h1 id="动态代理"><a href="#动态代理" class="headerlink" title="动态代理"></a>动态代理</h1><p>现在又有了新问题，老司机想让这个agent记录他干所有事的时间，比如eat(), sleep()…等等一百个方法，现在agent傻眼了，难不成他也要跟着写一百个方法吗？</p>
+<p>现在我们想让同一个代理类（取个名字LogProxy）就能打印一个对象的任意方法的日志，而不需要反复实现相同的逻辑，怎么解决？</p>
+<p>能不能利用反射动态地读取Driver的方法，比如eat(),drive(),sleep()，然后动态地写逻辑，也就是把原先Agent的drive（）方法中的driver.drive()这一句动态地替换成driver.eat(),driver.sleep()，然后正常编译，运行，不就解决了？</p>
+<p>首先我们需要把逻辑抽象出来<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">MyInvocationHandler</span> </span>&#123;</span><br><span class="line">    <span class="function">Object <span class="title">invoke</span><span class="params">(Object proxy, Method method, Object[] args)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个接口抽象的是“怎么做”，也就是代理类的处理逻辑，比如这里是记录日志这个功能。</p>
+<p><em>下面我们会用到JavaPoet 这个工具类库，它用来动态生成java源代码，也就是.java文件，你可以<a href="https://github.com/square/javapoet" target="_blank" rel="noopener">点这里</a>了解更多</em></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyProxy</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title">newProxyInstance</span><span class="params">(Class inf, MyInvocationHandler handler, Object[] args)</span> <span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line">        TypeSpec.Builder typeSpecBuilder = TypeSpec.classBuilder(<span class="string">"LogProxy"</span>)</span><br><span class="line">                .addSuperinterface(inf);</span><br><span class="line"></span><br><span class="line">        FieldSpec fieldSpec = FieldSpec.builder(MyInvocationHandler.class, <span class="string">"handler"</span>, Modifier.PRIVATE).build();</span><br><span class="line">        typeSpecBuilder.addField(fieldSpec);</span><br><span class="line"></span><br><span class="line">        MethodSpec constructorMethodSpec = MethodSpec.constructorBuilder()</span><br><span class="line">                .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                .addParameter(MyInvocationHandler.class, <span class="string">"handler"</span>)</span><br><span class="line">                .addStatement(<span class="string">"this.handler = handler"</span>)</span><br><span class="line">                .build();</span><br><span class="line">        typeSpecBuilder.addMethod(constructorMethodSpec);</span><br><span class="line"></span><br><span class="line">        Method[] methods = inf.getDeclaredMethods();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span>(Method method : methods)&#123;</span><br><span class="line"></span><br><span class="line">            MethodSpec methodSpec = MethodSpec.methodBuilder(method.getName())</span><br><span class="line">                    .addModifiers(Modifier.PUBLIC)</span><br><span class="line">                    .addAnnotation(Override.class)</span><br><span class="line">                    .returns(method.getReturnType())</span><br><span class="line">                    .addCode(<span class="string">"try &#123;\n"</span>)</span><br><span class="line">                    .addStatement(<span class="string">"\t$T method = "</span> + inf.getName() + <span class="string">".class.getMethod(\""</span> + method.getName() + <span class="string">"\")"</span>, Method.class)</span><br><span class="line">                    <span class="comment">//写死参数为null</span></span><br><span class="line">                    .addStatement(<span class="string">"\tthis.handler.invoke(this, method, null)"</span>)</span><br><span class="line">                    .addStatement(<span class="string">"\t"</span>)</span><br><span class="line">                    .addCode(<span class="string">"&#125; catch(Exception e) &#123;\n"</span>)</span><br><span class="line">                    .addCode(<span class="string">"\te.printStackTrace();\n"</span>)</span><br><span class="line">                    .addCode(<span class="string">"&#125;\n"</span>)</span><br><span class="line">                    .build();</span><br><span class="line">            typeSpecBuilder.addMethod(methodSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在<code>newProxyInstance()</code>的第一个参数是指委托类，也就是这里的driver，第二个参数是指代理类怎么做的规则。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">String path = <span class="string">"./"</span>;</span><br><span class="line">File file = <span class="keyword">new</span> File(path);</span><br><span class="line">JavaFile javaFile = JavaFile.builder(<span class="string">"com.uunnfly.proxy"</span>,typeSpecBuilder.build()).build();</span><br><span class="line">javaFile.writeTo(file);</span><br></pre></td></tr></table></figure>
+<p>生成源文件,我们也要让它编译</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">JavaCompiler</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">compile</span><span class="params">(File javaFile)</span><span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        javax.tools.JavaCompiler javaCompiler = ToolProvider.getSystemJavaCompiler();</span><br><span class="line">        StandardJavaFileManager fileManager = javaCompiler.getStandardFileManager(<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>);</span><br><span class="line">        Iterable iterable = fileManager.getJavaFileObjects(javaFile);</span><br><span class="line">        javax.tools.JavaCompiler.CompilationTask task = javaCompiler.getTask(<span class="keyword">null</span>,fileManager,<span class="keyword">null</span>,<span class="keyword">null</span>,<span class="keyword">null</span>,iterable);</span><br><span class="line">        task.call();</span><br><span class="line">        fileManager.close();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>回到MyProxy.java文件编译，加载并且在内存新建一个代理<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">JavaCompiler.compile(<span class="keyword">new</span> File(path + <span class="string">"/com/uunnfly/proxy/LogProxy.java"</span>));</span><br><span class="line"></span><br><span class="line">URL[] urls = <span class="keyword">new</span> URL[]&#123;file.toURI().toURL()&#125;;</span><br><span class="line">URLClassLoader classLoader = <span class="keyword">new</span> URLClassLoader(urls);</span><br><span class="line">Class clazz = classLoader.loadClass(<span class="string">"com.uunnfly.proxy.LogProxy"</span>);</span><br><span class="line"></span><br><span class="line">Constructor constructor = clazz.getConstructor(MyInvocationHandler.class);</span><br><span class="line">constructor.setAccessible(<span class="keyword">true</span>);</span><br><span class="line">Object obj = constructor.newInstance(handler);</span><br><span class="line"><span class="keyword">return</span> obj;</span><br></pre></td></tr></table></figure></p>
+<p>现在我们再来试一下<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span><span class="keyword">throws</span> Exception</span>&#123;</span><br><span class="line"><span class="comment">//        Driver driver = new Agent(new Veteran());</span></span><br><span class="line"><span class="comment">//        driver.drive();</span></span><br><span class="line"></span><br><span class="line">        Driver driver = (Driver)MyProxy.newProxyInstance(Driver.class,<span class="keyword">new</span> DynamicProxy(<span class="keyword">new</span> Veteran()));</span><br><span class="line">        driver.drive();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure></p>
+<p>你应该可以找到在本项目文件夹内生成的LogProxy.class和LogProxy.java文件</p>
+<h1 id="jdk中的动态代理"><a href="#jdk中的动态代理" class="headerlink" title="jdk中的动态代理"></a>jdk中的动态代理</h1><p>jdk已经原生提供了Proxy</p>
+<p>Proxy.java<br><img src="http://pord1u2vc.bkt.clouddn.com/proxy" alt></p>
+<p>InvocationHandler<br><img src="http://pord1u2vc.bkt.clouddn.com/invocationHandler" alt></p>
+<blockquote>
+<p>只要你在newProxyInstance方法中指定代理需要实现的接口，指定用于自定义处理的InvocationHandler对象，整个代理的逻辑处理都在你自定义的InvocationHandler实现类中进行处理。至此，而我们终于可以从不断地写代理类用于实现自定义逻辑的重复工作中解放出来了，从此需要做什么，交给InvocationHandler</p>
+</blockquote>
+<p>源代码 <a href="https://github.com/UUNNFLY/myProxy" target="_blank" rel="noopener">https://github.com/UUNNFLY/myProxy</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/03/24/使用docker快速部署elk/" data-toggle="tooltip" data-placement="top" title="使用docker快速部署elk">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#预备知识：-关联、聚合和组合"><span class="toc-text">预备知识： 关联、聚合和组合</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#静态代理模式"><span class="toc-text">静态代理模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#动态代理"><span class="toc-text">动态代理</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#jdk中的动态代理"><span class="toc-text">jdk中的动态代理</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Unnnfly 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','','2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/dog.jpeg">
+</body>
+
+</html>
