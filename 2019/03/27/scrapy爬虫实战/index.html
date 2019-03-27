@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="Gf4d1xCBKv4dxZ6FzbxxYjIyYRmsQX7-0ojLY2CfcRQ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        scrapy爬虫实战｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.aobtain.cn/2019/03/27/scrapy爬虫实战/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Unnnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>scrapy爬虫实战</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2019-03-27
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            scrapy爬虫实战
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>如果你还没有安装好Scrapy，可以看<a href="https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/install.html#intro-install" target="_blank" rel="noopener">安装教程</a></p>
+<p>工具和环境：</p>
+<ol>
+<li>语言：python 3.7</li>
+<li>IDE：Pycharm</li>
+<li>浏览器： Chrome</li>
+<li>Scrapy：1.6.0</li>
+</ol>
+<p>目标：使用scrapy爬取豆瓣图书Top250[<a href="https://book.douban.com/top250]的信息" target="_blank" rel="noopener">https://book.douban.com/top250]的信息</a></p>
+<p>步骤：</p>
+<ol>
+<li>创建一个Scrapy项目</li>
+<li>定义提取的Item</li>
+<li>编写爬取网站的 spider 并提取 Item</li>
+<li>编写 Item Pipeline 来存储提取到的Item(即数据)</li>
+</ol>
+<p>首先我们进入项目文件夹内输入命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy startproject doubanSpider</span><br></pre></td></tr></table></figure></p>
+<p>你应该可以看到生成的文件夹doubanSpider</p>
+<h1 id="Item"><a href="#Item" class="headerlink" title="Item"></a>Item</h1><p>Item是保存到爬取到的数据的容器，类似数据库的列。</p>
+<p>我们编辑doubanSpider目录中的items.py<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanBookItem</span><span class="params">(scrapy.Item)</span>:</span></span><br><span class="line">    <span class="comment"># define the fields for your item here like:</span></span><br><span class="line">    <span class="comment"># name = scrapy.Field()</span></span><br><span class="line">    <span class="comment"># 排名</span></span><br><span class="line">    ranking = scrapy.Field()</span><br><span class="line">    <span class="comment"># 书名</span></span><br><span class="line">    book_name = scrapy.Field()</span><br><span class="line">    <span class="comment"># 评分</span></span><br><span class="line">    score = scrapy.Field()</span><br><span class="line">    <span class="comment"># 评价人数</span></span><br><span class="line">    score_num = scrapy.Field()</span><br><span class="line">    <span class="comment"># 简介</span></span><br><span class="line">    des = scrapy.Field()</span><br></pre></td></tr></table></figure></p>
+<h1 id="编写第一个爬虫"><a href="#编写第一个爬虫" class="headerlink" title="编写第一个爬虫"></a>编写第一个爬虫</h1><p>spider负责爬取数据</p>
+<p>你必须继承scrapy.Spider,并且定义一些属性</p>
+<blockquote>
+<ul>
+<li>name: 用于区别Spider。 该名字必须是唯一的，您不可以为不同的Spider设定相同的名字。</li>
+<li>start_urls: 包含了Spider在启动时进行爬取的url列表。 因此，第一个被获取到的页面将是其中之一。 后续的URL则从初始的URL获取到的数据中提取。</li>
+<li>parse() 是spider的一个方法。 被调用时，每个初始URL完成下载后生成的 Response 对象将会作为唯一的参数传递给该函数。 该方法负责解析返回的数据(response data)，提取数据(生成item)以及生成需要进一步处理的URL的 Request 对象。</li>
+</ul>
+</blockquote>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scrapy</span><br><span class="line"><span class="keyword">from</span> doubanSpider.items <span class="keyword">import</span> DoubanBookItem</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">doubanSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"douban_top250_book"</span></span><br><span class="line">    start_urls = [<span class="string">'https://book.douban.com/top250'</span>]</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = DoubanBookItem()</span><br></pre></td></tr></table></figure>
+<p>这样我们的基本结构就完成了，下面需要使用xpath提取网页上的信息，你可以查看<a href="https://blog.aobtain.cn/2019/03/23/%E7%AE%80%E6%98%8EXPath/">这里</a>了解xpath</p>
+<p>现在我们打开 <a href="https://book.douban.com/top250" target="_blank" rel="noopener">https://book.douban.com/top250</a> ，按F12查看网页源码</p>
+<p>可以发现<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"indent"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"ulfirst"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">table</span> <span class="attr">width</span>=<span class="string">"100%"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">tbody</span>&gt;</span><span class="tag">&lt;<span class="name">tr</span> <span class="attr">class</span>=<span class="string">"item"</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">width</span>=<span class="string">"100"</span> <span class="attr">valign</span>=<span class="string">"top"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">a</span> <span class="attr">class</span>=<span class="string">"nbg"</span> <span class="attr">href</span>=<span class="string">"https://book.douban.com/subject/1770782/"</span> <span class="attr">onclick</span>=<span class="string">"moreurl(this,&#123;i:'0'&#125;)"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://img3.doubanio.com/view/subject/m/public/s1727290.jpg"</span> <span class="attr">width</span>=<span class="string">"90"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;<span class="name">td</span> <span class="attr">valign</span>=<span class="string">"top"</span>&gt;</span>       </span><br><span class="line">            <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"pl2"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://book.douban.com/subject/1770782/"</span> <span class="attr">onclick</span>=<span class="string">"&amp;quot;moreurl(this,&#123;i:'0'&#125;)&amp;quot;"</span> <span class="attr">title</span>=<span class="string">"追风筝的人"</span>&gt;</span></span><br><span class="line">                追风筝的人</span><br><span class="line"></span><br><span class="line">                </span><br><span class="line">              <span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">                &amp;nbsp; <span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">"https://img3.doubanio.com/pics/read.gif"</span> <span class="attr">alt</span>=<span class="string">"可试读"</span> <span class="attr">title</span>=<span class="string">"可试读"</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">br</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">style</span>=<span class="string">"font-size:12px;"</span>&gt;</span>The Kite Runner<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"pl"</span>&gt;</span>[美] 卡勒德·胡赛尼 / 李继宏 / 上海人民出版社 / 2006-5 / 29.00元<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"></span><br><span class="line">              <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">"star clearfix"</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"allstar45"</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"rating_nums"</span>&gt;</span>8.9<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"pl"</span>&gt;</span>(</span><br><span class="line">                    420384人评价</span><br><span class="line">                )<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"quote"</span> <span class="attr">style</span>=<span class="string">"margin: 10px 0; color: #666"</span>&gt;</span></span><br><span class="line">                  <span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"inq"</span>&gt;</span>为你，千千万万遍<span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">          <span class="tag">&lt;/<span class="name">td</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">tbody</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">p</span> <span class="attr">class</span>=<span class="string">"ul"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">        ......</span><br><span class="line">        ......</span><br></pre></td></tr></table></figure></p>
+<p><em>Tips: 你可以Ctrl+Shift+C之后用鼠标直接点击网页元素</em></p>
+<p>这样就可以编写xpath提取信息了<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">doubanSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"douban_top250_book"</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'</span>,</span><br><span class="line">    &#125;</span><br><span class="line">    rank = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = <span class="string">'https://book.douban.com/top250'</span></span><br><span class="line">        <span class="keyword">yield</span> Request(url, headers=self.headers)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = DoubanBookItem()</span><br><span class="line">        books = response.xpath(<span class="string">'//div[@class="indent"]//tr[@class="item"]'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> book <span class="keyword">in</span> books:</span><br><span class="line">            self.rank += <span class="number">1</span></span><br><span class="line">            <span class="comment"># 没有在网页中找到排名，手动计数</span></span><br><span class="line">            item[<span class="string">'ranking'</span>] = self.rank</span><br><span class="line">            item[<span class="string">'book_name'</span>] = book.xpath(<span class="string">'.//div[@class="pl2"]/a/@title'</span>).extract_first()</span><br><span class="line">            item[<span class="string">'score'</span>] = book.xpath(<span class="string">'.//span[@class="rating_nums"]/text()'</span>).extract_first()</span><br><span class="line">            item[<span class="string">'score_num'</span>] = book.xpath(<span class="string">'.//div[@class="star clearfix"]/span[@class="pl"]/text()'</span>).re_first(<span class="string">'(\d+)人评价'</span>)</span><br><span class="line">            item[<span class="string">'des'</span>] = book.xpath(<span class="string">'.//p[@class="quote"]/span/text()'</span>).extract_first()</span><br><span class="line">            <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure></p>
+<p><em>tips:你可以在chrome中使用 <a href="https://chrome.google.com/webstore/detail/xpath-helper/hgimnogjllphhhkhlmebbmlgjoejdpjl" target="_blank" rel="noopener">xpath helper</a> 辅助判断你写的xpath是否正确，或者直接获取自动生成的xpath表达式</em></p>
+<p>在终端使用命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl  douban_top250_book -o douban.json</span><br></pre></td></tr></table></figure></p>
+<p><code>-o douban.json</code>表示将会把结果输出到douban.json文件中</p>
+<p>查看douban.json文件，发现什么都没有，查看scrapy刚刚打印的日志，发现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[scrapy.spidermiddlewares.httperror] INFO: Ignoring response &lt;403 https://book.douban.com/top250&gt;: HTTP status</span><br><span class="line">code is not handled or not allowed</span><br></pre></td></tr></table></figure></p>
+<p>原来豆瓣设置了一些反爬虫机制，我们的爬虫被403了。但我们也有应付办法，加一个headers，模拟正常浏览器访问</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">doubanSpider</span><span class="params">(scrapy.Spider)</span>:</span></span><br><span class="line">    name = <span class="string">"douban_top250_book"</span></span><br><span class="line">    headers = &#123;</span><br><span class="line">        <span class="string">'User-Agent'</span>: <span class="string">'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.143 Safari/537.36'</span>,</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">start_requests</span><span class="params">(self)</span>:</span></span><br><span class="line">        url = <span class="string">'https://book.douban.com/top250'</span></span><br><span class="line">        <span class="keyword">yield</span> Request(url, headers=self.headers)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">        item = DoubanBookItem()</span><br><span class="line">        books = response.xpath(<span class="string">'//div[@class="indent"]//tr[@class="item"]'</span>)</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> book <span class="keyword">in</span> books:</span><br><span class="line">            item[<span class="string">'ranking'</span>] = book.xpath(<span class="string">'./td[1]/a/@onclick'</span>).re_first(<span class="string">'\'(\d+)\''</span>)</span><br><span class="line">            item[<span class="string">'book_name'</span>] = book.xpath(<span class="string">'.//div[@class="pl2"]/a/@title'</span>).extract_first()</span><br><span class="line">            item[<span class="string">'score'</span>] = book.xpath(<span class="string">'.//span[@class="rating_nums"]/text()'</span>).extract_first()</span><br><span class="line">            item[<span class="string">'score_num'</span>] = book.xpath(<span class="string">'.//div[@class="star clearfix"]/span[@class="pl"]/text()'</span>).re_first(<span class="string">'(\d+)人评价'</span>)</span><br><span class="line">            item[<span class="string">'des'</span>] = book.xpath(<span class="string">'.//p[@class="quote"]/span/text()'</span>).extract_first()</span><br><span class="line">            <span class="keyword">yield</span> item</span><br></pre></td></tr></table></figure>
+<p>现在再次输入命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl  douban_top250_book -o douban.json</span><br></pre></td></tr></table></figure></p>
+<p>可以发现生成了douban.json并且里面已经有了数据，不过中文都是Unicode字符。现在我们打开setting.py文件，增加一条设置<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FEED_EXPORT_ENCODING = <span class="string">'utf-8'</span></span><br></pre></td></tr></table></figure></p>
+<p>再运行一下，一切正常了！</p>
+<h1 id="追踪链接"><a href="#追踪链接" class="headerlink" title="追踪链接"></a>追踪链接</h1><p>现在我们只抓取到这一页的25条信息，现在我们想要全部的250条怎么办？聪明的你可能已经想到了：提取网页中”后页“的链接并爬取。</p>
+<p>再打开开发者工具查看<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">class</span>=<span class="string">"next"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"next"</span> <span class="attr">href</span>=<span class="string">"https://book.douban.com/top250?start=50"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"https://book.douban.com/top250?start=50"</span>&gt;</span>后页&amp;gt;<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>修改我们的python代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parse</span><span class="params">(self, response)</span>:</span></span><br><span class="line">       item = DoubanBookItem()</span><br><span class="line">       books = response.xpath(<span class="string">'//div[@class="indent"]//tr[@class="item"]'</span>)</span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span> book <span class="keyword">in</span> books:</span><br><span class="line">           item[<span class="string">'ranking'</span>] = book.xpath(<span class="string">'./td[1]/a/@onclick'</span>).re_first(<span class="string">'\'(\d+)\''</span>)</span><br><span class="line">           item[<span class="string">'book_name'</span>] = book.xpath(<span class="string">'.//div[@class="pl2"]/a/@title'</span>).extract_first()</span><br><span class="line">           item[<span class="string">'score'</span>] = book.xpath(<span class="string">'.//span[@class="rating_nums"]/text()'</span>).extract_first()</span><br><span class="line">           item[<span class="string">'score_num'</span>] = book.xpath(<span class="string">'.//div[@class="star clearfix"]/span[@class="pl"]/text()'</span>).re_first(<span class="string">'(\d+)人评价'</span>)</span><br><span class="line">           item[<span class="string">'des'</span>] = book.xpath(<span class="string">'.//p[@class="quote"]/span/text()'</span>).extract_first()</span><br><span class="line">           <span class="keyword">yield</span> item</span><br><span class="line"></span><br><span class="line">       next_url = response.xpath(<span class="string">'//span[@class="next"]/a/@href'</span>).extract_first()</span><br><span class="line">       <span class="keyword">if</span> next_url:</span><br><span class="line">           <span class="keyword">yield</span> Request(next_url, headers=self.headers)</span><br></pre></td></tr></table></figure></p>
+<p>再运行一下会发现已经爬取了全部的250条数据</p>
+<h1 id="pipeline"><a href="#pipeline" class="headerlink" title="pipeline"></a>pipeline</h1><p>当我们需要对数据做更多操作时，比如</p>
+<ul>
+<li>清理HTML数据</li>
+<li>验证爬取的数据(检查item包含某些字段)</li>
+<li>查重(并丢弃)</li>
+<li>将爬取结果保存到数据库中</li>
+</ul>
+<p>我们需要使用pipeline。</p>
+<p>先在setting.py文件中打开pipeline<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ITEM_PIPELINES = &#123;</span><br><span class="line">   <span class="string">'doubanSpider.pipelines.DoubanspiderPipeline'</span>: <span class="number">300</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>后面的数字代表优先级，即多个pipeline时数据先通过哪个pipeline</p>
+<p>现在在pipeline中实现process_item()<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DoubanspiderPipeline</span><span class="params">(object)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        self.file = open(<span class="string">'doubanTop250book.json'</span>, <span class="string">'w'</span>, encoding=<span class="string">'utf-8'</span>)</span><br><span class="line">        </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">process_item</span><span class="params">(self, item, spider)</span>:</span></span><br><span class="line">        <span class="keyword">if</span> float(item[<span class="string">'score'</span>]) &lt; <span class="number">8.5</span>:</span><br><span class="line">            <span class="keyword">raise</span> DropItem(<span class="string">"Missing score in %s"</span> % item)</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            line = json.dumps(dict(item), ensure_ascii=<span class="literal">False</span>) + <span class="string">",\n"</span></span><br><span class="line">            self.file.write(line)</span><br><span class="line">            <span class="keyword">return</span> item</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">close_spider</span><span class="params">(self, spider)</span>:</span></span><br><span class="line">        self.file.close()</span><br></pre></td></tr></table></figure></p>
+<p>在这里我们将评分小于8.5的书籍全部丢弃</p>
+<p>现在再来运行一下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scrapy crawl  douban_top250_book</span><br></pre></td></tr></table></figure></p>
+<p>你应该可以发现多了doubanTop250book.json文件，并且里面书籍的评分都是大于等于8.5的</p>
+<h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>怎么用pycharm给scrapy爬虫打断点调试？你可以新建一个begin.py文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line"></span><br><span class="line">cmdline.execute(<span class="string">"scrapy crawl douban_top250_book"</span>.split())</span><br></pre></td></tr></table></figure></p>
+<p>在pycharm的启动配置中修改入口文件为begin.py，这样你就可以愉快地像正常项目一样调试了</p>
+<p>源码地址 <a href="https://github.com/UUNNFLY/doubanSpider" target="_blank" rel="noopener">https://github.com/UUNNFLY/doubanSpider</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/03/26/java-代理模式/" data-toggle="tooltip" data-placement="top" title="java-代理模式">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Item"><span class="toc-text">Item</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#编写第一个爬虫"><span class="toc-text">编写第一个爬虫</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#追踪链接"><span class="toc-text">追踪链接</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#pipeline"><span class="toc-text">pipeline</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#调试"><span class="toc-text">调试</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                    
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Unnnfly 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if ($('#tag_cloud').length !== 0) {
+        async("https://blog.aobtain.cn/js/jquery.tagcloud.js", function () {
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: { start: '#bbbbee', end: '#0085a1' },
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-136985419-1';
+    var _gaDomain = 'aobtain.cn';
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!--   Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+    (function (w, d, t, u, n, s, e) {
+    w['SwiftypeObject'] = n; w[n] = w[n] || function () {
+        (w[n].q = w[n].q || []).push(arguments);
+    }; s = d.createElement(t);
+        e = d.getElementsByTagName(t)[0]; s.async = 1; s.src = u; e.parentNode.insertBefore(s, e);
+    })(window, document, 'script', '//s.swiftypecdn.com/install/v2/st.js', '_st');
+
+    _st('install', '', '2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/dog.jpeg">
+</body>
+
+</html>
