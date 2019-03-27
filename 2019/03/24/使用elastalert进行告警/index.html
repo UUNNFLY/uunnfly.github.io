@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <meta charset="utf-8">
+    <meta name="google-site-verification" content="Gf4d1xCBKv4dxZ6FzbxxYjIyYRmsQX7-0ojLY2CfcRQ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        使用elastalert进行告警｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.aobtain.cn/2019/03/24/使用elastalert进行告警/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Unnnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>使用elastalert进行告警</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2019-03-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ELK" title="ELK">ELK</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            使用elastalert进行告警
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><code>git clone https://github.com/Yelp/elastalert.git</code><br>安装模块<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ pip install &quot;setuptools&gt;=11.3&quot;</span><br><span class="line">$ python setup.py install</span><br></pre></td></tr></table></figure></p>
+<p>安装elasticsearch-py，需要根据你的elasticsearch版本，比如我现在用是6.x<br><code>pip install &quot;elasticsearch&gt;=6.0.0&quot;`</code></p>
+<h1 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h1><p>将 config.yaml.example 复制一份命名为 config.yaml<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">rules_folder: example_rules</span><br><span class="line"></span><br><span class="line">  # How often ElastAlert will query Elasticsearch</span><br><span class="line">  # The unit can be anything from weeks to seconds</span><br><span class="line">  run_every:</span><br><span class="line">    seconds: 3   #每三秒向es请求数据</span><br><span class="line">  # ElastAlert will buffer results from the most recent</span><br><span class="line">  # period of time, in case some log sources are not in real time</span><br><span class="line">  buffer_time:</span><br><span class="line">    minutes: 15  </span><br><span class="line">    #日志会延迟进入es，这里是配置query的向前的时间范围，这是15分钟，即查询 time[now-15m, now]</span><br><span class="line"></span><br><span class="line">  # The Elasticsearch hostname for metadata writeback</span><br><span class="line">  # Note that every rule can have its own Elasticsearch host</span><br><span class="line">  es_host: 188.88.88.88</span><br><span class="line"></span><br><span class="line">  # The Elasticsearch port</span><br><span class="line">  es_port: 9200</span><br><span class="line"></span><br><span class="line">  # Optional URL prefix for Elasticsearch</span><br><span class="line">  #es_url_prefix: elasticsearch</span><br><span class="line"></span><br><span class="line">  # Connect with TLS to Elasticsearch</span><br><span class="line">  #use_ssl: True</span><br><span class="line"></span><br><span class="line">  # Verify TLS certificates</span><br><span class="line">  #verify_certs: True</span><br><span class="line"></span><br><span class="line">  # GET request with body is the default option for Elasticsearch.</span><br><span class="line">  # If it fails for some reason, you can pass &apos;GET&apos;, &apos;POST&apos; or &apos;source&apos;.</span><br><span class="line">  # See http://elasticsearch-py.readthedocs.io/en/master/connection.html?highlight=send_get_body_as#transport</span><br><span class="line">  # for details</span><br><span class="line">  #es_send_get_body_as: GET</span><br><span class="line"></span><br><span class="line">  # Option basic-auth username and password for Elasticsearch</span><br><span class="line">  #es_username: someusername</span><br><span class="line">  #es_password: somepassword</span><br><span class="line"></span><br><span class="line">  # The index on es_host which is used for metadata storage</span><br><span class="line">  # This can be a unmapped index, but it is recommended that you run</span><br><span class="line">  # elastalert-create-index to set a mapping</span><br><span class="line">  writeback_index: elastalert_status</span><br><span class="line"></span><br><span class="line">  # If an alert fails for some reason, ElastAlert will retry</span><br><span class="line">  # sending the alert until this time period has elapsed</span><br><span class="line">  alert_time_limit:</span><br><span class="line">    days: 1</span><br></pre></td></tr></table></figure></p>
+<p>  以下是各字段的解释：<br>  Rules_folder：用来加载下一阶段rule的设置，默认是example_rules<br>Run_every：用来设置定时向elasticsearch发送请求<br>Buffer_time：用来设置请求里时间字段的范围，默认是45分钟<br>Es_host：elasticsearch的host地址<br>Es_port：elasticsearch 对应的端口号<br>Use_ssl：可选的，选择是否用SSL连接es，true或者false<br>Verify_certs：可选的，是否验证TLS证书，设置为true或者false，默认为- true<br>Es_username：es认证的username<br>Es_password：es认证的password<br>Es_url_prefix：可选的，es的url前缀（我的理解是https或者http）<br>Es_send_get_body_as：可选的，查询es的方式，默认的是GET<br>Writeback_index：elastalert产生的日志在elasticsearch中的创建的索引<br>Alert_time_limit：失败重试的时间限制</p>
+<h2 id="规则配置"><a href="#规则配置" class="headerlink" title="规则配置"></a>规则配置</h2><p>example_rules 目录下每份文件都是一个规则，已经给我们提供了不少示例写法。现在打开example_frequency.yaml，这里有一修改过的示范配置<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line"># Alert when the rate of events exceeds a threshold</span><br><span class="line"></span><br><span class="line"># (Optional)</span><br><span class="line"># Elasticsearch host</span><br><span class="line">es_host: localhost</span><br><span class="line"></span><br><span class="line"># (Optional)</span><br><span class="line"># Elasticsearch port</span><br><span class="line">es_port: 9200</span><br><span class="line"></span><br><span class="line"># (OptionaL) Connect with SSL to Elasticsearch</span><br><span class="line">#use_ssl: True</span><br><span class="line"></span><br><span class="line"># (Optional) basic-auth username and password for Elasticsearch</span><br><span class="line">#es_username: someusername</span><br><span class="line">#es_password: somepassword</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># Rule name, must be unique</span><br><span class="line">name: nginxerror</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># Type of alert.</span><br><span class="line"># the frequency rule type alerts when num_events events occur with timeframe time</span><br><span class="line">type: frequency</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># Index to search, wildcard supported</span><br><span class="line">index: filebeat-nginxaccess-*</span><br><span class="line"></span><br><span class="line"># (Required, frequency specific)</span><br><span class="line"># Alert when this many documents matching the query occur within a timeframe</span><br><span class="line">num_events: 1</span><br><span class="line"></span><br><span class="line"># (Required, frequency specific)</span><br><span class="line"># num_events must occur within this amount of time to trigger an alert</span><br><span class="line">timeframe:</span><br><span class="line">  #hours: 4</span><br><span class="line">  minutes: 1</span><br><span class="line"></span><br><span class="line"># (Required)</span><br><span class="line"># A list of Elasticsearch filters used for find events</span><br><span class="line"># These filters are joined with AND and nested in a filtered query</span><br><span class="line"># For more info: http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/query-dsl.html</span><br><span class="line">filter:</span><br><span class="line">- range:</span><br><span class="line">    response:</span><br><span class="line">       from: 400</span><br><span class="line">       to: 599</span><br></pre></td></tr></table></figure></p>
+<p>这是一份根据频率进行报警的配置，1分钟内有发生一次就会报警</p>
+<h1 id="使用邮箱进行报警"><a href="#使用邮箱进行报警" class="headerlink" title="使用邮箱进行报警"></a>使用邮箱进行报警</h1><p>elastalert内置了十多种通知类型，这里介绍邮箱告警。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"># (Required)</span><br><span class="line"># The alert is use when a match is found</span><br><span class="line">alert:</span><br><span class="line">- &quot;email&quot;</span><br><span class="line"></span><br><span class="line"># (required, email specific)</span><br><span class="line"># a list of email addresses to send alerts to</span><br><span class="line">email:</span><br><span class="line">- &quot;test@qq.com&quot;</span><br><span class="line"></span><br><span class="line">smtp_host: smtp.exmail.qq.com</span><br><span class="line">smtp_prot: 465</span><br><span class="line">smtp_ssl: true</span><br><span class="line">smtp_auth_file: ./smtp_auth_file.yaml</span><br><span class="line">from_addr: test@myemail.com</span><br></pre></td></tr></table></figure></p>
+<p>在这里你可以配置发件人与收件人。</p>
+<p>smtp_auth_file存放账户名和密码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">user: xxx@qq.com</span><br><span class="line">password: password</span><br></pre></td></tr></table></figure></p>
+<h1 id="运行"><a href="#运行" class="headerlink" title="运行"></a>运行</h1><p><code>python -m elastalert.elastalert --verbose --rule example_rules/example_frequency.yaml</code><br>将会打出日志</p>
+<h1 id="使用短信告警"><a href="#使用短信告警" class="headerlink" title="使用短信告警"></a>使用短信告警</h1><p>这里选择使用elastalert的command调用发短信的脚本来进行短信报警<br>在配置文件中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">alert:</span><br><span class="line">- command</span><br><span class="line"></span><br><span class="line">command: [&quot;/root/dysms_python/sms_send.py&quot;,&quot;--host&quot;,&quot;%(host)s&quot;,&quot;--time&quot;,&quot;%(time)s&quot;,&quot;--path&quot;,&quot;%(source)s&quot;]</span><br></pre></td></tr></table></figure></p>
+<p>/root/dysms_python/sms_send.py 是该脚本名称，后面是传入的参数</p>
+<h1 id="增强功能"><a href="#增强功能" class="headerlink" title="增强功能"></a>增强功能</h1><p>现在想做到这一点：在nginx日志中发现500之后去查另一个type（表）中与之对应的traceback附在邮件中。你可以在enhancements中改变告警内容<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir elastalert_modules</span><br><span class="line">$ cd elastalert_modules</span><br><span class="line">$ touch __init__.py</span><br><span class="line">$ vim my_enhancements.py</span><br></pre></td></tr></table></figure></p>
+<p>官方示例：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">from elastalert.enhancements import BaseEnhancement</span><br><span class="line"></span><br><span class="line">class MyEnhancement(BaseEnhancement):</span><br><span class="line"></span><br><span class="line">    # The enhancement is run against every match</span><br><span class="line">    # The match is passed to the process function where it can be modified in any way</span><br><span class="line">    # ElastAlert will do this for each enhancement linked to a rule</span><br><span class="line">    def process(self, match):</span><br><span class="line">        if &apos;domain&apos; in match:</span><br><span class="line">            url = &quot;http://who.is/whois/%s&quot; % (match[&apos;domain&apos;])</span><br><span class="line">            match[&apos;domain_whois_link&apos;] = url</span><br></pre></td></tr></table></figure></p>
+<p>然后在你的规则配置文件中<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">match_enhancements:</span><br><span class="line">- &quot;elastalert_modules.my_enhancements.MyEnhancement&quot;</span><br></pre></td></tr></table></figure></p>
+<p>此时就会多一个domain_whois_link的字段，并且该值是<a href="http://who.is/whois/+domain_whois_link" target="_blank" rel="noopener">http://who.is/whois/+domain_whois_link</a></p>
+<h2 id="es的精确值匹配"><a href="#es的精确值匹配" class="headerlink" title="es的精确值匹配"></a>es的精确值匹配</h2><p>使用term可以进行精确值匹配，比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;term&quot; : &#123; &quot;user&quot; : &quot;Kimchy&quot; &#125;</span><br></pre></td></tr></table></figure></p>
+<p>会查找到user为Kimchy的记录<br>但是你如果这样查<br>“term” : { “user” : “Kimchy Hello” }<br>你会找不到Kimchy Hello的记录！（已经存放了该条记录）<br>这是因为lucene的底层是倒排索引，会拆成Kimchy与Hello两个关键字，所以使用term是无法精确匹配到的。你必须删除索引并重新建立时将该字段标识为“not_analyzed”<br>具体可以看<a href="https://es.xiaoleilu.com/080_Structured_Search/05_term.html" target="_blank" rel="noopener">这里</a></p>
+<blockquote>
+<p><a href="http://elastalert.readthedocs.io/en/latest/running_elastalert.html" target="_blank" rel="noopener">Running ElastAlert for the First Time</a><br><a href="https://cloud.tencent.com/developer/article/1043738" target="_blank" rel="noopener">ElastAlert监控日志告警Web攻击行为</a><br><a href="https://es.xiaoleilu.com/080_Structured_Search/05_term.html" target="_blank" rel="noopener">查找准确值</a></p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2019/03/24/使用docker快速部署elk/" data-toggle="tooltip" data-placement="top" title="使用docker快速部署elk">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/03/24/在ubuntu16.04上安装ELK/" data-toggle="tooltip" data-placement="top" title="在ubuntu16.04上安装ELK">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#配置"><span class="toc-text">配置</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#规则配置"><span class="toc-text">规则配置</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用邮箱进行报警"><span class="toc-text">使用邮箱进行报警</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运行"><span class="toc-text">运行</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#使用短信告警"><span class="toc-text">使用短信告警</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#增强功能"><span class="toc-text">增强功能</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#es的精确值匹配"><span class="toc-text">es的精确值匹配</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                    
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Unnnfly 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if ($('#tag_cloud').length !== 0) {
+        async("https://blog.aobtain.cn/js/jquery.tagcloud.js", function () {
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: { start: '#bbbbee', end: '#0085a1' },
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-136985419-1';
+    var _gaDomain = 'aobtain.cn';
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+<!--   Baidu Push -->
+
+<script>
+    (function () {
+        var bp = document.createElement('script');
+        var curProtocol = window.location.protocol.split(':')[0];
+        if (curProtocol === 'https') {
+            bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';
+        }
+        else {
+            bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+        }
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(bp, s);
+    })();
+</script>
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+    (function (w, d, t, u, n, s, e) {
+    w['SwiftypeObject'] = n; w[n] = w[n] || function () {
+        (w[n].q = w[n].q || []).push(arguments);
+    }; s = d.createElement(t);
+        e = d.getElementsByTagName(t)[0]; s.async = 1; s.src = u; e.parentNode.insertBefore(s, e);
+    })(window, document, 'script', '//s.swiftypecdn.com/install/v2/st.js', '_st');
+
+    _st('install', '', '2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/dog.jpeg">
+</body>
+
+</html>
