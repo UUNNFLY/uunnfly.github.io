@@ -242,6 +242,10 @@
 <h1 id="调试"><a href="#调试" class="headerlink" title="调试"></a>调试</h1><p>怎么用pycharm给scrapy爬虫打断点调试？你可以新建一个begin.py文件<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scrapy <span class="keyword">import</span> cmdline</span><br><span class="line"></span><br><span class="line">cmdline.execute(<span class="string">"scrapy crawl douban_top250_book"</span>.split())</span><br></pre></td></tr></table></figure></p>
 <p>在pycharm的启动配置中修改入口文件为begin.py，这样你就可以愉快地像正常项目一样调试了</p>
 <p>源码地址 <a href="https://github.com/UUNNFLY/doubanSpider" target="_blank" rel="noopener">https://github.com/UUNNFLY/doubanSpider</a></p>
+<p>参考链接</p>
+<blockquote>
+<p><a href="https://scrapy-chs.readthedocs.io/zh_CN/1.0/intro/tutorial.html" target="_blank" rel="noopener">Scrapy入门教程</a><br><a href="https://zhuanlan.zhihu.com/p/24769534" target="_blank" rel="noopener">Scrapy爬虫框架教程（二）– 爬取豆瓣电影TOP250</a></p>
+</blockquote>
 
                 <hr>
                 
