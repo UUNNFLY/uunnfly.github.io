@@ -1,3 +1,4 @@
+https://blog.aobtain.cn/2019/04/03/java-观察者模式/
 https://blog.aobtain.cn/2019/04/02/Paxos算法浅析/
 https://blog.aobtain.cn/2019/03/27/scrapy爬虫实战/
 https://blog.aobtain.cn/2019/03/26/java-代理模式/
