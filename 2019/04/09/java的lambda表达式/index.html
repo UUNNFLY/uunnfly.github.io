@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="google-site-verification" content="Gf4d1xCBKv4dxZ6FzbxxYjIyYRmsQX7-0ojLY2CfcRQ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/favicon/cookie.png">
+    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        java的Lambda表达式｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.aobtain.cn/2019/04/09/java的lambda表达式/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Unnnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://pord1u2vc.bkt.clouddn.com/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>java的Lambda表达式</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2019-04-09
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#java" title="java">java</a>
+                        
+                        <a class="tag" href="/tags/#lambda" title="lambda">lambda</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            java的Lambda表达式
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>Lambda表达式是java8的新特性，允许把函数作为一个方法的参数，使代码更加简洁。<br>语法：<code>(argument) -&gt; (body)</code><br>如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(arg1, arg2...) -&gt; &#123; body &#125;</span><br><span class="line"></span><br><span class="line">(type1 arg1, type2 arg2...) -&gt; &#123; body &#125;</span><br></pre></td></tr></table></figure></p>
+<p>不需要函数声明，以及函数名。（写法跟js中的Lambda基本是一样的）<br>下面是几个例子：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="keyword">int</span> x, <span class="keyword">int</span> y) -&gt; x + y</span><br><span class="line"></span><br><span class="line">() -&gt; <span class="number">42</span></span><br><span class="line"></span><br><span class="line">(String s) -&gt; &#123; System.out.println(s); &#125;</span><br></pre></td></tr></table></figure></p>
+<ul>
+<li>如果函数内的语句只有一句可以省略大括号与return,返回值就是语句的值</li>
+<li>可以没有参数</li>
+<li>只有一个参数时可以没有小括号</li>
+<li>参数的类型可以不写，由编译器推导</li>
+</ul>
+<p>下面看一下Lambda有什么用</p>
+<h1 id="代替匿名内部类"><a href="#代替匿名内部类" class="headerlink" title="代替匿名内部类"></a>代替匿名内部类</h1><h2 id="Runnable"><a href="#Runnable" class="headerlink" title="Runnable"></a>Runnable</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RunnableTest</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">      System.out.println(<span class="string">"=== RunnableTest ==="</span>);</span><br><span class="line">     </span><br><span class="line">     <span class="comment">// Anonymous Runnable</span></span><br><span class="line">     Runnable r1 = <span class="keyword">new</span> Runnable()&#123;</span><br><span class="line">       </span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">       <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"Hello world one!"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">     &#125;;</span><br><span class="line">     </span><br><span class="line">     <span class="comment">// Lambda Runnable</span></span><br><span class="line">     Runnable r2 = () -&gt; System.out.println(<span class="string">"Hello world two!"</span>);</span><br><span class="line">     </span><br><span class="line">     <span class="comment">// Run em!</span></span><br><span class="line">     r1.run();</span><br><span class="line">     r2.run();</span><br><span class="line">     </span><br><span class="line">   &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>Lamdba省略了new Runnable()接口名和run()方法名，全部交给编译器推导<br>之前我们在新建一个线程时会使用匿名内部类，现在使用Lamdba简洁又高效</p>
+<h2 id="Comparator"><a href="#Comparator" class="headerlink" title="Comparator"></a>Comparator</h2><p>在下面的例子中，一个ArrayList包含Person类，对其进行排序：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Person</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String givenName;</span><br><span class="line">    <span class="keyword">private</span> String surName;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> age;</span><br><span class="line">    <span class="keyword">private</span> Gender gender;</span><br><span class="line">    <span class="keyword">private</span> String eMail;</span><br><span class="line">    <span class="keyword">private</span> String phone;</span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ComparatorTest</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">            List&lt;Person&gt; personList = Person.createShortList();</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Sort with Inner Class</span></span><br><span class="line">            Collections.sort(personList, <span class="keyword">new</span> Comparator&lt;Person&gt;() &#123;</span><br><span class="line">                <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">compare</span><span class="params">(Person p1, Person p2)</span> </span>&#123;</span><br><span class="line">                    <span class="keyword">return</span> p1.getSurName().compareTo(p2.getSurName());</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;);</span><br><span class="line"></span><br><span class="line">            System.out.println(<span class="string">"=== Sorted Asc SurName ==="</span>);</span><br><span class="line">            <span class="keyword">for</span> (Person p : personList) &#123;</span><br><span class="line">                p.printName();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Use Lambda instead</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">// Print Asc</span></span><br><span class="line">            System.out.println(<span class="string">"=== Sorted Asc SurName ==="</span>);</span><br><span class="line">            Collections.sort(personList, (Person p1, Person p2) -&gt; p1.getSurName().compareTo(p2.getSurName()));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Person p : personList) &#123;</span><br><span class="line">                p.printName();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// Print Desc</span></span><br><span class="line">            System.out.println(<span class="string">"=== Sorted Desc SurName ==="</span>);</span><br><span class="line">            Collections.sort(personList, (p1, p2) -&gt; p2.getSurName().compareTo(p1.getSurName()));</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (Person p : personList) &#123;</span><br><span class="line">                p.printName();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>注：java.util.List也有sort的api，可以作为Collection.sort的替代品</p>
+<h1 id="Lambda的类型"><a href="#Lambda的类型" class="headerlink" title="Lambda的类型"></a>Lambda的类型</h1><p>Lambda的类型是什么？有些语言将Lambda看作对象，java为了保持旧版本向后兼容性，并没有这么做。<br>在<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/package-summary.html" target="_blank" rel="noopener">java.util.function</a>中，定义了多种函数式接口。以下是比较常用的：<br><img src="https://img-blog.csdn.net/20170821091746167?/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="函数式接口"></p>
+<p>示例代码：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Consumer a = (s) -&gt; System.out.println(<span class="string">"test"</span> + s);</span><br><span class="line">a.accept(<span class="string">"test"</span>);</span><br></pre></td></tr></table></figure></p>
+<p>函数接口有 3 条重要法则：</p>
+<ol>
+<li>一个函数接口只有一个抽象方法。</li>
+<li>在 Object 类中属于公共方法的抽象方法不会被视为单一抽象方法。</li>
+<li>函数接口可以有默认方法和静态方法。</li>
+</ol>
+<p>任何满足单一抽象方法法则的接口，都会被自动视为函数接口。这包括 Runnable 和 Callable 等传统接口，以及我们自己构建的自定义接口。</p>
+<h2 id="自定义函数接口"><a href="#自定义函数接口" class="headerlink" title="自定义函数接口"></a>自定义函数接口</h2><p>要创建自己的函数接口，需要做两件事：</p>
+<ol>
+<li>使用 @FunctionalInterface 注释该接口，这是 Java 8 对自定义函数接口的约定。</li>
+<li>确保该接口只有一个抽象方法。</li>
+</ol>
+<p>作为一个示例，我们将创建一个 Order 类，它有一系列 OrderItem 以及一个转换并输出它们的方法。我们首先创建一个接口。</p>
+<p>下面的代码将创建一个 Transformer 函数接口。</p>
+<p>@FunctionalInterface<br>public interface Transformer<t> {<br>  T transform(T input);<br>}<br>该接口用 @FunctionalInterface 注释做了标记，表明它是一个函数接口。因为该注释包含在 java.lang 包中，所以没有必要导入。该接口有一个名为 transform 的方法，后者接受一个参数化为 T 类型的对象，并返回一个相同类型的转换后对象。转换的语义将由该接口的实现来决定。</t></p>
+<p>这是 OrderItem 类：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OrderItem</span> </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> id;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">int</span> price;</span><br><span class="line">   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">OrderItem</span><span class="params">(<span class="keyword">int</span> theId, <span class="keyword">int</span> thePrice)</span> </span>&#123;</span><br><span class="line">    id = theId;</span><br><span class="line">    price = thePrice;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getId</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> id; &#125;</span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getPrice</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> price; &#125;</span><br><span class="line">   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> String.format(<span class="string">"id: %d price: %d"</span>, id, price); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>OrderItem 是一个简单的类，它有两个属性：id 和 price，以及一个 toString 方法。</p>
+<p>现在来看看 Order 类。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Stream;</span><br><span class="line"> </span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Order</span> </span>&#123;</span><br><span class="line">  List&lt;OrderItem&gt; items;</span><br><span class="line">   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">Order</span><span class="params">(List&lt;OrderItem&gt; orderItems)</span> </span>&#123;</span><br><span class="line">    items = orderItems;</span><br><span class="line">  &#125;</span><br><span class="line">   </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">transformAndPrint</span><span class="params">(</span></span></span><br><span class="line"><span class="function"><span class="params">    Transformer&lt;Stream&lt;OrderItem&gt;&gt; transformOrderItems)</span> </span>&#123;</span><br><span class="line">     </span><br><span class="line">    transformOrderItems.transform(items.stream())</span><br><span class="line">      .forEach(System.out::println);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>transformAndPrint 方法接受 Transform<stream<orderitem> 作为参数，调用 transform 方法来转换属于 Order 实例的订单项，然后按转换后的顺序输出这些订单项。</stream<orderitem></p>
+<p>这是一个使用该方法的样本：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.*;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> java.util.Comparator.comparing;</span><br><span class="line"><span class="keyword">import</span> java.util.stream.Stream;</span><br><span class="line"><span class="keyword">import</span> java.util.function.*;</span><br><span class="line"> </span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Sample</span> </span>&#123;     </span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">    Order order = <span class="keyword">new</span> Order(Arrays.asList(</span><br><span class="line">      <span class="keyword">new</span> OrderItem(<span class="number">1</span>, <span class="number">1225</span>),</span><br><span class="line">      <span class="keyword">new</span> OrderItem(<span class="number">2</span>, <span class="number">983</span>),</span><br><span class="line">      <span class="keyword">new</span> OrderItem(<span class="number">3</span>, <span class="number">1554</span>)</span><br><span class="line">    ));</span><br><span class="line">     </span><br><span class="line">     </span><br><span class="line">    order.transformAndPrint(<span class="keyword">new</span> Transformer&lt;Stream&lt;OrderItem&gt;&gt;() &#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> Stream&lt;OrderItem&gt; <span class="title">transform</span><span class="params">(Stream&lt;OrderItem&gt; orderItems)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> orderItems.sorted(comparing(OrderItem::getPrice));</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>我们传递一个匿名内部类作为 transformAndPrint 方法的参数。在 transform 方法内，调用给定流的 sorted 方法，这会对订单项进行排序。这是我们的代码的输出，其中显示了按价格升序排列的订单项：</p>
+<p>id: 2 price: 983<br>id: 1 price: 1225<br>id: 3 price: 1554</p>
+<h1 id="方法引用"><a href="#方法引用" class="headerlink" title="方法引用 ::"></a>方法引用 ::</h1><p>方法引用通过方法的名字来指向一个方法。它使用一对冒号 ::<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Old way:</span></span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line"><span class="keyword">for</span>(Integer n: list) &#123;</span><br><span class="line">   System.out.println(n);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//New way:</span></span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">7</span>);</span><br><span class="line">list.forEach(n -&gt; System.out.println(n));</span><br><span class="line"></span><br><span class="line"><span class="comment">//or we can use :: double colon operator in Java 8</span></span><br><span class="line">list.forEach(System.out::println);</span><br></pre></td></tr></table></figure></p>
+<p>使用双冒号来调用System.out类的静态方法println，或者调用某个对象的方法</p>
+<h1 id="streams"><a href="#streams" class="headerlink" title="streams"></a>streams</h1><p>Java 8 增加了一些超棒的流 APIs。java.util.stream.Stream 接口包含许多有用的方法，能结合 Lambda 表达式产生神奇的效果。<br>我们将 Lambda 表达式 x -&gt; x*x 传给 map() 方法，该方法会作用于流中的所有元素。之后，我们使用 forEach 方法打印数据中的所有元素：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//Old way:</span></span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>);</span><br><span class="line"><span class="keyword">for</span>(Integer n : list) &#123;</span><br><span class="line">    <span class="keyword">int</span> x = n * n;</span><br><span class="line">    System.out.println(x);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//New way:</span></span><br><span class="line">List&lt;Integer&gt; list = Arrays.asList(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>);</span><br><span class="line">list.stream().map((x) -&gt; x*x).forEach(System.out::println);</span><br></pre></td></tr></table></figure></p>
+<p>你可以访问下面的地址详细了解streams<br><a href="https://www.ibm.com/developerworks/cn/java/j-lo-java8streamapi/index.html" target="_blank" rel="noopener">Java 8 中的 Streams API 详解</a></p>
+<p><em>参考链接</em></p>
+<blockquote>
+<p><a href="http://www.runoob.com/java/java8-lambda-expressions.html" target="_blank" rel="noopener">菜鸟教程-Java 8 Lambda 表达式</a><br><a href="https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/Lambda-QuickStart/index.html#summary" target="_blank" rel="noopener">Java SE 8: Lambda Quick Start</a><br><a href="http://blog.oneapm.com/apm-tech/226.html" target="_blank" rel="noopener">深入浅出 Java 8 Lambda 表达式</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-java8idioms6/index.html" target="_blank" rel="noopener">为什么完美的 lambda 表达式只有一行</a><br><a href="https://blog.csdn.net/z834410038/article/details/77370785" target="_blank" rel="noopener">JDK8函数式接口Function、Consumer、Predicate、Supplier</a><br><a href="https://www.ibm.com/developerworks/cn/java/j-java8idioms7/index.html" target="_blank" rel="noopener">Java 8 习惯用语，第 7 部分 函数接口</a><br><a href="http://www.importnew.com/15259.html" target="_blank" rel="noopener">Java8：Lambda表达式增强版Comparator和排序</a></p>
+</blockquote>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/04/09/位运算总结/" data-toggle="tooltip" data-placement="top" title="位运算总结">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#代替匿名内部类"><span class="toc-text">代替匿名内部类</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Runnable"><span class="toc-text">Runnable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Comparator"><span class="toc-text">Comparator</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Lambda的类型"><span class="toc-text">Lambda的类型</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义函数接口"><span class="toc-text">自定义函数接口</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#方法引用"><span class="toc-text">方法引用 ::</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#streams"><span class="toc-text">streams</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://nulljh.cn/">John Doe</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                    
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Unnnfly 2019
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if ($('#tag_cloud').length !== 0) {
+        async("https://blog.aobtain.cn/js/jquery.tagcloud.js", function () {
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: { start: '#bbbbee', end: '#0085a1' },
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-136985419-1';
+    var _gaDomain = 'aobtain.cn';
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+    (function (w, d, t, u, n, s, e) {
+    w['SwiftypeObject'] = n; w[n] = w[n] || function () {
+        (w[n].q = w[n].q || []).push(arguments);
+    }; s = d.createElement(t);
+        e = d.getElementsByTagName(t)[0]; s.async = 1; s.src = u; e.parentNode.insertBefore(s, e);
+    })(window, document, 'script', '//s.swiftypecdn.com/install/v2/st.js', '_st');
+
+    _st('install', '1Q6gh5NNmDszKaQaUjmv', '2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://pord1u2vc.bkt.clouddn.com/dog.jpeg"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+
+</html>
