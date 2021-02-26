@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="google-site-verification" content="Gf4d1xCBKv4dxZ6FzbxxYjIyYRmsQX7-0ojLY2CfcRQ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/favicon/cookie.png">
+    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        使用vmware搭建hdfs集群｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.aobtain.cn/2021/02/26/使用vmware搭建hdfs集群/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Unnnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://cdn.aobtain.cn/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://cdn.aobtain.cn/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>使用vmware搭建hdfs集群</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2021-02-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#分布式" title="分布式">分布式</a>
+                        
+                        <a class="tag" href="/tags/#hdfs" title="hdfs">hdfs</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            使用vmware搭建hdfs集群
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>实验设备：</p>
+<ol>
+<li>vmware workstation 16 pro</li>
+<li>centos 7</li>
+<li>hadoop 3.3</li>
+</ol>
+<p>实验步骤</p>
+<ol>
+<li>安装centos，先安一台，配置好再克隆两台</li>
+<li>网络可使用桥接模式，或者NAT模式。需使用静态ip</li>
+</ol>
+<h2 id="配置NAT"><a href="#配置NAT" class="headerlink" title="配置NAT"></a>配置NAT</h2><ol>
+<li><p>vmware选择编辑 -&gt; 虚拟网络编辑器 -&gt; NAT模式</p>
+</li>
+<li><p>取消勾选DHCP<br><img src="http://cdn.aobtain.cn/vmware/network.png" alt></p>
+</li>
+<li><p>选择NAT设置，查看子网IP，待会设置的虚拟机ip需要跟它一个网段<br> <img src="http://cdn.aobtain.cn/vmware/nat2.png" alt></p>
+</li>
+<li><p>修改虚拟机的网络配置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/sysconfig/network-scripts/ifcfg-ens33</span><br></pre></td></tr></table></figure>
+<p>其中ens33是网卡名字</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TYPE=Ethernet</span><br><span class="line">PROXY_METHOD=none</span><br><span class="line">BROWSER_ONLY=no</span><br><span class="line">BOOTPROTO=static //静态ip，如果是动态ip写dhcp</span><br><span class="line">DEFROUTE=yes</span><br><span class="line">IPV4_FAILURE_FATAL=yes</span><br><span class="line">IPV6INIT=yes</span><br><span class="line">IPV6_AUTOCONF=yes</span><br><span class="line">IPV6_DEFROUTE=yes</span><br><span class="line">IPV6_FAILURE_FATAL=no</span><br><span class="line">IPV6_ADDR_GEN_MODE=stable-privacy</span><br><span class="line">NAME=ens33 //网卡名字</span><br><span class="line">UUID=41620e18-cab6-4238-bb74-0ceb74b4deab</span><br><span class="line">DEVICE=ens33</span><br><span class="line">ONBOOT=yes //是否开机时启动</span><br><span class="line">IPADDR=192.168.30.200 //静态ip，需要和NAT的子网在一个网段</span><br><span class="line">PREFIX=24 //也可以写 NETMASK=255.255.255.0</span><br><span class="line">GATEWAY=192.168.30.2 //网关需要和NAT设置里网关ip一样</span><br><span class="line">DNS1=8.8.8.8</span><br><span class="line">DNS2=8.8.4.4</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<ol>
+<li><p>重启网络<br><code>service network restart</code></p>
+</li>
+<li><p><code>ping baidu.com</code></p>
+</li>
+<li><p>此时能上外网了，但是想要和宿主机互相访问还需要看一下网卡的设置。打开windows的网络中心，选择VMnet8这张虚拟网卡，查看其ipv4设置，ip地址需要跟NAT子网一个网段，最后的主机号不能跟虚拟机的主机号相同。<br> <img src="http://cdn.aobtain.cn/vmware/VMnet8.png" alt></p>
+</li>
+<li><p>vmware的NAT原理大致如下：虚拟机访问外网通过VMware NAT service这个进程直接跟物理网卡相连，而宿主机访问虚拟机需要通过VMnet8这张虚拟网卡。此外，还有一个VMnet8虚拟交换机，跟VMnet8虚拟网卡不是一个东西。VMnet8虚拟网卡与虚拟机网卡在同一个网段，它们之间通信不需要在网络层进行，只需要在数据链路层。虚拟机和宿主机都是这个网段的一台主机。<br> <img src="https://s3.51cto.com/wyfs02/M00/8D/EB/wKioL1ivpTXhXCLbAALG94naNuk950.jpg" alt></p>
+</li>
+<li><p>如果虚拟机想要被除了宿主机以外的其他机器访问，需要使用NAT设置里的端口转发。</p>
+</li>
+</ol>
+<h2 id="桥接模式"><a href="#桥接模式" class="headerlink" title="桥接模式"></a>桥接模式</h2><p>这个模式设置起来比较简单，注意不能跟其他ip冲突，相当于真实的物理机</p>
+<h2 id="关闭防火墙"><a href="#关闭防火墙" class="headerlink" title="关闭防火墙"></a>关闭防火墙</h2><p>需要把所有机器的防火墙关闭（还没搞清用到的所有端口，如果搞清了可以只开放部分端口）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">systemctl stop firewalld</span><br><span class="line">systemctl disable firewalld</span><br></pre></td></tr></table></figure></p>
+<h2 id="设置hosts"><a href="#设置hosts" class="headerlink" title="设置hosts"></a>设置hosts</h2><p>设置这个是为了我们能够通过主机名就直接访问机器</p>
+<ol>
+<li><p>设置本机hostname, 名字随便取，注意可读性<br><code>hostnamectl set-hostname hserver1</code><br>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/hostname</span><br><span class="line">hserver1</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>配置etc/hosts文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">[root@hserver1 ~]# vim /etc/hosts</span><br><span class="line"></span><br><span class="line">...省略上面内容...</span><br><span class="line">192.168.30.200 hserver1</span><br><span class="line">192.168.30.201 hserver2</span><br><span class="line">192.168.30.202 hserver3</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>最后加了三行，虽然另外两台机器还没有搭建，可以先写好。</p>
+<h2 id="免密登录认证"><a href="#免密登录认证" class="headerlink" title="免密登录认证"></a>免密登录认证</h2><ol>
+<li>生成公钥，私钥。在A账户下生成那登录的就是A账户<br><code>ssh-keygen -t rsa</code></li>
+<li>进入.ssh目录   <code>cd .ssh</code></li>
+<li>查看是否有authorized_keys文件，若没有则创建 <code>touch authorized_keys</code>, 并修改权限为600 <code>chmod 600 authorized_keys</code></li>
+<li>追加公钥到authorized_keys <code>cat id_rsa.pub &gt;&gt; authorized_keys</code></li>
+<li><p>进行验证</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ssh localhost</span><br><span class="line">ssh hserver1</span><br><span class="line">ssh 0.0.0.0</span><br></pre></td></tr></table></figure>
+<p>输入yes后不用输密码就对了</p>
+<p>因为用的克隆，所以不用单独设置密钥。如果不用克隆，每台机器需要生成密钥，并且把公钥给对方，自己就可以登录别人的机器。</p>
+<p> 传输公钥的命令可以用<br> <code>ssh-copy-id user@host</code><br> 或者<br> <code>scp id_rsa.pub  hzq@192.168.1.161:/home/hzq</code><br> 然后还需加入到authorized_keys</p>
+</li>
+</ol>
+<h2 id="安装java与hadoop，配置环境变量"><a href="#安装java与hadoop，配置环境变量" class="headerlink" title="安装java与hadoop，配置环境变量"></a>安装java与hadoop，配置环境变量</h2><p>安装java与hadoop省略</p>
+<p>修改/etc/profile配置环境变量<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/profile</span><br><span class="line"></span><br><span class="line">最后加上</span><br><span class="line">#java environment</span><br><span class="line">export JAVA_HOME=/opt/apps/jdk</span><br><span class="line">export PATH=$JAVA_HOME/bin:$JAVA_HOME/jre/bin:$PATH</span><br><span class="line"></span><br><span class="line">#hadoop environment</span><br><span class="line">export HADOOP_HOME=/opt/apps/hadoop</span><br><span class="line">export PATH=$HADOOP_HOME/bin:$HADOOP_HOME/sbin:$PATH</span><br></pre></td></tr></table></figure></p>
+<h2 id="hadoop配置"><a href="#hadoop配置" class="headerlink" title="hadoop配置"></a>hadoop配置</h2><p>需要配置$HADOOP_HOME/etc/hadoop/下四个配置文件，core-site.xml, hdfs-site.xml,mapred-site.xml, yarn-site.xml。其中后两个是跟yarn相关，只搭建hdfs可以只配置前两个。<br>这四个配置文件都有对应的xxx-default.xml</p>
+<h3 id="core-site-xml"><a href="#core-site-xml" class="headerlink" title="core.site.xml"></a>core.site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- hdfs的地址名称：schame,ip,port--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://hserver1:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- hdfs的基础路径，被其他属性所依赖的一个基础路径 --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>/opt/apps/hadoop/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="hdfs-site-xml"><a href="#hdfs-site-xml" class="headerlink" title="hdfs-site.xml"></a>hdfs-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- namenode守护进程管理的元数据文件fsimage存储的位置--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>file://$&#123;hadoop.tmp.dir&#125;/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 确定DFS数据节点应该将其块存储在本地文件系统的何处--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>file://$&#123;hadoop.tmp.dir&#125;/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 块的副本数--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>3<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 块的大小--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.blocksize<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>134217728<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- secondarynamenode守护进程的http地址：主机名和端口号。参考守护进程布局--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.secondary.http-address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hserver2:50090<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="mapred-site-xml"><a href="#mapred-site-xml" class="headerlink" title="mapred-site.xml"></a>mapred-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定mapreduce使用yarn资源管理器--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置作业历史服务器的地址--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hserver1:10020<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 配置作业历史服务器的http地址--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.webapp.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hserver1:19888<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="yarn-site-xml"><a href="#yarn-site-xml" class="headerlink" title="yarn-site.xml"></a>yarn-site.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定yarn的shuffle技术--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- 指定resourcemanager的主机名--&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">value</span>&gt;</span>hserver1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h3 id="配置hadoop-env-sh"><a href="#配置hadoop-env-sh" class="headerlink" title="配置hadoop-env.sh"></a>配置hadoop-env.sh</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># The java implementation to use.</span></span><br><span class="line"><span class="built_in">export</span> JAVA_HOME=/opt/apps/jdk</span><br></pre></td></tr></table></figure>
+<p>还需要在最后加上几个环境变量，因为hdfs默认的账户名是<code>hdfs</code><br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> HDFS_NAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_DATANODE_USER=root</span><br><span class="line"><span class="built_in">export</span> HDFS_SECONDARYNAMENODE_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_RESOURCEMANAGER_USER=root</span><br><span class="line"><span class="built_in">export</span> YARN_NODEMANAGER_USER=root</span><br><span class="line"><span class="built_in">export</span> HADOOP_SHELL_EXECNAME=root</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置worker文件"><a href="#配置worker文件" class="headerlink" title="配置worker文件"></a>配置worker文件</h3><p>原先叫slaves，此文件用于指定datanode守护进程所在的机器节点主机名<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">hserver1</span><br><span class="line">hserver2</span><br><span class="line">hserver3</span><br></pre></td></tr></table></figure></p>
+<h2 id="克隆虚拟机"><a href="#克隆虚拟机" class="headerlink" title="克隆虚拟机"></a>克隆虚拟机</h2><p>克隆之后，需要修改hostname和网络地址</p>
+<ol>
+<li>修改主机名 <code>hostnamectl set-hostname hserver2</code></li>
+<li>修改ip <code>vim /etc/sysconfig/network-scripts/ifcfg-ens33</code></li>
+<li>重启网络 <code>systemctl restart network</code></li>
+</ol>
+<h2 id="格式化NameNode"><a href="#格式化NameNode" class="headerlink" title="格式化NameNode"></a>格式化NameNode</h2><p>在hserver1上运行 <code>hdfs namenode -format</code></p>
+<h2 id="集群操作"><a href="#集群操作" class="headerlink" title="集群操作"></a>集群操作</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">1. 启动脚本</span><br><span class="line">-- start-dfs.sh :用于启动hdfs集群的脚本</span><br><span class="line">-- start-yarn.sh :用于启动yarn守护进程</span><br><span class="line">-- start-all.sh :用于启动hdfs和yarn</span><br><span class="line">2. 关闭脚本</span><br><span class="line">-- stop-dfs.sh :用于关闭hdfs集群的脚本</span><br><span class="line">-- stop-yarn.sh :用于关闭yarn守护进程</span><br><span class="line">-- stop-all.sh :用于关闭hdfs和yarn</span><br><span class="line">3. 单个守护进程脚本</span><br><span class="line">-- hadoop-daemons.sh :用于单独启动或关闭hdfs的某一个守护进程的脚本</span><br><span class="line">-- hadoop-daemon.sh :用于单独启动或关闭hdfs的某一个守护进程的脚本</span><br><span class="line">reg:</span><br><span class="line">hadoop-daemon.sh [start|stop] [namenode|datanode|secondarynamenode]</span><br><span class="line">-- yarn-daemons.sh :用于单独启动或关闭hdfs的某一个守护进程的脚本</span><br><span class="line">-- yarn-daemon.sh :用于单独启动或关闭hdfs的某一个守护进程的脚本</span><br><span class="line">reg:</span><br><span class="line">yarn-daemon.sh [start|stop] [resourcemanager|nodemanager]</span><br></pre></td></tr></table></figure>
+<ol>
+<li>启动 stat-dfs.sh</li>
+<li><p>jps查看进程</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">--1. 在master上运行jps指令，会有如下进程</span><br><span class="line">namenode</span><br><span class="line">datanode</span><br><span class="line">--2. 在slave1上运行jps指令，会有如下进程</span><br><span class="line">secondarynamenode</span><br><span class="line">datanode</span><br><span class="line">--3. 在slave2上运行jps指令，会有如下进程</span><br><span class="line">datanode</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>启动yarn  <code>start-yarn.sh</code></p>
+</li>
+<li>web查看, 端口分别是9870 (hdfs)和8088（yarn)，如果没找到，可以在xxx-site.xml和xxx-default.xml文件中搜一下http看端口号</li>
+</ol>
+<p>参考链接<br><a href="https://www.ruanyifeng.com/blog/2011/12/ssh_remote_login.html" target="_blank" rel="noopener">SSH原理与运用（一）：远程登录</a><br><a href="https://zhuanlan.zhihu.com/p/113637003" target="_blank" rel="noopener">Hdfs安装模式之完全分布式集群</a><br><a href="https://www.cnblogs.com/sddai/p/9280119.html" target="_blank" rel="noopener">深入理解VMware虚拟机网络通信原理</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2019/04/09/java的lambda表达式/" data-toggle="tooltip" data-placement="top" title="java的Lambda表达式">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#配置NAT"><span class="toc-text">配置NAT</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#桥接模式"><span class="toc-text">桥接模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关闭防火墙"><span class="toc-text">关闭防火墙</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#设置hosts"><span class="toc-text">设置hosts</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#免密登录认证"><span class="toc-text">免密登录认证</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装java与hadoop，配置环境变量"><span class="toc-text">安装java与hadoop，配置环境变量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#hadoop配置"><span class="toc-text">hadoop配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#core-site-xml"><span class="toc-text">core.site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hdfs-site-xml"><span class="toc-text">hdfs-site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mapred-site-xml"><span class="toc-text">mapred-site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yarn-site-xml"><span class="toc-text">yarn-site.xml</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置hadoop-env-sh"><span class="toc-text">配置hadoop-env.sh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#配置worker文件"><span class="toc-text">配置worker文件</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#克隆虚拟机"><span class="toc-text">克隆虚拟机</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#格式化NameNode"><span class="toc-text">格式化NameNode</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集群操作"><span class="toc-text">集群操作</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://nulljh.cn/">John Doe</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                    
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Unnnfly 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if ($('#tag_cloud').length !== 0) {
+        async("https://blog.aobtain.cn/js/jquery.tagcloud.js", function () {
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: { start: '#bbbbee', end: '#0085a1' },
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-136985419-1';
+    var _gaDomain = 'aobtain.cn';
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+    (function (w, d, t, u, n, s, e) {
+    w['SwiftypeObject'] = n; w[n] = w[n] || function () {
+        (w[n].q = w[n].q || []).push(arguments);
+    }; s = d.createElement(t);
+        e = d.getElementsByTagName(t)[0]; s.async = 1; s.src = u; e.parentNode.insertBefore(s, e);
+    })(window, document, 'script', '//s.swiftypecdn.com/install/v2/st.js', '_st');
+
+    _st('install', '1Q6gh5NNmDszKaQaUjmv', '2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://cdn.aobtain.cn/dog.jpeg"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+
+</html>
