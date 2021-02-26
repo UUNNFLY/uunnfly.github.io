@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World｜uunnfly&#39;s blog
+        通配符与正则表达式｜uunnfly&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://blog.aobtain.cn/2019/03/22/hello-world/">
+    <link rel="canonical" href="https://blog.aobtain.cn/2016/04/18/通配符与正则表达式/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -153,15 +153,19 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>通配符与正则表达式</h1>
                     
                     <span class="meta">
                          作者 uunnfly
                         <span>
-                          日期 2019-03-22
+                          日期 2016-04-18
                          </span>
                     </span>
                     <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#linux" title="linux">linux</a>
+                        
+                        <a class="tag" href="/tags/#正则表达式" title="正则表达式">正则表达式</a>
                         
                     </div>
                 </div>
@@ -170,7 +174,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World
+            通配符与正则表达式
         </span>
     </div>
 </header>
@@ -181,15 +185,210 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <blockquote>
+<p>正则表达式，又称正规表示式、正规表示法、正规表达式、规则表达式、常规表示法（英语：Regular Expression，在代码中常简写为regex、regexp或RE），计算机科学的一个概念。正则表达式使用单个字符串来描述、匹配一系列匹配某个句法规则的字符串。在很多文本编辑器里，正则表达式通常被用来检索、替换那些匹配某个模式的文本。<br>在计算机（软件）技术中，通配符可用于代替字符。</p>
+</blockquote>
+<p>以上定义来源于<a href="https://zh.wikipedia.org/wiki/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F" target="_blank" rel="noopener">维基百科</a><br>在linux中,正则表达式grep，awk，sed等命令都可以使用，非常方便。通配符是shell自带的，在find，ls，cp等命令使用</p>
+<hr>
+<h1 id="通配符"><a href="#通配符" class="headerlink" title="通配符"></a>通配符</h1><p>让我们先从简单的开始。</p>
+<ul>
+<li><code>*</code>星号，匹配任何字符</li>
+<li><code>?</code> 问号，匹配任意一个字符</li>
+<li><code>[]</code>中括号，匹配括号中的一个字符</li>
+</ul>
+<p><code>ls *</code>会列出当前目录下所有文件，<code>*</code>匹配了所有的文件名，而<code>ls *a</code>匹配所有a开头的文件。<br><strong>需要注意的是，如果当前目录下有目录名匹配成功，会列出该目录下所有文件</strong></p>
+<p><code>*</code>可以代替任意个数字符，<code>？</code>只能代替一个。</p>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><h2 id="基础正则"><a href="#基础正则" class="headerlink" title="基础正则"></a>基础正则</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>元字符</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>*</td>
+<td>前一个字符匹配0次或任意多次</td>
+</tr>
+<tr>
+<td>.</td>
+<td>匹配除了换行符以外任意一个字符</td>
+</tr>
+<tr>
+<td>^</td>
+<td>匹配行首。例如：^helloworld会匹配以helloworld开头的行</td>
+</tr>
+<tr>
+<td>$</td>
+<td>匹配行尾。例如：helloworld$会匹配以helloworld结尾的行</td>
+</tr>
+<tr>
+<td>[]</td>
+<td>匹配中括号里的任意指定的一个字符，但只匹配一个字符</td>
+</tr>
+<tr>
+<td><sup><a href="#fn_" id="reffn_"></a></sup></td>
+<td>匹配除中括号以外的任意一个字符</td>
+</tr>
+<tr>
+<td>\</td>
+<td>转义符，取消特殊含义</td>
+</tr>
+<tr>
+<td>{n}</td>
+<td>表示其前面的字符恰好出现n次</td>
+</tr>
+<tr>
+<td>{n,}</td>
+<td>表示其前面的字符出现不小于n次</td>
+</tr>
+<tr>
+<td>{n,m}</td>
+<td>表示其前面的字符至少出现n次，最多出现m次</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>以上整理自慕课</em></p>
+<p>举几个例子：</p>
+<ul>
+<li>[a-z]表示任何小写字母</li>
+<li>a*会匹配所有内容，因为a可以出现0次</li>
+<li>o{2,}不匹配Bob中o，匹配foooooood中所有的o</li>
+</ul>
+<h2 id><a href="#" class="headerlink" title="\"></a>\</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>\b</td>
+<td>匹配一个单词边界，也就是指单词和空格间的位置。例如，“er\b”可以匹配“never”中的“er”，但不能匹配“verb”中的“er”。</td>
+</tr>
+<tr>
+<td>\B</td>
+<td>匹配非单词边界。“er\B”能匹配“verb”中的“er”，但不能匹配“never”中的“er”。</td>
+</tr>
+<tr>
+<td>\cx</td>
+<td>匹配由x指明的控制字符。例如，\cM匹配一个Control-M或回车符。x的值必须为A-Z或a-z之一。否则，将c视为一个原义的“c”字符。</td>
+</tr>
+<tr>
+<td>\d</td>
+<td>匹配一个数字字符。等价于[0-9]。</td>
+</tr>
+<tr>
+<td>\D</td>
+<td>匹配一个非数字字符。等价于<sup><a href="#fn_0-9" id="reffn_0-9">0-9</a></sup>。</td>
+</tr>
+<tr>
+<td>\f</td>
+<td>匹配一个换页符。等价于\x0c和\cL。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>匹配一个换行符。等价于\x0a和\cJ。</td>
+</tr>
+<tr>
+<td>\r</td>
+<td>匹配一个回车符。等价于\x0d和\cM。</td>
+</tr>
+<tr>
+<td>\s</td>
+<td>匹配任何空白字符，包括空格、制表符、换页符等等。等价于[ \f\n\r\t\v]。</td>
+</tr>
+<tr>
+<td>\S</td>
+<td>匹配任何非空白字符。等价于<sup><a href="#fn_ \f\n\r\t\v" id="reffn_ \f\n\r\t\v"> \f\n\r\t\v</a></sup>。</td>
+</tr>
+<tr>
+<td>\t</td>
+<td>匹配一个制表符。等价于\x09和\cI。</td>
+</tr>
+<tr>
+<td>\v</td>
+<td>匹配一个垂直制表符。等价于\x0b和\cK。</td>
+</tr>
+<tr>
+<td>\w</td>
+<td>匹配包括下划线的任何单词字符。等价于“[A-Za-z0-9_]”。</td>
+</tr>
+<tr>
+<td>\W</td>
+<td>匹配任何非单词字符。等价于“<sup><a href="#fn_A-Za-z0-9_" id="reffn_A-Za-z0-9_">A-Za-z0-9_</a></sup>”。</td>
+</tr>
+<tr>
+<td>\xn</td>
+<td>匹配n，其中n为十六进制转义值。十六进制转义值必须为确定的两个数字长。例如，“\x41”匹配“A”。“\x041”则等价于“\x04&amp;1”。正则表达式中可以使用ASCII编码。.</td>
+</tr>
+<tr>
+<td>\num</td>
+<td>向后引用（back-reference）一个子字符串（substring），该子字符串与正则表达式的第num个用括号围起来的子表达式（subexpression）匹配。其中num是从1开始的正整数，其上限可能是99。例如：“(.)\1”匹配两个连续的相同字符。</td>
+</tr>
+<tr>
+<td>\n</td>
+<td>标识一个八进制转义值或一个向后引用。如果\n之前至少n个获取的子表达式，则n为向后引用。否则，如果n为八进制数字（0-7），则n为一个八进制转义值。</td>
+</tr>
+<tr>
+<td>\nm</td>
+<td>标识一个八进制转义值或一个向后引用。如果\nm之前至少有nm个获得子表达式，则nm为向后引用。如果\nm之前至少有n个获取，则n为一个后跟文字m的向后引用。如果前面的条件都不满足，若n和m均为八进制数字（0-7），则\nm将匹配八进制转义值nm。</td>
+</tr>
+<tr>
+<td>\nml</td>
+<td>如果n为八进制数字（0-3），且m和l均为八进制数字（0-7），则匹配八进制转义值nml。</td>
+</tr>
+<tr>
+<td>\un</td>
+<td>匹配n，其中n是一个用四个十六进制数字表示的Unicode字符。例如，\u00A9匹配版权符号（©）。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><em>来源于维基百科</em></p>
+<p><a href="http://tool.oschina.net/regex" target="_blank" rel="noopener">正则表达式测试器</a></p>
+<h2 id="其他正则"><a href="#其他正则" class="headerlink" title="其他正则"></a>其他正则</h2><p>平时使用较少</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>字符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>(pattern)</td>
+<td>匹配pattern并获取这一匹配的子字符串。该子字符串用于向后引用。所获取的匹配可以从产生的Matches集合得到，在VBScript中使用SubMatches集合，在JScript中则使用$0…$9属性。要匹配圆括号字符，请使用“(”或“)”。</td>
+</tr>
+<tr>
+<td>(?:pattern)</td>
+<td>匹配pattern但不获取匹配的子字符串，也就是说这是一个非获取匹配，不存储匹配的子字符串用于向后引用。这在使用或字符“(丨)”来组合一个模式的各个部分是很有用。例如“industr(?:y&#124;ies)”就是一个比“industry&#124;industries”更简略的表达式。</td>
+</tr>
+<tr>
+<td>(?=pattern)</td>
+<td>正向肯定预查，在任何匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如，“Windows(?=95&#124;98&#124;NT&#124;2000)”能匹配“Windows2000”中的“Windows”，但不能匹配“Windows3.1”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始。</td>
+</tr>
+<tr>
+<td>(?!pattern)</td>
+<td>正向否定预查，在任何不匹配pattern的字符串开始处匹配查找字符串。这是一个非获取匹配，也就是说，该匹配不需要获取供以后使用。例如“Windows(?!95&#124;98&#124;NT&#124;2000)”能匹配“Windows3.1”中的“Windows”，但不能匹配“Windows2000”中的“Windows”。预查不消耗字符，也就是说，在一个匹配发生后，在最后一次匹配之后立即开始下一次匹配的搜索，而不是从包含预查的字符之后开始</td>
+</tr>
+<tr>
+<td>(?&lt;=pattern)</td>
+<td>反向肯定预查，与正向肯定预查类似，只是方向相反。例如，“(?&lt;=95&#124;98&#124;NT&#124;2000)”能匹配“2000Windows”中的“Windows”，但不能匹配“3.1Windows”中的“Windows”。</td>
+</tr>
+<tr>
+<td>(?&lt;!pattern)</td>
+<td>反向否定预查，与正向否定预查类似，只是方向相反。例如“(?&lt;!95&#124;98&#124;NT&#124;2000)”能匹配“3.1Windows”中的“Windows”，但不能匹配“2000Windows”中的“Windows”。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>一般只要记住最常用的，其他的有个印象，需要时再查。</p>
 
                 <hr>
                 
@@ -197,13 +396,9 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2019/03/23/简明XPath/" data-toggle="tooltip" data-placement="top" title="简明XPath">&larr; Previous Post</a>
+                        <a href="/2016/04/30/vim常用命令/" data-toggle="tooltip" data-placement="top" title="vim常用命令">&larr; Previous Post</a>
                     </li>
                     
-                    
-                    <li class="next">
-                        <a href="/2016/04/30/vim常用命令/" data-toggle="tooltip" data-placement="top" title="vim常用命令">Next Post &rarr;</a>
-                    </li>
                     
                 </ul>
 
@@ -240,7 +435,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#通配符"><span class="toc-text">通配符</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正则表达式"><span class="toc-text">正则表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#基础正则"><span class="toc-text">基础正则</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#"><span class="toc-text">\</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#其他正则"><span class="toc-text">其他正则</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>

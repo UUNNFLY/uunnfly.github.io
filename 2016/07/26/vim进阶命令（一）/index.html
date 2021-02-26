@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World｜uunnfly&#39;s blog
+        vim进阶命令（一）｜uunnfly&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://blog.aobtain.cn/2019/03/22/hello-world/">
+    <link rel="canonical" href="https://blog.aobtain.cn/2016/07/26/vim进阶命令（一）/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -153,15 +153,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>vim进阶命令（一）</h1>
                     
                     <span class="meta">
                          作者 uunnfly
                         <span>
-                          日期 2019-03-22
+                          日期 2016-07-26
                          </span>
                     </span>
                     <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#vim" title="vim">vim</a>
                         
                     </div>
                 </div>
@@ -170,7 +172,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World
+            vim进阶命令（一）
         </span>
     </div>
 </header>
@@ -181,15 +183,196 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <h1 id="存储"><a href="#存储" class="headerlink" title="存储"></a>存储</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>：w filename</td>
+<td>另存为另一个文件</td>
+</tr>
+<tr>
+<td>：r filename</td>
+<td>读入另一份文件的内容，将该文件内容加入到当前行后面</td>
+</tr>
+<tr>
+<td>：n1，n2 w filename</td>
+<td>将n1到n2行内容另存为新文件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="可视模式"><a href="#可视模式" class="headerlink" title="可视模式"></a>可视模式</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>v</td>
+<td>字符选择</td>
+</tr>
+<tr>
+<td>V</td>
+<td>行选择</td>
+</tr>
+<tr>
+<td>Ctrl+v</td>
+<td>区块选择，长方形</td>
+</tr>
+<tr>
+<td>y</td>
+<td>复制选择区域</td>
+</tr>
+<tr>
+<td>d</td>
+<td>剪切</td>
+</tr>
+<tr>
+<td>p</td>
+<td>粘贴</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Ctrl+v的长方形选择对于表格类非常好用</p>
+<h1 id="多文件编辑"><a href="#多文件编辑" class="headerlink" title="多文件编辑"></a>多文件编辑</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>vim file1 file2</td>
+<td>同时编辑多文件</td>
+</tr>
+<tr>
+<td>：n</td>
+<td>编辑下一个文件</td>
+</tr>
+<tr>
+<td>：N</td>
+<td>编辑上一个文件</td>
+</tr>
+<tr>
+<td>：files</td>
+<td>列出所有正在编辑的文件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="多窗口"><a href="#多窗口" class="headerlink" title="多窗口"></a>多窗口</h1><p>多窗口既可以同一份文件多个窗口以对照不同的地方，也可以不同窗口不同文件。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>启动多视窗</td>
+</tr>
+<tr>
+<td>vim -on file1 file2</td>
+<td>水平分屏启动vim</td>
+</tr>
+<tr>
+<td>vim -On file1 file2</td>
+<td>垂直分屏启动vim</td>
+</tr>
+<tr>
+<td>：sp filename</td>
+<td>水平分割，如果不输入filename，则同一份文件出现在两个窗口</td>
+</tr>
+<tr>
+<td>Ctrl+w s</td>
+<td>等同于：sp</td>
+</tr>
+<tr>
+<td>：vsp filename</td>
+<td>垂直分割</td>
+</tr>
+<tr>
+<td>Ctrl+w v</td>
+<td>等同于：vsp</td>
+</tr>
+<tr>
+<td>移动光标</td>
+</tr>
+<tr>
+<td>Ctrl+w+j或者↓</td>
+<td>移动到下面的窗口，先按住Ctrl再按w，之后可松开后按j</td>
+</tr>
+<tr>
+<td>Ctrl+w+k或者↑以及h，l等</td>
+<td>省略</td>
+</tr>
+<tr>
+<td>调整窗口尺寸</td>
+</tr>
+<tr>
+<td>Ctrl+w +</td>
+<td>增加高度</td>
+</tr>
+<tr>
+<td>Ctrl+w -</td>
+<td>减小高度</td>
+</tr>
+<tr>
+<td>Ctrl+w =</td>
+<td>所有窗口相同高度</td>
+</tr>
+<tr>
+<td>:res(ize) num</td>
+<td>将高度调整为num行</td>
+</tr>
+<tr>
+<td>：res（ize）+/-nun</td>
+<td>将高度增加/减少num行</td>
+</tr>
+<tr>
+<td>:vertical res(ize) num</td>
+<td>将高度调整为num列</td>
+</tr>
+<tr>
+<td>：vertical res（ize）+/-nun</td>
+<td>将高度增加/减少num列</td>
+</tr>
+<tr>
+<td>关闭窗口</td>
+</tr>
+<tr>
+<td>：tabc</td>
+<td>关闭当前窗口</td>
+</tr>
+<tr>
+<td>：tabo</td>
+<td>关闭所有窗口</td>
+</tr>
+<tr>
+<td>Ctrl+w+q</td>
+<td>关闭窗口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>参考来源：</p>
+<blockquote>
+<p><a href="http://linux.vbird.org/" target="_blank" rel="noopener">鸟哥的linux私房菜</a><br><a href="http://coolshell.cn/articles/1679.html" target="_blank" rel="noopener">Vim的分屏功能</a><br><a href="http://blog.csdn.net/devil_2009/article/details/7006113" target="_blank" rel="noopener">vim多窗口使用技巧</a></p>
+</blockquote>
 
                 <hr>
                 
@@ -197,7 +380,7 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2019/03/23/简明XPath/" data-toggle="tooltip" data-placement="top" title="简明XPath">&larr; Previous Post</a>
+                        <a href="/2017/06/10/vim键位映射map/" data-toggle="tooltip" data-placement="top" title="vim键位映射map">&larr; Previous Post</a>
                     </li>
                     
                     
@@ -240,7 +423,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#存储"><span class="toc-text">存储</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#可视模式"><span class="toc-text">可视模式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多文件编辑"><span class="toc-text">多文件编辑</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多窗口"><span class="toc-text">多窗口</span></a></li></ol>
                 </div>
             </div>
         </div>

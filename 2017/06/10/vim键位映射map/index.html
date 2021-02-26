@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        Hello World｜uunnfly&#39;s blog
+        vim键位映射map｜uunnfly&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://blog.aobtain.cn/2019/03/22/hello-world/">
+    <link rel="canonical" href="https://blog.aobtain.cn/2017/06/10/vim键位映射map/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -153,15 +153,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>Hello World</h1>
+                    <h1>vim键位映射map</h1>
                     
                     <span class="meta">
                          作者 uunnfly
                         <span>
-                          日期 2019-03-22
+                          日期 2017-06-10
                          </span>
                     </span>
                     <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#vim" title="vim">vim</a>
                         
                     </div>
                 </div>
@@ -170,7 +172,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            Hello World
+            vim键位映射map
         </span>
     </div>
 </header>
@@ -181,15 +183,32 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
+                <p>以下命令若在vim/gvim中执行前面需要加冒号“<code>:</code>”，在.vimrc文件中添加时不需要。</p>
+<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><p>map可以理解为快捷键，合理的快捷键可以为我们省下不少时间。<br>比如<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">map - dd</span><br></pre></td></tr></table></figure></p>
+<p>在normal模式当你按下<code>-</code>时，会删除一整行（等于执行了<code>dd</code>）。<br>map就是让你用少量，便于按的键来代替比较多、繁的键。</p>
+<p>如果你想用到一些特殊字符，比如空格就是<code>&lt;space&gt;</code>，ctrl键+c键就是<code>&lt;c-c&gt;</code>。</p>
+<p>Q：如果想<code>-</code>键实现把整行先删除再粘贴在下一行（即把整行下移一行）怎么办？<br>A：<code>map - ddp</code><br>Q：如果想<code>_</code>键实现把整行上移一行怎么办？<br>A：<code>map _ ddkP</code><br>（实现方法不唯一）</p>
+<h1 id="nmap，imap与vmap"><a href="#nmap，imap与vmap" class="headerlink" title="nmap，imap与vmap"></a>nmap，imap与vmap</h1><p>前面我们把<code>-</code>键映射了<code>dd</code>，但当你进入插入模式（insert）时，你按下-，只是插入了dd这两个字符，而不是删除整行，该如何解决。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">imap - &lt;esc&gt;ddi</span><br></pre></td></tr></table></figure>
+<p>我们知道，vim有三种模式，normal，visual，insert，与此对应，nmap，vmap，imap就是在某一模式下的映射。所以我们如果想在insert模式下让-键删除一行，需要先退回normal模式，再<code>dd</code>，再按<code>i</code>进入insert模式。</p>
+<p>Q：visual模式下，<code>U</code>可以把小写转换为大写，<code>iw</code>可以选中整个单词，怎么让<code>&lt;c-u&gt;</code>在normal与insert模式下实现把整个单词全部变为大写？</p>
+<h1 id="noremap"><a href="#noremap" class="headerlink" title="*noremap"></a>*noremap</h1><p>假设你写了这么一条map<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nmap dd O&lt;esc&gt;jddk</span><br></pre></td></tr></table></figure></p>
+<p>如果你执行<code>dd</code>会发生什么？由于映射双方都有<code>dd</code>，会无限循环。当执行完<code>O&lt;esc&gt;j</code>后又执行dd（即执行<code>O&lt;esc&gt;jddk</code>）</p>
+<p>而<code>*noremap</code>（Nonrecursive Mapping）就是解决这个问题，当后面被映射的键映射其它键时，*<code>noremap</code>命令会使其在该map中失效，也就是<code>dd</code>仍然只是删除一整行命令。</p>
+<p>那么上面的例子可以这样写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nnoremap dd O&lt;esc&gt;jddk</span><br></pre></td></tr></table></figure></p>
+<p>tips:如果你对上面这个映射不满意，在.vimrc中可以直接删除该行，但在vim中如何直接（暂时）取消？</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nunmap dd</span><br></pre></td></tr></table></figure>
+<h1 id="Leaders"><a href="#Leaders" class="headerlink" title="Leaders"></a>Leaders</h1><p>在windows中有些组合键，比如win+d可以关闭所有窗口，win+l可以锁屏，而leader就有点像win键，告诉vim：我要用快捷键了。事实上，我们不关心这个leader是什么，只是需要这么一个“前缀”。(该类比并不恰当，windows中组合键需要一起按，leader只是个前缀，先按leader再按其它的键即可)</p>
+<p>设置leader</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let mapleader = &quot;,&quot;</span><br></pre></td></tr></table></figure>
+<p>这样我们就把逗号设置为mapleader（逗号是惯例，比较容易按，也不会影响原来的功能）。然后你就可以这样设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nnoremap &lt;leader&gt;d dd</span><br></pre></td></tr></table></figure>
+<p>这样你只需要按下<code>,d</code>就等于执行了<code>dd</code></p>
+<p>为什么不写死呢，把逗号写进去？程序猿都知道，设为变量总是比常量写死更方便，以后容易替换；别人在复制你的配置时，马上知道这是一个leader，他就容易改为他习惯的；在许多vim插件中也会用到leader。</p>
+<p>还有一种leader，“local leader”，你可以把这两个leader设为相同或者不同<br>比如</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">let maplocalleader=&quot;\\&quot;</span><br></pre></td></tr></table></figure>
+<p>这个localleader的意义往往是你想在某一种特殊文件中用一个leader，比如html，python，（不同的编程语言频繁的操作也会有差异），会 方便不少。</p>
+<p>文章整理翻译自<a href="http://learnvimscriptthehardway.stevelosh.com/chapters/03.html%20Learn%20Vimscript%20the%20Hard%20Way" target="_blank" rel="noopener">Learn Vimscript the Hard Way</a></p>
 
                 <hr>
                 
@@ -202,7 +221,7 @@
                     
                     
                     <li class="next">
-                        <a href="/2016/04/30/vim常用命令/" data-toggle="tooltip" data-placement="top" title="vim常用命令">Next Post &rarr;</a>
+                        <a href="/2016/07/26/vim进阶命令（一）/" data-toggle="tooltip" data-placement="top" title="vim进阶命令（一）">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -240,7 +259,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Quick-Start"><span class="toc-text">Quick Start</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Create-a-new-post"><span class="toc-text">Create a new post</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Run-server"><span class="toc-text">Run server</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Generate-static-files"><span class="toc-text">Generate static files</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Deploy-to-remote-sites"><span class="toc-text">Deploy to remote sites</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#map"><span class="toc-text">map</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#nmap，imap与vmap"><span class="toc-text">nmap，imap与vmap</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#noremap"><span class="toc-text">*noremap</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Leaders"><span class="toc-text">Leaders</span></a></li></ol>
                 </div>
             </div>
         </div>
