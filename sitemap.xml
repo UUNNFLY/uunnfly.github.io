@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://blog.aobtain.cn/2019/04/09/%E4%BD%8D%E8%BF%90%E7%AE%97%E6%80%BB%E7%BB%93/</loc>
+    
+    <lastmod>2021-02-26T14:09:54.200Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://blog.aobtain.cn/2021/02/26/concurrentHashMap%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB(%E4%B8%80)/</loc>
+    
+    <lastmod>2021-02-26T14:05:51.339Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>https://blog.aobtain.cn/2021/02/26/%E4%BD%BF%E7%94%A8vmware%E6%90%AD%E5%BB%BAhdfs%E9%9B%86%E7%BE%A4/</loc>
     
     <lastmod>2021-02-26T13:31:05.076Z</lastmod>
@@ -65,13 +79,6 @@
   </url>
   
   <url>
-    <loc>https://blog.aobtain.cn/2021/02/26/concurrentHashMap%E6%BA%90%E7%A0%81%E8%A7%A3%E8%AF%BB(%E4%B8%80)/</loc>
-    
-    <lastmod>2021-02-26T12:20:25.955Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>https://blog.aobtain.cn/2019/04/02/Paxos%E7%AE%97%E6%B3%95%E6%B5%85%E6%9E%90/</loc>
     
     <lastmod>2021-02-26T11:58:21.713Z</lastmod>
@@ -82,13 +89,6 @@
     <loc>https://blog.aobtain.cn/2019/04/03/java-%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F/</loc>
     
     <lastmod>2019-07-23T13:18:29.108Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://blog.aobtain.cn/2019/04/09/%E4%BD%8D%E8%BF%90%E7%AE%97%E6%80%BB%E7%BB%93/</loc>
-    
-    <lastmod>2019-04-10T00:39:03.936Z</lastmod>
     
   </url>
   

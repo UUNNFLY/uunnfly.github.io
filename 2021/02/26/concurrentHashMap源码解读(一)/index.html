@@ -14,7 +14,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
     <link rel="shortcut icon" href="/favicon/cookie.png">
-    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="alternate" type="application/atom+xml" title="Uunnfly" href="/atom.xml">
     <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
@@ -57,7 +57,7 @@
             </button>
             <a class="navbar-brand animated pulse" href="/">
                 <span class="brand-logo">
-                    Unnnfly
+                    Uunnfly
                 </span>
                 's Blog
             </a>
@@ -201,9 +201,8 @@
 </ul>
 <ol>
 <li>-1: table正在初始化</li>
-<li><p>-N(N&gt;1)：正在扩容（并非像jdk注释所写：有N-1个线程在扩容），意义如下表所示：</p>
-<p> | 高RESIZE_STAMP_BITS位 | 低RESIZE_STAMP_SHIFT位 |<br> | :—————————— | :——————————- |<br> | 扩容盖戳标记          | 并行扩容线程数 +1      |</p>
-<p> <strong>-N需要取对应的二进制的低16位数值为M，代表此时有M-1个扩容线程。而并不代表有N-1个线程</strong></p>
+<li><p>-N(N&gt;1)：正在扩容（并非像jdk注释所写：有N-1个线程在扩容），意义如下表所示：<br> | 高RESIZE_STAMP_BITS位 | 低RESIZE_STAMP_SHIFT位 |<br> | :—————————— | :——————————- |<br> | 扩容盖戳标记          | 并行扩容线程数 +1      |</p>
+<p> <strong>-N取对应的二进制的低16位数值为M，代表此时有M-1个扩容线程。而并不代表有N-1个线程</strong></p>
 </li>
 <li><p>其他情况：如果table未初始化，表示table需要初始化的大小。如果table初始化完成，表示table的容量，默认是table大小的0.75倍</p>
 <p>注：* 0.75 ： （n-(n&gt;&gt;&gt;2))  ；n&gt;&gt;&gt;2无符号右移2位，当n为正数时就是÷4</p>
@@ -490,7 +489,7 @@
 
                 </ul>
                 <p class="copyright text-muted">
-                    Copyright &copy; Unnnfly 2021
+                    Copyright &copy; Uunnfly 2021
                     <br>
                     <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
                     <br>
