@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        concurrentHashMap源码解读(一)｜uunnfly&#39;s blog
+        ConcurrentHashMap源码解读(一)｜uunnfly&#39;s blog
         
     </title>
 
@@ -153,7 +153,7 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>concurrentHashMap源码解读(一)</h1>
+                    <h1>ConcurrentHashMap源码解读(一)</h1>
                     
                     <span class="meta">
                          作者 uunnfly
@@ -174,7 +174,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            concurrentHashMap源码解读(一)
+            ConcurrentHashMap源码解读(一)
         </span>
     </div>
 </header>
@@ -185,7 +185,7 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <h3 id="1-7的concurrentHashMap"><a href="#1-7的concurrentHashMap" class="headerlink" title="1.7的concurrentHashMap"></a>1.7的concurrentHashMap</h3><p>ConcurrentHashMap是由Segment数组结构和HashEntry数组结构组成。Segment实际继承自可重入锁（ReentrantLock），在ConcurrentHashMap里扮演锁的角色；HashEntry则用于存储键值对数据。一个ConcurrentHashMap里包含一个Segment数组，每个Segment里包含一个HashEntry数组，我们称之为table，每个HashEntry是一个链表结构的元素。</p>
+                <h3 id="1-7的ConcurrentHashMap"><a href="#1-7的ConcurrentHashMap" class="headerlink" title="1.7的ConcurrentHashMap"></a>1.7的ConcurrentHashMap</h3><p>ConcurrentHashMap是由Segment数组结构和HashEntry数组结构组成。Segment实际继承自可重入锁（ReentrantLock），在ConcurrentHashMap里扮演锁的角色；HashEntry则用于存储键值对数据。一个ConcurrentHashMap里包含一个Segment数组，每个Segment里包含一个HashEntry数组，我们称之为table，每个HashEntry是一个链表结构的元素。</p>
 <p><img src="http://cdn.aobtain.cn/img/bbea3ac16b4b3fff50998d0e5902e8a33f4.jpg" alt="img"></p>
 <p>锁分离: 使用了多个锁来控制对hash表的不同部分进行的修改, 每个段其实就是一个小的hash table，只要多个修改操作发生在不同的段上，它们就可以并发进行。</p>
 <p>并发度：默认16。并发度可以理解为程序运行时能够同时更新ConccurentHashMap且不产生锁竞争的最大线程数，实际上就是ConcurrentHashMap中的分段锁个数，即Segment[]的数组长度。如果并发度设置的过小，会带来严重的锁竞争问题；如果并发度设置的过大，原本位于同一个Segment内的访问会扩散到不同的Segment中，CPU cache命中率会下降，从而引起程序性能下降。</p>
@@ -197,15 +197,19 @@
 <li><p><strong>nextTable</strong>：默认为null，扩容时新生成的数组，其大小为原数组的两倍。</p>
 </li>
 <li><p><strong>sizeCtl</strong> ：size control , 默认为0，用来控制table的初始化和扩容操作</p>
+</li>
+</ul>
 <ol>
 <li>-1: table正在初始化</li>
-<li>-N(N&gt;1)：正在扩容（并非像jdk注释所写：有N-1个线程在扩容），意义如下表所示：</li>
-</ol>
-<p>| 高RESIZE_STAMP_BITS位 | 低RESIZE_STAMP_SHIFT位 |<br>| :—————————— | :——————————- |<br>| 盖戳扩容标记          | 并行扩容线程数 + 1     |</p>
-<p>​            <strong>-N需要取对应的二进制的低16位数值为M，代表此时有M-1个扩容线程。而并不代表有N-1个线程</strong>            </p>
-<p>​            c. 其他情况：如果table未初始化，表示table需要初始化的大小。如果table初始化完成，表示table的容量，默认是table大小的0.75倍</p>
+<li><p>-N(N&gt;1)：正在扩容（并非像jdk注释所写：有N-1个线程在扩容），意义如下表所示：</p>
+<p> | 高RESIZE_STAMP_BITS位 | 低RESIZE_STAMP_SHIFT位 |<br> | :—————————— | :——————————- |<br> | 扩容盖戳标记          | 并行扩容线程数 +1      |</p>
+<p> <strong>-N需要取对应的二进制的低16位数值为M，代表此时有M-1个扩容线程。而并不代表有N-1个线程</strong></p>
+</li>
+<li><p>其他情况：如果table未初始化，表示table需要初始化的大小。如果table初始化完成，表示table的容量，默认是table大小的0.75倍</p>
 <p>注：* 0.75 ： （n-(n&gt;&gt;&gt;2))  ；n&gt;&gt;&gt;2无符号右移2位，当n为正数时就是÷4</p>
 </li>
+</ol>
+<ul>
 <li><p><strong>Node</strong>: 保存key，value及key的hash值的数据结构。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Node</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; <span class="keyword">implements</span> <span class="title">Map</span>.<span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> hash;</span><br><span class="line">    <span class="keyword">final</span> K key;</span><br><span class="line">    <span class="keyword">volatile</span> V val;</span><br><span class="line">    <span class="keyword">volatile</span> Node&lt;K,V&gt; next;</span><br><span class="line">    ... 省略部分代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
@@ -357,13 +361,13 @@
 <p><img src="http://cdn.aobtain.cn/img/1641655-20200102211307125-2027368945.png" alt="img"></p>
 <p><strong><em>CPU核数与迁移任务hash桶数量分配的关系</em></strong></p>
 <p><img src="http://cdn.aobtain.cn/img/1641655-20200102211509137-1093177031.png" alt="img"></p>
-<p><strong><em>单线程下线程的任务分配与迁移操作\</em></strong></p>
+<p><strong><em>单线程下线程的任务分配与迁移操作</em></strong></p>
 <p><img src="http://cdn.aobtain.cn/img/1641655-20200102212112290-1447468258.png" alt="img"></p>
 <p><strong><em>多线程如何分配任务？</em></strong></p>
-<p><img src="https://img2018.cnblogs.com/i-beta/1641655/202001/1641655-20200102212234313-895799402.png" alt="img"></p>
+<p><img src="http://cdn.aobtain.cn/img/1641655-20200102212234313-895799402.png" alt="img"></p>
 <p> <strong><em>普通链表如何迁移？</em></strong></p>
 <p><img src="http://cdn.aobtain.cn/img/1641655-20200102212411141-1956338117.png" alt="img"></p>
-<p><strong><em>什么是 lastRun 节点？\</em></strong></p>
+<p><strong><em>什么是 lastRun 节点？</em></strong></p>
 <p><img src="http://cdn.aobtain.cn/img/1641655-20200102212614244-1974786299.png" alt="img"></p>
 <p> <strong><em>红黑树如何迁移？</em></strong></p>
 <p><img src="http://cdn.aobtain.cn/img/1641655-20200102212634752-95556514.png" alt="img"></p>
@@ -374,12 +378,16 @@
 <p><img src="http://cdn.aobtain.cn/img/1641655-20200102213249664-1640286872.png" alt="img"></p>
 <h2 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a>参考链接</h2><p><a href="https://segmentfault.com/a/1190000021568111" target="_blank" rel="noopener">ConcurrentHashMap源码走读</a></p>
 <p><a href="https://www.cnblogs.com/FondWang/p/12142149.html" target="_blank" rel="noopener">JUC之ConcurrentHashMap源码之扩容（二）</a></p>
-<p>[ConcurrentHashMap源码分析(03)-扩容方法](</p>
+<p><a href="https://juconcurrent.com/2018/12/11/ConcurrentHashMap-source-03-transfer/" target="_blank" rel="noopener">ConcurrentHashMap源码分析(03)-扩容方法</a></p>
 
                 <hr>
                 
 
                 <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2021/02/26/scala/" data-toggle="tooltip" data-placement="top" title="scala初学笔记">&larr; Previous Post</a>
+                    </li>
                     
                     
                     <li class="next">
@@ -421,7 +429,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7的concurrentHashMap"><span class="toc-text">1.7的concurrentHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-8的ConcurrentHashMap"><span class="toc-text">1.8的ConcurrentHashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-初始化"><span class="toc-text">1.初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-put"><span class="toc-text">2. put</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#如何初始化table？"><span class="toc-text">如何初始化table？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#addCount"><span class="toc-text">addCount</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#helpTransfer"><span class="toc-text">helpTransfer</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#transfer"><span class="toc-text">transfer</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#扩容图解"><span class="toc-text">扩容图解</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a>
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-7的ConcurrentHashMap"><span class="toc-text">1.7的ConcurrentHashMap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#1-8的ConcurrentHashMap"><span class="toc-text">1.8的ConcurrentHashMap</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-初始化"><span class="toc-text">1.初始化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-put"><span class="toc-text">2. put</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#如何初始化table？"><span class="toc-text">如何初始化table？</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#addCount"><span class="toc-text">addCount</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#helpTransfer"><span class="toc-text">helpTransfer</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#transfer"><span class="toc-text">transfer</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#扩容图解"><span class="toc-text">扩容图解</span></a></li></ol><li class="toc-item toc-level-2"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a>
                 </li></div>
             </div>
         </div>

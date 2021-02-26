@@ -1,3 +1,4 @@
+https://blog.aobtain.cn/2021/02/26/scala/
 https://blog.aobtain.cn/2021/02/26/concurrentHashMap源码解读(一)/
 https://blog.aobtain.cn/2021/02/26/使用vmware搭建hdfs集群/
 https://blog.aobtain.cn/2019/04/09/java的lambda表达式/
@@ -7,4 +8,3 @@ https://blog.aobtain.cn/2019/04/02/Paxos算法浅析/
 https://blog.aobtain.cn/2019/03/27/scrapy爬虫实战/
 https://blog.aobtain.cn/2019/03/26/java-代理模式/
 https://blog.aobtain.cn/2019/03/24/使用docker快速部署elk/
-https://blog.aobtain.cn/2019/03/24/使用elastalert进行告警/

@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="google-site-verification" content="Gf4d1xCBKv4dxZ6FzbxxYjIyYRmsQX7-0ojLY2CfcRQ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/favicon/cookie.png">
+    <link rel="alternate" type="application/atom+xml" title="Unnnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        scala初学笔记｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.aobtain.cn/2021/02/26/scala/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Unnnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://cdn.aobtain.cn/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://cdn.aobtain.cn/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>scala初学笔记</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2021-02-26
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#scala" title="scala">scala</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            scala初学笔记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><p>Array 定长数组： 有序，可变类型，长度不可变。<br>ArrayBuffer 不定长数组：有序，可变类型，长度可以扩展。<br>List 列表：有序，不可变类型。<br>Set 集合：无序，不可变类型。如果你想使用可变集合，需要引用 <strong>scala.collection.mutable.Set</strong> 包。<br>Map 映射：无序，不可变类型。如果你需要使用可变集合，你需要显式的引入 <strong>import scala.collection.mutable.Map</strong> 类<br>Tuple 元组：有序，不可变类型，可以存放不同数据类型元素。<br>Option 选项：表示有可能包含值的容器，也可能不包含值。<br>Iterator 迭代器：不属于容器，但是提供了遍历容器的方法。</p>
+<p>对不可变容器也可以进行添加/删除元素的操作，但是返回一个新的容器，旧的容器没变。</p>
+<p>容器的基本操作：</p>
+<ul>
+<li><code>head</code> 返回集合第一个元素</li>
+<li><code>tail</code> 返回一个容器，包含除了第一元素之外的其他元素</li>
+<li><code>isEmpty</code> 在容器为空时返回true</li>
+<li><code>min</code>， <code>max</code>返回最大/最小元素</li>
+</ul>
+<p>所有的集合类都可以在包<code>scala.collection</code> 或<code>scala.collection.mutable</code>，<code>scala.collection.immutable</code>，<code>scala.collection.generic</code>中找到。客户端代码需要的大部分集合类都独立地存在于3种变体中，它们位于<code>scala.collection</code>, <code>scala.collection.immutable</code>, <code>scala.collection.mutable</code>包。每一种变体在可变性方面都有不同的特征。</p>
+<p>如果你想要同时使用可变和不可变集合类，只导入collection.mutable包即可。</p>
+<p>下图显示了<code>scala.collection</code>包中所有的集合类。这些都是高级抽象类或特质，它们通常具备和不可变实现一样的可变实现。</p>
+<p><img src="https://docs.scala-lang.org/resources/images/tour/collections-diagram.svg" alt="General collection hierarchy"></p>
+<p>下图显示了<code>scala.collection.immutable</code>中所有的集合类。</p>
+<p><img src="https://docs.scala-lang.org/resources/images/tour/collections-immutable-diagram.svg" alt="Immutable collection hierarchy"></p>
+<p>下图显示了<code>scala.collection.mutable</code>中所有的集合类。</p>
+<p><img src="https://docs.scala-lang.org/resources/images/tour/collections-mutable-diagram.svg" alt="Mutable collection hierarchy"></p>
+<p>图例</p>
+<p><img src="https://docs.scala-lang.org/resources/images/tour/collections-legend-diagram.svg" alt="Graph legend"></p>
+<h2 id="集合类共性"><a href="#集合类共性" class="headerlink" title="集合类共性"></a>集合类共性</h2><p>每一种集合都能用相同的语法创建，写法是集合类名紧跟着元素。</p>
+<p>都通过相同的途径，用toString方法展示出来。</p>
+<p>…</p>
+<h2 id="Traversable"><a href="#Traversable" class="headerlink" title="Traversable"></a>Traversable</h2><ul>
+<li>相加 ++</li>
+<li>map：map， flatMap, collect</li>
+<li>转换器：toArray，toList，toIterable，toSeq，toIndexedSeq，toStream，toSet，和toMap</li>
+<li>拷贝：copyToBuffer和copyToArray</li>
+<li><strong>Size info</strong>：isEmpty，nonEmpty，size和hasDefiniteSize（是否无限）</li>
+<li>元素检索：head，last，headOption，lastOption和find</li>
+<li>子容器检索：tail，init，slice，take，drop，takeWhilte，dropWhile，filter，filteNot和withFilter：可以通过范围索引或一些论断的判断返回某些子容器。</li>
+<li>拆分：splitAt，span，partition和groupBy</li>
+<li>元素测试：exists，forall和count</li>
+<li>折叠（fold）：foldLeft，foldRight，/:，:\，reduceLeft和reduceRight，用于对连续性元素的二进制操作。</li>
+<li>特殊折叠：sum, product, min, max</li>
+<li>字符串：mkString，addString和stringPrefix</li>
+<li>视图</li>
+</ul>
+<h2 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h2><h2 id="Seq"><a href="#Seq" class="headerlink" title="Seq"></a>Seq</h2><p><a href="https://www.scala-lang.org/api/current/scala/collection/Seq.html" target="_blank" rel="noopener">Seq</a> trait用于表示序列。所谓序列，指的是一类具有一定长度的可迭代访问的对象，其中每个元素均带有一个从0开始计数的固定索引位置。</p>
+<ul>
+<li>索引和长度的操作：apply、isDefinedAt、length、indices，及lengthCompare。序列的apply操作用于索引访问；因此，Seq[T]类型的序列也是一个以单个Int（索引下标）为参数、返回值类型为T的<strong>偏函数</strong>。（Seq的isDefinedAt方法传入非法下标时会返回false）</li>
+<li>索引检索操作：indexOf、lastIndexOf、indexofSlice、lastIndexOfSlice、indexWhere、lastIndexWhere、segmentLength、prefixLength</li>
+<li>加法运算：+:，:+，padTo</li>
+<li>更新：updated，patch</li>
+<li>排序：sorted, sortWith, sortBy</li>
+<li>反转：reverse, reverseIterator, reverseMap</li>
+<li>比较：startsWith, endsWith, contains, containsSlice, corresponds</li>
+<li>多集操作：intersect, diff, union, distinct</li>
+</ul>
+<p>特性（trait) <a href="https://www.scala-lang.org/api/current/scala/collection/Seq.html" target="_blank" rel="noopener">Seq</a> 具有两个子特征（subtrait） <a href="https://www.scala-lang.org/api/current/scala/collection/IndexedSeq.html" target="_blank" rel="noopener">LinearSeq</a>和<a href="https://www.scala-lang.org/api/current/scala/collection/IndexedSeq.html" target="_blank" rel="noopener">IndexedSeq</a>。它们不添加任何新的操作，但都提供不同的性能特点：线性序列具有高效的 head 和 tail 操作，而索引序列具有高效的apply, length, 和 (如果可变) update操作。</p>
+<p>常用线性序列有 <code>scala.collection.immutable.List</code>和<code>scala.collection.immutable.Stream</code>。常用索引序列有 <code>scala.Array scala.collection.mutable.ArrayBuffer</code>。Vector 类提供一个在索引访问和线性访问之间有趣的折中。它同时具有高效的恒定时间的索引开销，和恒定时间的线性访问开销。</p>
+<h3 id="缓冲器"><a href="#缓冲器" class="headerlink" title="缓冲器"></a>缓冲器</h3><p>不仅允许更新现有的元素，而且允许元素的插入、移除和在buffer尾部高效地添加新元素。buffer 支持的主要新方法有：用于在尾部添加元素的 <code>+=</code> 和 <code>++=</code>；用于在前方添加元素的<code>+=:</code>和<code>++=:</code> ；用于插入元素的 <code>insert</code>和<code>insertAll</code>；以及用于删除元素的<code>remove</code> 和 <code>-=</code></p>
+<p>ListBuffer和ArrayBuffer是常用的buffer实现 。</p>
+<h2 id="集合"><a href="#集合" class="headerlink" title="集合"></a>集合</h2><ul>
+<li>测试型方法：<code>contains</code>，<code>apply</code>，<code>subsetOf</code>。<code>contains</code> 方法用于判断集合是否包含某元素。set(elem)<code>等同于</code>set contains elem</li>
+<li>加法类型方法：<code>+</code> 和 <code>++</code>。++是对于两个集合的加法</li>
+<li>减法类型方法： <code>-</code> 、<code>--</code>。</li>
+<li>并、交、差集：每一种运算都存在两种书写形式：字母和符号形式。字母形式：intersect、union和diff，符号形式：&amp;、|和&amp;~。事实上，Set中继承自Traversable的++也能被看做union或|的另一个别名。区别是，++的参数为Traversable特质，而union和 | 的参数是集合。</li>
+</ul>
+<h3 id="mutable-Set"><a href="#mutable-Set" class="headerlink" title="mutable.Set"></a>mutable.Set</h3><p>可变集合也提供了<code>+</code>和<code>++</code>操作符来添加元素，<code>-</code>和<code>--</code>用来删除元素。但是这些操作在可变集合中通常很少使用，因为这些操作都要通过集合的拷贝来实现。可变集合提供了更有效率的更新方法，<code>+=</code>和<code>-=</code></p>
+<p>还有从可遍历对象集合或迭代器集合中添加和删除所有元素的批量操作符<code>++=</code>和<code>--=</code>。</p>
+<p>目前可变集合默认使用<strong>哈希表</strong>来存储集合元素，非可变集合则根据元素个数的不同，使用不同的方式来实现。空集用单例对象来表示。元素个数小于等于4的集合可以使用<strong>单例对象</strong>来表达，元素作为单例对象的字段来存储。 元素超过4个，非可变集合就用哈希前缀树（hash trie）来实现。</p>
+<p>集合的两个特质是 <code>SortedSet</code> 和 <code>BitSet</code>。</p>
+<h3 id="有序集-SortedSet"><a href="#有序集-SortedSet" class="headerlink" title="有序集(SortedSet)"></a>有序集(SortedSet)</h3><p> <a href="https://www.scala-lang.org/api/current/scala/collection/SortedSet.html" target="_blank" rel="noopener">SortedSet</a> 的默认表示是有序二叉树。 <code>immutable.TreeSet</code> 使用红黑树实现，它在维护元素顺序的同时，也会保证二叉树的平衡</p>
+<p>创建一个空TreeSet，可以先定义排序规则</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> myOrdering = <span class="type">Ordering</span>.fromLessThan[<span class="type">String</span>](_ &gt; _)</span><br><span class="line"><span class="type">TreeSet</span>.empty(myOrdering)</span><br></pre></td></tr></table></figure>
+<p>也可以不指定排序规则参数，只需要给定一个元素类型或空集合。在这种情况下，将使用此元素类型默认的排序规则。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">TreeSet</span>.empty[<span class="type">String</span>]</span><br></pre></td></tr></table></figure>
+<p>有序集合同样支持元素的<strong>范围操作</strong>: range, from</p>
+<h3 id="位集合（Bitset）"><a href="#位集合（Bitset）" class="headerlink" title="位集合（Bitset）"></a>位集合（Bitset）</h3><p>位集合是由单字或多字的紧凑位实现的<strong>非负整数</strong>的集合。其内部使用 <code>Long</code> 型数组来表示。第一个 <code>Long</code> 元素表示的范围为0到63，第二个范围为64到127，以此类推</p>
+<p>位集合的大小取决于存储在该集合的最大整数的值的大小。假如N是为集合所要表示的最大整数，则集合的大小就是 <code>N/64</code> 个长整形字，或者 <code>N/8</code> 个字节，再加上少量额外的状态信息字节。</p>
+<h2 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 空哈希表，键为字符串，值为整型</span></span><br><span class="line"><span class="keyword">var</span> <span class="type">A</span>:<span class="type">Map</span>[<span class="type">Char</span>,<span class="type">Int</span>] = <span class="type">Map</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment">// Map 键值对演示</span></span><br><span class="line"><span class="keyword">val</span> colors = <span class="type">Map</span>(<span class="string">"red"</span> -&gt; <span class="string">"#FF0000"</span>, <span class="string">"azure"</span> -&gt; <span class="string">"#F0FFFF"</span>)</span><br><span class="line"><span class="comment">//添加key-value</span></span><br><span class="line"><span class="type">A</span> += ('<span class="type">I</span>' -&gt; <span class="number">1</span>)</span><br><span class="line"><span class="type">A</span> += ('<span class="type">J</span>' -&gt; <span class="number">5</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">//三个基本操作</span></span><br><span class="line"><span class="type">A</span>.keys</span><br><span class="line"><span class="type">A</span>.values</span><br><span class="line"><span class="type">A</span>.isEMpty</span><br></pre></td></tr></table></figure>
+<ul>
+<li>查询：apply、get、getOrElse、contains和DefinedAt。get返回 Option[Value]，apply方法不进行Option封装，主键不存在会抛出异常</li>
+<li><strong>添加及更新</strong>：+、++、updated</li>
+<li><strong>删除类</strong>：-、– </li>
+<li><strong>子集类</strong>： keys、keySet、keysIterator、values、valuesIterator，可以以不同形式返回映射的键和值。</li>
+<li><strong>filterKeys、mapValues等</strong>变换用于对现有映射中的绑定进行过滤和变换，进而生成新的映射。</li>
+</ul>
+<h3 id="mutable-Map"><a href="#mutable-Map" class="headerlink" title="mutable.Map"></a>mutable.Map</h3><p>利用两种变形<code>m(key) = value和m += (key -&gt; value)</code>， 我们可以“原地”修改可变映射m。还有一种变形<code>m put (key, value)</code></p>
+<p>getOrElseUpdate特别适合用于访问用作缓存的映射（Map），getOrElseUpdate的第2个参数是“<strong>按名称（by-name）</strong>”传递的</p>
+<h3 id="同步集合（Set）和映射（Map）"><a href="#同步集合（Set）和映射（Map）" class="headerlink" title="同步集合（Set）和映射（Map）"></a>同步集合（Set）和映射（Map）</h3><p>无论什么样的Map实现，只需混入<code>SychronizedMap trait</code>，就可以得到对应的线程安全版的Map。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.collection.mutable.&#123;<span class="type">Map</span>,</span><br><span class="line">    <span class="type">SynchronizedMap</span>, <span class="type">HashMap</span>&#125;</span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">MapMaker</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">makeMap</span></span>: <span class="type">Map</span>[<span class="type">String</span>, <span class="type">String</span>] = &#123;</span><br><span class="line">      <span class="keyword">new</span> <span class="type">HashMap</span>[<span class="type">String</span>, <span class="type">String</span>] <span class="keyword">with</span></span><br><span class="line">          <span class="type">SynchronizedMap</span>[<span class="type">String</span>, <span class="type">String</span>] &#123;</span><br><span class="line">        <span class="keyword">override</span> <span class="function"><span class="keyword">def</span> <span class="title">default</span></span>(key: <span class="type">String</span>) =</span><br><span class="line">          <span class="string">"Why do you want to know?"</span></span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的makeMap方法混入了SynchronizedMap，而且重写了default方法（当向某个Map查询给定的键所对应的值，而Map中不存在与该键相关联的值时，默认情况下会触发一个NoSuchElementException异常。不过，如果自定义一个Map类并覆写default方法，便可以针对不存在的键返回一个default方法返回的值。）</p>
+<p><strong>注</strong>： 如有使用同步容器（synchronized collection）的需求，还可以考虑使用<code>java.util.concurrent</code>中提供的并发容器（concurrent collections）。</p>
+<h2 id="Array"><a href="#Array" class="headerlink" title="Array"></a>Array</h2><p><strong>遍历</strong>：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> ( i &lt;- <span class="number">0</span> to (myList.length - <span class="number">1</span>)) &#123;</span><br><span class="line">   total += myList(i);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>多维数组</strong></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> myMatrix = <span class="type">Array</span>.ofDim[<span class="type">Int</span>](<span class="number">3</span>, <span class="number">4</span>)</span><br></pre></td></tr></table></figure>
+<p>取值：<code>myMatrix(i)(j)</code></p>
+<p><strong>区间数组</strong>: </p>
+<p>Range 不包括上界</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> myList1 = range(<span class="number">10</span>, <span class="number">20</span>, <span class="number">2</span>)<span class="comment">//10 ,12 ,14, 16,18，默认步长为1</span></span><br></pre></td></tr></table></figure>
+<p><strong>数组方法</strong>: 需要使用 <strong>import Array._</strong> 引入包</p>
+<p>Scala 2.8中数组不再看作序列，因为本地数组的类型不是Seq的子类型。而是在数组和 <code>scala.collection.mutable.WrappedArray</code>这个类的实例之间隐式转换，后者则是Seq的子类。</p>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><p>像数组，字符串不是直接的序列，但是他们可以转换为序列，并且他们也支持所有的在字符串上的序列操作。</p>
+<p>依赖于两种隐式转换。第一种，低优先级转换映射一个String到WrappedString,它是<code>immutable.IndexedSeq</code>的子类。用在一个string转换为一个Seq</p>
+<p>另一种，高优先级转换映射一个string到StringOps 对象，从而在immutable 序列到strings上增加了所有的方法。插入在reverse，map,drop和slice的方法调用中</p>
+<h2 id="具体的不可变集实体类"><a href="#具体的不可变集实体类" class="headerlink" title="具体的不可变集实体类"></a>具体的不可变集实体类</h2><h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 空列表</span></span><br><span class="line"><span class="keyword">val</span> empty: <span class="type">List</span>[<span class="type">Nothing</span>] = <span class="type">List</span>()</span><br><span class="line"><span class="comment">// 二维列表</span></span><br><span class="line"><span class="keyword">val</span> dim: <span class="type">List</span>[<span class="type">List</span>[<span class="type">Int</span>]] =</span><br><span class="line">   <span class="type">List</span>(</span><br><span class="line">      <span class="type">List</span>(<span class="number">1</span>, <span class="number">0</span>, <span class="number">0</span>),</span><br><span class="line">      <span class="type">List</span>(<span class="number">0</span>, <span class="number">1</span>, <span class="number">0</span>),</span><br><span class="line">      <span class="type">List</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>)</span><br><span class="line">   )</span><br></pre></td></tr></table></figure>
+<p>构造列表的两个基本单位是 <strong>Nil</strong> 和 <strong>::</strong></p>
+<p><strong>Nil</strong> 也可以表示为一个空列表。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 整型列表</span></span><br><span class="line"><span class="keyword">val</span> nums = <span class="number">1</span> :: (<span class="number">2</span> :: (<span class="number">3</span> :: (<span class="number">4</span> :: <span class="type">Nil</span>)))</span><br><span class="line"></span><br><span class="line"><span class="comment">// 空列表</span></span><br><span class="line"><span class="keyword">val</span> empty = <span class="type">Nil</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 二维列表</span></span><br><span class="line"><span class="keyword">val</span> dim = (<span class="number">1</span> :: (<span class="number">0</span> :: (<span class="number">0</span> :: <span class="type">Nil</span>))) ::</span><br><span class="line">          (<span class="number">0</span> :: (<span class="number">1</span> :: (<span class="number">0</span> :: <span class="type">Nil</span>))) ::</span><br><span class="line">          (<span class="number">0</span> :: (<span class="number">0</span> :: (<span class="number">1</span> :: <span class="type">Nil</span>))) :: <span class="type">Nil</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//或者可以不用括号</span></span><br><span class="line"><span class="keyword">val</span> list1 = <span class="number">1</span>::<span class="number">2</span>::<span class="number">3</span>::<span class="type">Nil</span></span><br><span class="line"><span class="keyword">val</span> list2 = (<span class="number">1</span>::<span class="number">2</span>::<span class="type">Nil</span>)::(<span class="number">1</span>::<span class="number">3</span>::<span class="number">4</span>::<span class="type">Nil</span>)::<span class="type">Nil</span></span><br></pre></td></tr></table></figure>
+<h4 id="基本操作"><a href="#基本操作" class="headerlink" title="基本操作"></a>基本操作</h4><ul>
+<li><p>可以使用 <strong>:::</strong> 运算符或 <strong>List.:::()</strong> 方法或 <strong>List.concat()</strong> 方法来连接两个或多个列表</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">list1 ::: list2</span><br><span class="line">list1.:::(list2)</span><br><span class="line"><span class="type">List</span>.concat(list1, list2)</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>List.fill() 方法来创建一个指定重复数量的元素列表<code>List.fill(3)(&quot;a&quot;)</code></p>
+</li>
+<li><p>List.tabulate() 方法是通过给定的函数来创建列表:  方法的第一个参数为元素的数量，可以是二维的，第二个参数为指定的函数，我们通过指定的函数计算结果并返回值插入到列表中，起始值为 0</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建二维列表</span></span><br><span class="line">      <span class="keyword">val</span> mul = <span class="type">List</span>.tabulate( <span class="number">4</span>,<span class="number">5</span> )( _ * _ )<span class="comment">//值是 i * j      </span></span><br><span class="line">      println( <span class="string">"多维 : "</span> + mul  )</span><br><span class="line"><span class="comment">//多维 : List(List(0, 0, 0, 0, 0), List(0, 1, 2, 3, 4), List(0, 2, 4, 6, 8), List(0, 3, 6, 9, 12))</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>List.reverse 用于将列表的顺序反转<code>list1.reverse</code></p>
+</li>
+<li><p>take ：<em>It returns a list containing only the first</em> <em>n</em> <em>elements from the stated list or returns the whole list if</em> <em>n</em> <em>is more than the number of elements in the given list.</em></p>
+</li>
+</ul>
+<h3 id="Stream"><a href="#Stream" class="headerlink" title="Stream"></a>Stream</h3><p>鉴于List通常使用 <code>::</code>运算符来进行构造，stream使用外观上很相像的<code>#::</code></p>
+<p>stream被特别定义为懒惰计算，并且stream的toString方法很谨慎的设计为不去做任何额外的计算。(用toString方法只打印第一个元素)</p>
+<p>例: 定义一个斐波那契数列</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">fibFrom</span></span>(a: <span class="type">Int</span>, b: <span class="type">Int</span>): <span class="type">Stream</span>[<span class="type">Int</span>] = a #:: fibFrom(b, a + b)</span><br></pre></td></tr></table></figure>
+<h3 id="Vector"><a href="#Vector" class="headerlink" title="Vector"></a>Vector</h3><p>相对于访问、添加和删除List头结点只需要固定时间，<strong>访问和修改头结点之后元素</strong>所需要的时间则是与List深度线性相关的。</p>
+<p>Vector结构能够在“更高效”的固定时间内访问到列表中的任意元素。</p>
+<p>Vector结构通常被表示成具有高分支因子的<strong>树</strong>（树或者图的分支因子是指数据结构中每个节点的子节点数目）。每一个树节点包含最多32个vector元素或者至多32个子树节点。</p>
+<p>对于一般大小的vector数据结构，一般经过至多5次数组访问就可以访问到指定的元素。</p>
+<p>Vectors结构是不可变的,不能通过修改vector中元素的方法来返回一个新的vector。但是可以通过update方法从一个单独的元素中创建出区别于给定数据结构的新vector结构。</p>
+<p>对vector中的某一元素进行update操作可以通过<strong>从树的根节点开始拷贝该节点以及每一个指向该节点的节点中的元素</strong>来实现。这就意味着一次update操作能够创建1到5个包含至多32个元素或者子树的树节点。</p>
+<p>原理如下：如果只改了一个元素，updated后的vector根节点是新的，然后往下的子节点中只有要修改的节点的祖先节点是新的，其他都是复用旧的，也就是说新的根节点与旧的跟节点不同之处只有一个指向子节点指针的差别</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vec updated (<span class="number">2</span>, <span class="number">4</span>)<span class="comment">//把index为2的元素改成4</span></span><br></pre></td></tr></table></figure>
+<p>由于vector在快速<strong>随机选择和快速随机更新</strong>的性能方面做到很好的平衡，所以它目前正被用作<strong>不可变索引序列</strong>（IndexedSeq）的默认实现方式。</p>
+<h3 id="不可变栈-Immutable-stacks"><a href="#不可变栈-Immutable-stacks" class="headerlink" title="不可变栈 Immutable stacks"></a>不可变栈 Immutable stacks</h3><p>使用push向栈中压入一个元素，用pop从栈中弹出一个元素，用top查看栈顶元素而不用删除它。</p>
+<p>不可变stack一般很少用在Scala编程中，因为List结构已经能够覆盖到它的功能：push操作同List中的::基本相同，pop则对应着tail。</p>
+<h3 id="Immutable-Queues（不可变队列）"><a href="#Immutable-Queues（不可变队列）" class="headerlink" title="Immutable Queues（不可变队列）"></a>Immutable Queues（不可变队列）</h3><p>使用enqueue方法在不可变Queue中加入一个/多个元素。</p>
+<p>可以使用dequeue方法从queue的<strong>头部删除一个元素</strong>，dequeue方法将会返回两个值，包括<strong>被删除掉的元素</strong>和queue中<strong>剩下的部分。</strong></p>
+<h3 id="Range-等差数列"><a href="#Range-等差数列" class="headerlink" title="Range(等差数列)"></a>Range(等差数列)</h3><p>在Scala中创建一个Range类，需要用到两个预定义的方法to和by。</p>
+<h3 id="Hash-Tries"><a href="#Hash-Tries" class="headerlink" title="Hash Tries"></a>Hash Tries</h3><p>从表现形式上看，Hash Try和Vector比较相似，都是树结构，且每个节点包含32个元素或32个子树，差别只是用不同的hash code替换了指向各个节点的向量值。</p>
+<p>Hash Try对于<strong>快速查找和函数式的高效添加和删除</strong>操作上取得了很好的平衡，这也是Scala中不可变映射和集合采用Hash Try作为默认实现方式的原因。</p>
+<h3 id="Red-Black-Trees（红黑树）"><a href="#Red-Black-Trees（红黑树）" class="headerlink" title="Red-Black Trees（红黑树）"></a>Red-Black Trees（红黑树）</h3><p>红黑树在Scala中被作为SortedSet的标准实现，因为它提供了一个高效的迭代器，可以用来按照排好的序列返回所有的元素。</p>
+<h3 id="Immutable-BitSets（不可变位集合）"><a href="#Immutable-BitSets（不可变位集合）" class="headerlink" title="Immutable BitSets（不可变位集合）"></a>Immutable BitSets（不可变位集合）</h3><p>BitSet内部的使用了一个<strong>64位long型</strong>的数组。数组中的第一个long表示整数0到63，第二个表示64到27，以此类推。所以只要集合中最大的整数在千以内BitSet的压缩率都是相当高的。</p>
+<h3 id="List-Maps"><a href="#List-Maps" class="headerlink" title="List Maps"></a>List Maps</h3><p><a href="https://www.scala-lang.org/api/2.10.0/scala/collection/immutable/ListMap.html" target="_blank" rel="noopener">ListMap</a>被用来表示一个保存<strong>键-值映射的链表</strong>。一般情况下，ListMap操作都需要<strong>遍历整个列表</strong></p>
+<p>实际上ListMap在Scala中很少使用，因为标准的不可变映射通常速度会更快。唯一的例外是，在构造映射时由于某种原因，链表中<strong>靠前</strong>的元素被访问的频率大大高于其他的元素。</p>
+<h2 id="具体的可变容器类"><a href="#具体的可变容器类" class="headerlink" title="具体的可变容器类"></a>具体的可变容器类</h2><h3 id="Array-Buffers"><a href="#Array-Buffers" class="headerlink" title="Array Buffers"></a>Array Buffers</h3><h3 id="List-Buffers"><a href="#List-Buffers" class="headerlink" title="List Buffers"></a>List Buffers</h3><p><a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/ListBuffer.html" target="_blank" rel="noopener">ListBuffer</a> 类似于Array Buffer。区别在于ListBuffer内部实现是链表， 而非数组</p>
+<h3 id="StringBuilders"><a href="#StringBuilders" class="headerlink" title="StringBuilders"></a>StringBuilders</h3><p><a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/StringBuilder.html" target="_blank" rel="noopener">StringBuilder</a> 用来构造字符串。</p>
+<h3 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h3><p>支持类是<a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/LinkedList.html" target="_blank" rel="noopener">LinkedList</a>。在大多数的编程语言中，null可以表示一个空链表，但是在Scalable集合中不是这样。因为就算是空的序列，也必须支持所有的序列方法。空链表用一种特殊的方式编译：它们的 next 字段指向它自身。</p>
+<h3 id="双向链表"><a href="#双向链表" class="headerlink" title="双向链表"></a>双向链表</h3><p>支持类是<a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/DoubleLinkedList.html" target="_blank" rel="noopener">DoubleLinkedList</a></p>
+<h3 id="可变列表"><a href="#可变列表" class="headerlink" title="可变列表"></a>可变列表</h3><p><a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/MutableList.html" target="_blank" rel="noopener">MutableList</a> 由一个<strong>单向链表</strong>和一个<strong>指向该链表终端空节点的指针</strong>构成。因为避免了贯穿整个列表去遍历搜索它的终端节点，这就使得列表压缩了操作所用的时间。MutableList 目前是Scala中<a href="https://www.scala-lang.org/api/2.10.0/scala/collection/LinearSeq.html" target="_blank" rel="noopener">mutable.LinearSeq</a> 的标准实现。</p>
+<h3 id="队列"><a href="#队列" class="headerlink" title="队列"></a>队列</h3><p>你可以像使用一个不可变队列一样地使用一个可变队列，但你需要使用<strong>+= 和++=</strong>操作符进行添加的方式来替代排队方法。</p>
+<h3 id="数组序列"><a href="#数组序列" class="headerlink" title="数组序列"></a>数组序列</h3><p>Array Sequences 是具有固定大小的可变序列。在它的内部，用一个 <code>Array[Object]</code>来存储元素。在Scala 中，<a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/ArraySeq.html" target="_blank" rel="noopener">ArraySeq</a> 是它的实现类。</p>
+<h3 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h3><p>可变栈支持类是<a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/Stack.html" target="_blank" rel="noopener">mutable.Stack</a></p>
+<h3 id="数组栈"><a href="#数组栈" class="headerlink" title="数组栈"></a>数组栈</h3><p><a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/ArrayStack.html" target="_blank" rel="noopener">ArrayStack</a> 是另一种可变栈的实现，用一个可根据需要改变大小的数组做为支持。它提供了快速索引，使其通常在大多数的操作中会比普通的可变堆栈更高效一点。</p>
+<h3 id="hash-table"><a href="#hash-table" class="headerlink" title="hash table"></a>hash table</h3><p>Hash Table 用一个底层<strong>数组</strong>来存储元素。在Scala中默认的可变map和set都是基于Hash Table的。你也可以直接用<a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/HashSet.html" target="_blank" rel="noopener">mutable.HashSet</a> 和 <a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/HashMap.html" target="_blank" rel="noopener">mutable.HashMap</a> 来访问它们。</p>
+<h3 id="Weak-Hash-Maps"><a href="#Weak-Hash-Maps" class="headerlink" title="Weak Hash Maps"></a>Weak Hash Maps</h3><p>一种特殊的Hash Map，垃圾回收器会忽略从Map到存储在其内部的Key值的链接。这也就是说，当一个key不再被引用的时候，这个键和对应的值会从map中消失。</p>
+<p>Weak Hash Map 可以用来处理缓存，比如当一个方法被同一个键值重新调用时，你想重用这个大开销的方法返回值。如果Key值和方法返回值存储在一个常规的Hash Map里，Map会无限制的扩展，Key值也永远不会被垃圾回收器回收。用Weak Hash Map会避免这个问题。</p>
+<p>在Scala中，<a href="https://www.scala-lang.org/api/2.10.0/scala/collection/mutable/WeakHashMap.html" target="_blank" rel="noopener">WeakHashMap</a>类是Weak Hash Map的实现类，封装了底层的Java实现类<code>java.util.WeakHashMap</code>。</p>
+<h3 id="Concurrent-Maps"><a href="#Concurrent-Maps" class="headerlink" title="Concurrent Maps"></a>Concurrent Maps</h3><p>实现类只有Java的<code>java.util.concurrent.ConcurrentMap</code></p>
+<h3 id="Mutable-Bitsets"><a href="#Mutable-Bitsets" class="headerlink" title="Mutable Bitsets"></a>Mutable Bitsets</h3><p>Mutable bit sets在更新的操作上比不可变bit set 效率稍高，因为它不必复制没有发生变化的 Long值。</p>
+<h2 id="元组"><a href="#元组" class="headerlink" title="元组"></a>元组</h2><p>元组不可变，但是可以包含不同类型的元素</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> t = (<span class="number">1</span>, <span class="number">3.14</span>, <span class="string">"Fred"</span>)  </span><br><span class="line"><span class="keyword">val</span> t = <span class="keyword">new</span> <span class="type">Tuple3</span>(<span class="number">1</span>, <span class="number">3.14</span>, <span class="string">"Fred"</span>)</span><br></pre></td></tr></table></figure>
+<p>访问元组：使用 t._1 访问第一个元素， t._2 访问第二个元素</p>
+<p>迭代：使用 <strong>Tuple.productIterator()</strong></p>
+<p>元素交换：使用 <strong>Tuple.swap</strong> 方法</p>
+<h2 id="迭代器"><a href="#迭代器" class="headerlink" title="迭代器"></a>迭代器</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> it = <span class="type">Iterator</span>(<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>)</span><br></pre></td></tr></table></figure>
+<p>迭代器 it 的两个基本操作是 <strong>next</strong> 和 <strong>hasNext</strong>。</p>
+<p>使用 <strong>it.min</strong> 和 <strong>it.max</strong> 方法从迭代器中查找最大与最小元素</p>
+<p>使用 <strong>it.size</strong> 或 <strong>it.length</strong> 方法来查看迭代器中的元素个数</p>
+<p>可以使用foreach以便在迭代器返回的每个元素上执行指定的程序</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">it foreach println</span><br><span class="line"><span class="comment">//或者用for</span></span><br><span class="line"><span class="keyword">for</span> (elem &lt;- it) println(elem)</span><br></pre></td></tr></table></figure>
+<p>注：foreach后面跟println（不带参数），foreach不用括号</p>
+<p>在迭代器或traversable容器中调用foreach方法的最大区别是：当在迭代器中完成调用foreach方法后会将迭代器保留在<strong>最后一个元素的位置</strong>。所以在这个迭代器上再次调用next方法时会抛出NoSuchElementException异常。</p>
+<p>dropWhile方法：用来在迭代器中找到第一个具有某些属性的元素。</p>
+<p>只有一个标准操作允许重用同一个迭代器, 每个都相当于迭代器it的完全拷贝。这两个iterator相互<strong>独立</strong>；一个发生变化不会影响到另外一个。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> (it1, it2) = it.duplicate</span><br></pre></td></tr></table></figure>
+<p>总的来说，如果调用完迭代器的方法后就<strong>不再访问</strong>它，那么迭代器的行为方式与容器是比较相像的。</p>
+<h3 id="带缓冲的迭代器"><a href="#带缓冲的迭代器" class="headerlink" title="带缓冲的迭代器"></a>带缓冲的迭代器</h3><p>既可以看到下一个待返回的元素，又不会令迭代器跨过这个元素。[<strong>BufferedIterator</strong>]类是[Iterator]的子类，提供了一个附加的方法，head。在BufferedIterator中调用head 会返回它指向的第一个元素，但是不会令迭代器前进。</p>
+<p>通过调用<strong>buffered</strong>方法，所有迭代器都可以转换成BufferedIterator</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> it = <span class="type">Iterator</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>)</span><br><span class="line"><span class="keyword">val</span> bit = it.buffered</span><br></pre></td></tr></table></figure>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>转换器： 各种容器类自带一些用于开发新容器的方法，例如map、filter和++。</p>
+<p>两个途径实现转换器。其一是紧凑法（strict），立即生成一个新容器。其二是惰性法（lazy），也就是懒加载，用到时再运算。</p>
+<p>除了Stream的转换器是惰性实现的外，Scala的其他容器默认都是用紧凑法实现它们的转换器。<br>然而，通常基于容器视图，可将容器转换成惰性容器，反之亦可。</p>
+<p>如果xs是个容器，那么<strong>xs.view</strong>就是同一个容器，不过所有的转换器都是惰性的。若要从视图转换回紧凑型容器，可以使用强制性方法。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> v = <span class="type">Vector</span>(<span class="number">1</span> to <span class="number">10</span>: _*) <span class="comment">//Vector(1, 2, 3, 4, 5, 6, 7, 8, 9, 10)</span></span><br><span class="line">v map (_ + <span class="number">1</span>) map (_ * <span class="number">2</span>) <span class="comment">//会构造一个中间结果浪费资源</span></span><br><span class="line"> (v.view map (_ + <span class="number">1</span>) map (_ * <span class="number">2</span>)).force <span class="comment">//先转成view再强制转回来。</span></span><br></pre></td></tr></table></figure>
+<p>过程如下：1. 用view方法将其转成SeqView对象</p>
+<ol>
+<li>使用一次map方法，变成SeqViewM(…)。实质是记录函数<code>map (_ + 1)</code>应用在vector v数组上的封装。除非视图被强制转换，否则map不会被执行。然后，<code>SeqView</code>后面的 <code>‘’M‘’</code>表示这个视图包含一个map操作。其他字母表示其他延迟操作。比如<code>‘’S‘’</code>表示一个延迟的slice操作，而<code>‘’R‘’</code>表示reverse操作。</li>
+<li>使用第二次map方法，变成SeqViewMM(…)</li>
+<li>最后强制转换结果</li>
+</ol>
+<h2 id="Option"><a href="#Option" class="headerlink" title="Option"></a>Option</h2><p>Option[T] 是一个类型为 T 的可选值的容器： 如果值存在， Option[T] 就是一个 Some[T] ，如果不存在， Option[T] 就是对象 None 。</p>
+<p>使用 getOrElse() 方法来获取元组中存在的元素或者使用其默认的值</p>
+<p>isEmpty() 方法来检测元组中的元素是否为 None</p>
+<h2 id="从头定义新容器"><a href="#从头定义新容器" class="headerlink" title="从头定义新容器"></a>从头定义新容器</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Traversable</span>() <span class="comment">// 一个空的Traversable对象</span></span><br><span class="line"><span class="type">List</span>() <span class="comment">// 空列表</span></span><br><span class="line"><span class="type">List</span>(<span class="number">1.0</span>, <span class="number">2.0</span>) <span class="comment">// 一个以1.0、2.0为元素的列表</span></span><br><span class="line"><span class="type">Vector</span>(<span class="number">1.0</span>, <span class="number">2.0</span>) <span class="comment">// 一个以1.0、2.0为元素的Vector</span></span><br><span class="line"><span class="type">Iterator</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) <span class="comment">// 一个迭代器，可返回三个整数</span></span><br><span class="line"><span class="type">Set</span>(dog, cat, bird) <span class="comment">// 一个包含三个动物的集合</span></span><br><span class="line"><span class="type">HashSet</span>(dog, cat, bird) <span class="comment">// 一个包含三个同样动物的HashSet</span></span><br><span class="line"><span class="type">Map</span>('a' -&gt; <span class="number">7</span>, 'b' -&gt; <span class="number">0</span>) <span class="comment">// 一个将字符映射到整数的Map</span></span><br></pre></td></tr></table></figure>
+<p>上述每个例子都被“暗地里”转换成了对<strong>伴生对象</strong>的<strong>apply</strong>方法的调用。在Scala标准库中，无论是List、Stream、Vector等具体的实现类还是Seq、Set、Traversable等抽象基类，每个容器类都伴一个带apply方法的伴生对象。针对后者，调用apply方法将得到对应抽象基类的某个<strong>默认实现</strong></p>
+<p>除了apply方法，每个容器类的伴生对象还定义了一个名为<strong>empty</strong>的成员方法，该方法返回一个<strong>空容器</strong>。也就是说，<code>List.empty</code>可以代替<code>List()</code>，<code>Map.empty</code>可以代替<code>Map()</code>，等等。</p>
+<p>Seq的子类同样在它们伴生对象中提供了工厂方法，总结如下表。简而言之，有这么一些：</p>
+<ul>
+<li>concat，将任意多个Traversable容器串联起来</li>
+<li>fill 和 tabulate，用于生成一维或者多维序列，并用给定的初值或打表函数来初始化。</li>
+<li>range，用于生成步长为step的整型序列，并且iterate，将某个函数反复应用于某个初始元素，从而产生一个序列。</li>
+</ul>
+<h2 id="java和scala容器转换"><a href="#java和scala容器转换" class="headerlink" title="java和scala容器转换"></a>java和scala容器转换</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Iterator</span>               &lt;=&gt;     java.util.<span class="type">Iterator</span></span><br><span class="line"><span class="type">Iterator</span>               &lt;=&gt;     java.util.<span class="type">Enumeration</span></span><br><span class="line"><span class="type">Iterable</span>               &lt;=&gt;     java.lang.<span class="type">Iterable</span></span><br><span class="line"><span class="type">Iterable</span>               &lt;=&gt;     java.util.<span class="type">Collection</span></span><br><span class="line">mutable.<span class="type">Buffer</span>         &lt;=&gt;     java.util.<span class="type">List</span></span><br><span class="line">mutable.<span class="type">Set</span>            &lt;=&gt;     java.util.<span class="type">Set</span></span><br><span class="line">mutable.<span class="type">Map</span>            &lt;=&gt;     java.util.<span class="type">Map</span></span><br><span class="line">mutable.<span class="type">ConcurrentMap</span>  &lt;=&gt;     java.util.concurrent.<span class="type">ConcurrentMap</span></span><br></pre></td></tr></table></figure>
+<p>需从JavaConverters对象中import这些转换 ,import之后，通过扩展方法 asScala 和 asJava 就可以在Scala容器和与之对应的Java容器之间进行隐式转换了</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> collection.<span class="type">JavaConverters</span>._</span><br><span class="line"><span class="keyword">import</span> collection.mutable._</span><br><span class="line"><span class="keyword">val</span> jul: java.util.<span class="type">List</span>[<span class="type">Int</span>] = <span class="type">ArrayBuffer</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>).asJava</span><br><span class="line"><span class="keyword">val</span> buf: <span class="type">Seq</span>[<span class="type">Int</span>] = jul.asScala</span><br></pre></td></tr></table></figure>
+<p>在Scala内部，这些转换是通过一系列“包装”对象完成的，这些对象会将相应的方法调用转发至底层的容器对象。所以容器<strong>不会</strong>在Java和Scala之间拷贝来拷贝去。</p>
+<p>还有一些Scala容器类型可以转换成对应的Java类型，但是并没有将相应的Java类型转换成Scala类型的能力，它们是：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">Seq</span>           =&gt;    java.util.<span class="type">List</span></span><br><span class="line">mutable.<span class="type">Seq</span>   =&gt;    java.util.<span class="type">List</span></span><br><span class="line"><span class="type">Set</span>           =&gt;    java.util.<span class="type">Set</span></span><br><span class="line"><span class="type">Map</span>           =&gt;    java.util.<span class="type">Map</span></span><br></pre></td></tr></table></figure>
+<p>因为Java并未区分可变容器不可变容器类型，所以，虽然能将<code>scala.immutable.List</code>转换成<code>java.util.List</code>，但所有的修改操作都会抛出“UnsupportedOperationException”</p>
+<h2 id="下划线的用途"><a href="#下划线的用途" class="headerlink" title="下划线的用途"></a>下划线的用途</h2><p><a href="https://blog.csdn.net/i6448038/article/details/50017427" target="_blank" rel="noopener">细数Scala下划线“_”的用法</a></p>
+<p><a href="https://my.oschina.net/joymufeng/blog/863823" target="_blank" rel="noopener">Scala基础 - 下划线使用指南</a></p>
+<h1 id="循环"><a href="#循环" class="headerlink" title="循环"></a>循环</h1><p>to: <code>1 to 10</code> ： 生成1到10的数字</p>
+<p>until: <code>1 until 10</code> 1到10，不包括10</p>
+<p>by: <code>1 to 10 by 2</code>： 步长</p>
+<p>yield： for 循环中的 yield 会把当前的元素记下来，保存在集合中，循环结束后将返回该集合。Scala 中 for 循环是有返回值的。如果被循环的是 Map，返回的就是  Map，被循环的是 List，返回的就是 List，以此类推。</p>
+<h1 id="函数与方法"><a href="#函数与方法" class="headerlink" title="函数与方法"></a>函数与方法</h1><p>使用 <strong>val</strong> 语句可以定义函数，<strong>def</strong> 语句定义方法</p>
+<p><strong>传名调用</strong>：将<u>未计算</u>的参数表达式直接应用到函数内部。在变量名和变量类型使用 <strong>=&gt;</strong> 符号来设置传名调用</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addByName</span></span>(a: <span class="type">Int</span>, b: =&gt; <span class="type">Int</span>) = a + b</span><br></pre></td></tr></table></figure>
+<p><strong>可变参数</strong>：在参数的类型之后放一个星号来设置可变参数(可重复的参数)</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">printStrings</span></span>( args:<span class="type">String</span>* ) = &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>默认参数值</strong>:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">addInt</span></span>( a:<span class="type">Int</span>=<span class="number">5</span>, b:<span class="type">Int</span>=<span class="number">7</span> ) : <span class="type">Int</span> = &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong>高阶函数</strong>：高阶函数可以使用其他函数作为参数，或者使用函数作为输出结果。以函数入参时要多加一个 =&gt; </p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">   <span class="comment">// 函数 f 和 值 v 作为参数，而函数 f 又调用了参数 v</span></span><br><span class="line">   <span class="function"><span class="keyword">def</span> <span class="title">apply</span></span>(f: <span class="type">Int</span> =&gt; <span class="type">String</span>, v: <span class="type">Int</span>) = f(v)</span><br><span class="line"></span><br><span class="line"><span class="comment">//[A]表示这是一种泛型</span></span><br><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">layout</span></span>[<span class="type">A</span>](x: <span class="type">A</span>) = <span class="string">"["</span> + x.toString() + <span class="string">"]"</span></span><br></pre></td></tr></table></figure>
+<p><strong>函数嵌套</strong>：定义在函数内的函数称之为局部函数</p>
+<p><strong>匿名函数</strong>：箭头左边是参数列表，右边是函数体。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> mul = (x: <span class="type">Int</span>, y: <span class="type">Int</span>) =&gt; x*y</span><br></pre></td></tr></table></figure>
+<p><strong>偏应用函数</strong>: 绑定第一个 date 参数，第二个参数使用下划线(_)替换缺失的参数列表</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> logWithDateBound = log(date, _ : <span class="type">String</span>)</span><br></pre></td></tr></table></figure>
+<p><strong>柯里化</strong>：将原来接受两个参数的函数变成新的接受一个参数的函数的过程</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">def</span> <span class="title">strcat</span></span>(s1: <span class="type">String</span>)(s2: <span class="type">String</span>) = &#123;</span><br><span class="line">      s1 + s2</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">println( <span class="string">"str1 + str2 = "</span> +  strcat(str1)(str2) )</span><br></pre></td></tr></table></figure>
+<h3 id="偏函数"><a href="#偏函数" class="headerlink" title="偏函数"></a><strong>偏函数</strong></h3><p><a href="https://blog.csdn.net/bluishglc/article/details/50995939" target="_blank" rel="noopener">Scala之偏函数Partial Function</a></p>
+<p>在Scala的scala包里，有一系列Function trait，它们实际上就是函数字面量作为“对象”存在时对应的类型。Function类型有多个版本，Function0表示无参数函数，Function1表示只有一个参数的函数，以此类推。</p>
+<p>偏函数区别于普通函数的唯一特征就是：偏函数会自主地告诉调用方它的处理参数的范围，范围既可是值也可以是类型。</p>
+<p>{case 2 =&gt; “OK”} 就是一个偏函数 </p>
+<h3 id="省略括号和点号"><a href="#省略括号和点号" class="headerlink" title="省略括号和点号"></a>省略括号和点号</h3><p><strong><em>在没有副作用的前提下，省略调用方法时候的空括号</em></strong></p>
+<p>只接收一个参数时，就可以使用花括号 代替 圆括号。通常人们还是会认为小括号是面向<strong>单行</strong>的，花括号面向<strong>多行</strong>的。</p>
+<h1 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h1><p>闭包是一个函数，返回值依赖于声明在函数外部的一个或多个变量。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> factor = <span class="number">3</span>  </span><br><span class="line"><span class="keyword">val</span> multiplier = (i:<span class="type">Int</span>) =&gt; i * factor</span><br></pre></td></tr></table></figure>
+<p>有一个自由变量factor，这个函数把自由变量成功捕获</p>
+<p><img src="https://pic2.zhimg.com/80/9a4e99dd5fa93171c2f8f09cf3f6ff54_720w.jpg?source=1940ef5c" alt="img"></p>
+<h1 id="类与对象"><a href="#类与对象" class="headerlink" title="类与对象"></a>类与对象</h1><p><strong>class</strong></p>
+<p>在scala中，类名可以和对象名为同一个名字，该对象称为该类的伴生对象，<strong>类和伴生对象可以相互访问他们的私有属性</strong>，但是他们必须在同一个源文件内。类只会被编译，不能直接被执行，类的申明和主构造器在一起被申明，在一个类中，主构造器只有一个所有必须在内部申明主构造器或者是其他申明主构造器的辅构造器，主构造器会执行类定义中的所有语句。scala对每个字段都会提供getter和setter方法，同时也可以显示的申明，但是针对val类型，只提供getter方法，默认情况下，字段为公有类型，可以在setter方法中增加限制条件来限定变量的变化范围，在scala中方法可以访问该类所有对象的私有字段。</p>
+<p><strong>object</strong></p>
+<p>单例对象</p>
+<p>在scala中没有静态方法和静态字段，所以在scala中可以用object来实现这些功能，直接用对象名调用的方法都是采用这种实现方式，例如Array.toString。对象的构造器在第一次使用的时候会被调用，如果一个对象从未被使用，那么他的构造器也不会被执行；对象本质上拥有类（scala中）的所有特性，除此之外，object还可以一扩展类以及一个或者多个特质：例如，<br>abstract class ClassName（val parameter）{}<br>object Test extends ClassName(val parameter){}</p>
+<p>注意：object不能提供构造器参数，也就是说object必须是无参的</p>
+<p><strong>trait</strong></p>
+<p>在java中可以通过interface实现多重继承，在Scala中可以通过特征（trait）实现多重继承，不过与java不同的是，它可以定义自己的属性和实现方法体，在没有自己的实现方法体时可以认为它时java interface是等价的，在Scala中也是一般只能继承一个父类，可以通过多个with进行多重继承。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">TraitA</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">TraitB</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">TraitC</span></span>&#123;&#125;</span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Test1</span> <span class="keyword">extends</span> <span class="title">TraitA</span> <span class="keyword">with</span> <span class="title">TraitB</span> <span class="keyword">with</span> <span class="title">TraitC</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h2><p>Scala 只允许继承一个父类。</p>
+<ul>
+<li>1、重写一个非抽象方法必须使用override修饰符。</li>
+<li>2、只有主构造函数才可以往基类的构造函数里写参数。</li>
+<li>3、在子类中重写超类的抽象方法时，你不需要使用override关键字。</li>
+</ul>
+<h2 id="构造器"><a href="#构造器" class="headerlink" title="构造器"></a>构造器</h2><h3 id="辅助构造器"><a href="#辅助构造器" class="headerlink" title="辅助构造器"></a>辅助构造器</h3><ol>
+<li>辅助构造器的名称为this</li>
+<li>每个辅助构造器都必须以一个对先前已定义的其他辅助构造器或主构造器的调用开始</li>
+</ol>
+<h3 id="主构造器"><a href="#主构造器" class="headerlink" title="主构造器"></a>主构造器</h3><p><strong>1. 主构造器的参数直接放在类名之后</strong></p>
+<p><strong>2. 主构造器会执行类定义中的所有语句</strong></p>
+<p><strong>3. 在主构造器中使用默认参数，可防止辅助构造器使用过多</strong></p>
+<p><strong>4. 如果不带val或var的参数至少被一个方法使用，它将升格为字段</strong>。这种字段是私有的，只能类内部访问。如果带val或var那么本身就是字段，而且可以被外界访问</p>
+<h2 id="构造器执行顺序"><a href="#构造器执行顺序" class="headerlink" title="构造器执行顺序"></a>构造器执行顺序</h2><ul>
+<li>调用超类的构造器；</li>
+<li>特征构造器在超类构造器之后、类构造器之前执行；</li>
+<li>特征由左到右被构造；</li>
+<li>每个特征当中，父特征先被构造；</li>
+<li>如果多个特征共有一个父特征，父特征不会被重复构造</li>
+<li>所有特征被构造完毕，子类被构造。</li>
+</ul>
+<h2 id="单例对象"><a href="#单例对象" class="headerlink" title="单例对象"></a>单例对象</h2><p>object</p>
+<p>当一个单例对象和某个类共享一个名称时，这个单例对象称为 <strong><em>伴生对象</em></strong>。 同理，这个类被称为是这个单例对象的伴生类。类和它的伴生对象可以互相访问其私有成员。使用伴生对象来定义那些在伴生类中不依赖于实例化对象而存在的成员变量或者方法。</p>
+<h1 id="案例类"><a href="#案例类" class="headerlink" title="案例类"></a>案例类</h1><p>实例化案例类时不需要使用关键字<code>new</code>，这是因为案例类有一个默认的<code>apply</code>方法来负责对象的创建。</p>
+<p>当你创建包含参数的案例类时，这些参数是公开（public）的<code>val</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Message</span>(<span class="params">sender: <span class="type">String</span>, recipient: <span class="type">String</span>, body: <span class="type">String</span></span>)</span></span><br><span class="line"><span class="class"><span class="title">val</span> <span class="title">message1</span> </span>= <span class="type">Message</span>(<span class="string">"guillaume@quebec.ca"</span>, <span class="string">"jorge@catalonia.es"</span>, <span class="string">"Ça va ?"</span>)</span><br><span class="line"></span><br><span class="line">println(message1.sender)</span><br></pre></td></tr></table></figure>
+<p>案例类在比较的时候是按值比较而非按引用比较</p>
+<p>可以通过<code>copy</code>方法创建一个案例类实例的浅拷贝，同时可以指定构造参数来做一些改变。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Message</span>(<span class="params">sender: <span class="type">String</span>, recipient: <span class="type">String</span>, body: <span class="type">String</span></span>)</span></span><br><span class="line"><span class="class"><span class="title">val</span> <span class="title">message4</span> </span>= <span class="type">Message</span>(<span class="string">"julien@bretagne.fr"</span>, <span class="string">"travis@washington.us"</span>, <span class="string">"Me zo o komz gant ma amezeg"</span>)</span><br><span class="line"><span class="keyword">val</span> message5 = message4.copy(sender = message4.recipient, recipient = <span class="string">"claire@bourgogne.fr"</span>)</span><br><span class="line">message5.sender  <span class="comment">// travis@washington.us</span></span><br><span class="line">message5.recipient <span class="comment">// claire@bourgogne.fr</span></span><br><span class="line">message5.body  <span class="comment">// "Me zo o komz gant ma amezeg"</span></span><br></pre></td></tr></table></figure>
+<h1 id="模式匹配"><a href="#模式匹配" class="headerlink" title="模式匹配"></a>模式匹配</h1><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.util.<span class="type">Random</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> x: <span class="type">Int</span> = <span class="type">Random</span>.nextInt(<span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">x <span class="keyword">match</span> &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="number">0</span> =&gt; <span class="string">"zero"</span></span><br><span class="line">  <span class="keyword">case</span> <span class="number">1</span> =&gt; <span class="string">"one"</span></span><br><span class="line">  <span class="keyword">case</span> <span class="number">2</span> =&gt; <span class="string">"two"</span></span><br><span class="line">  <span class="keyword">case</span> _ =&gt; <span class="string">"other"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>math…case</p>
+<h2 id="案例类的匹配"><a href="#案例类的匹配" class="headerlink" title="案例类的匹配"></a>案例类的匹配</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">showNotification</span></span>(notification: <span class="type">Notification</span>): <span class="type">String</span> = &#123;</span><br><span class="line">  notification <span class="keyword">match</span> &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="type">Email</span>(sender, title, _) =&gt;</span><br><span class="line">      <span class="string">s"You got an email from <span class="subst">$sender</span> with title: <span class="subst">$title</span>"</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">SMS</span>(number, message) =&gt;</span><br><span class="line">      <span class="string">s"You got an SMS from <span class="subst">$number</span>! Message: <span class="subst">$message</span>"</span></span><br><span class="line">    <span class="keyword">case</span> <span class="type">VoiceRecording</span>(name, link) =&gt;</span><br><span class="line">      <span class="string">s"you received a Voice Recording from <span class="subst">$name</span>! Click the link to hear it: <span class="subst">$link</span>"</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="模式守卫"><a href="#模式守卫" class="headerlink" title="模式守卫"></a>模式守卫</h2><p>在模式后面加上<code>if &lt;boolean expression&gt;</code></p>
+<h2 id="仅匹配类型"><a href="#仅匹配类型" class="headerlink" title="仅匹配类型"></a>仅匹配类型</h2><figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Device</span></span></span><br><span class="line"><span class="class"><span class="title">case</span> <span class="title">class</span> <span class="title">Phone</span>(<span class="params">model: <span class="type">String</span></span>) <span class="keyword">extends</span> <span class="title">Device</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">screenOff</span> </span>= <span class="string">"Turning screen off"</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Computer</span>(<span class="params">model: <span class="type">String</span></span>) <span class="keyword">extends</span> <span class="title">Device</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">screenSaverOn</span> </span>= <span class="string">"Turning screen saver on..."</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">goIdle</span></span>(device: <span class="type">Device</span>) = device <span class="keyword">match</span> &#123;</span><br><span class="line">  <span class="keyword">case</span> p: <span class="type">Phone</span> =&gt; p.screenOff</span><br><span class="line">  <span class="keyword">case</span> c: <span class="type">Computer</span> =&gt; c.screenSaverOn</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="密封类"><a href="#密封类" class="headerlink" title="密封类"></a>密封类</h2><p>特质（trait）和类（class）可以用<code>sealed</code>标记为密封的，这意味着其<strong>所有子类都必须与之定义在相同文件中</strong>，从而保证所有子类型都是已知的。</p>
+<p>这对于模式匹配很有用，因为我们不再需要一个匹配其他任意情况的<code>case</code>。</p>
+<h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p><code>.r</code>方法可使任意字符串变成一个正则表达式。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.util.matching.<span class="type">Regex</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> numberPattern: <span class="type">Regex</span> = <span class="string">"[0-9]"</span>.r</span><br><span class="line"></span><br><span class="line">numberPattern.findFirstMatchIn(<span class="string">"awesomepassword"</span>) <span class="keyword">match</span> &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="type">Some</span>(_) =&gt; println(<span class="string">"Password OK"</span>)</span><br><span class="line">  <span class="keyword">case</span> <span class="type">None</span> =&gt; println(<span class="string">"Password must contain a number"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>findFirstMatchIn, findAllMatchIn</p>
+<h1 id="提取器对象"><a href="#提取器对象" class="headerlink" title="提取器对象"></a>提取器对象</h1><p>提取器对象是一个包含有 <code>unapply</code> 方法的单例对象。</p>
+<p><code>apply</code> 方法就像一个构造器，接受参数然后创建一个实例对象，反之 <code>unapply</code> 方法接受一个实例对象然后返回最初创建它所用的参数。提取器常用在模式匹配和偏函数中。</p>
+<p>模式匹配：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.util.<span class="type">Random</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">CustomerID</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">apply</span></span>(name: <span class="type">String</span>) = <span class="string">s"<span class="subst">$name</span>--<span class="subst">$&#123;Random.nextLong&#125;</span>"</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">unapply</span></span>(customerID: <span class="type">String</span>): <span class="type">Option</span>[<span class="type">String</span>] = &#123;</span><br><span class="line">    <span class="keyword">val</span> stringArray: <span class="type">Array</span>[<span class="type">String</span>] = customerID.split(<span class="string">"--"</span>)</span><br><span class="line">    <span class="keyword">if</span> (stringArray.tail.nonEmpty) <span class="type">Some</span>(stringArray.head) <span class="keyword">else</span> <span class="type">None</span></span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> customer1ID = <span class="type">CustomerID</span>(<span class="string">"Sukyoung"</span>)  <span class="comment">// Sukyoung--23098234908</span></span><br><span class="line">customer1ID <span class="keyword">match</span> &#123;</span><br><span class="line">  <span class="keyword">case</span> <span class="type">CustomerID</span>(name) =&gt; println(name)  <span class="comment">// prints Sukyoung</span></span><br><span class="line">  <span class="keyword">case</span> _ =&gt; println(<span class="string">"Could not extract a CustomerID"</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>当我们调用 <code>CustomerID(&quot;Sukyoung&quot;)</code> ，其实是调用了 <code>CustomerID.apply(&quot;Sukyoung&quot;)</code> 的简化语法。当我们调用 <code>case CustomerID(name) =&gt; println(name)</code>，就是在调用<strong>提取器方法</strong>。</p>
+<p>注：    1. case _ 就相当于default </p>
+<ol>
+<li>上面的例子中apply返回的就是一个string </li>
+<li><code>case CustomerID(name)</code>实际上还定义并初始化了一个新变量name</li>
+</ol>
+<p>因为变量定义可以使用模式引入变量，提取器可以用来初始化这个变量，使用 unapply 方法来生成值。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> customer2ID = <span class="type">CustomerID</span>(<span class="string">"Nico"</span>)<span class="comment">//Nico---8940217181973413871</span></span><br><span class="line"><span class="keyword">val</span> <span class="type">CustomerID</span>(name) = customer2ID</span><br><span class="line">println(name)  <span class="comment">// prints Nico</span></span><br></pre></td></tr></table></figure>
+<p>上面的代码等价于 <code>val name = CustomerID.unapply(customer2ID).get</code></p>
+<p>如果没有匹配的值，会抛出 <code>scala.MatchError</code></p>
+<p>注：1. unapply方法上面定义时返回一个Option</p>
+<ol>
+<li>虽然unapply返回的是Option，但是用<code>CustomerID(name) = customer2ID</code>的语法得到的name是Option里面的值，而且如果是None会直接报错，相当于编译器自动执行了get方法</li>
+<li>这可以看作是一种语法糖</li>
+</ol>
+<p><code>unapply</code> 方法的返回值应当符合下面的某一条：</p>
+<ul>
+<li>如果只是用来判断真假，可以返回一个 <code>Boolean</code> 类型的值。例如 <code>case even()</code>。</li>
+<li>如果只是用来提取单个 T 类型的值，可以返回 <code>Option[T]</code>。</li>
+<li>如果你想要提取多个值，类型分别为 <code>T1,...,Tn</code>，可以把它们放在一个可选的元组中 <code>Option[(T1,...,Tn)]</code>。</li>
+</ul>
+<p>有时，要提取的值的数量不是固定的，因此我们想根据输入来返回随机数量的值。这种情况下，你可以用 <code>unapplySeq</code> 方法来定义提取器，此方法返回 <code>Option[Seq[T]]</code></p>
+<h1 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h1><p>泛型类使用方括号 <code>[]</code> 来接受类型参数。一个惯例是使用字母 <code>A</code> 作为参数标识符</p>
+<p>定义：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Stack</span>[<span class="type">A</span>] </span>&#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">var</span> elements: <span class="type">List</span>[<span class="type">A</span>] = <span class="type">Nil</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">push</span></span>(x: <span class="type">A</span>) &#123; elements = x :: elements &#125;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">peek</span></span>: <span class="type">A</span> = elements.head</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">pop</span></span>(): <span class="type">A</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> currentTop = peek</span><br><span class="line">    elements = elements.tail</span><br><span class="line">    currentTop</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> stack = <span class="keyword">new</span> <span class="type">Stack</span>[<span class="type">Int</span>]</span><br><span class="line">stack.push(<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p><em>只有当类型 <code>B = A</code> 时， <code>Stack[A]</code> 是 <code>Stack[B]</code> 的子类型才成立。</em></p>
+<h1 id="型变"><a href="#型变" class="headerlink" title="型变"></a>型变</h1><p>型变是<strong>复杂类型</strong>的子类型关系与其<strong>组件类型</strong>的子类型关系的相关性。</p>
+<p>函数的参数类型是<em>逆</em>变的，而返回类型是<em>协</em>变的。</p>
+<p>理解：参数类型需要符合里氏替换，B extends A，如果参数类型声明是A，则B(子类)传入也是可以的，这就是逆变（向下）。而返回类型如果是B，那把其当作A(父类)也是可以的，因为A有的方法B都有。但是返回类型如果是A，不能当作B来用。这就是协变（向上）</p>
+<h2 id="协变"><a href="#协变" class="headerlink" title="协变"></a>协变</h2><p>使用注释 <code>+A</code>，可以使一个泛型类的类型参数 <code>A</code> 成为协变。 对于某些类 <code>class List[+A]</code>，使 <code>A</code> 成为协变意味着对于两种类型 <code>A</code> 和 <code>B</code>，如果 <code>A</code> 是 <code>B</code> 的子类型，那么 <code>List[A]</code> 就是 <code>List[B]</code> 的子类型。 </p>
+<h2 id="逆变"><a href="#逆变" class="headerlink" title="逆变"></a>逆变</h2><p>使用注释 <code>-A</code>。对于某个类 <code>class Writer[-A]</code> ，使 <code>A</code> 逆变意味着对于两种类型 <code>A</code> 和 <code>B</code>，如果 <code>A</code> 是 <code>B</code> 的子类型，那么 <code>Writer[B]</code> 是 <code>Writer[A]</code> 的子类型。注意：A和B的位置互换了</p>
+<h2 id="不变"><a href="#不变" class="headerlink" title="不变"></a>不变</h2><p>允许一个可变的泛型类成为协变并不安全</p>
+<h1 id="类型上界与下界"><a href="#类型上界与下界" class="headerlink" title="类型上界与下界"></a>类型上界与下界</h1><p><code>T &lt;: A</code>这样声明的类型上界表示类型变量<code>T</code>应该是类型<code>A</code>的子类。相当于java里<code>? extends A</code></p>
+<p>术语 <code>B &gt;: A</code> 表示类型参数 <code>B</code> 或抽象类型 <code>B</code> 是类型 <code>A</code> 的超类型。 相当于java里<code>? super A</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">G</span>[+<span class="type">A</span>]</span>&#123;<span class="function"><span class="keyword">def</span> <span class="title">fun</span></span>(x: <span class="type">A</span>)&#123;&#125;&#125;</span><br><span class="line"><span class="type">Error</span>: covariant <span class="class"><span class="keyword">type</span> <span class="title">A</span> <span class="title">occurs</span> <span class="title">in</span> <span class="title">contravariant</span> <span class="title">position</span> <span class="title">in</span> <span class="title">type</span> <span class="title">A</span> <span class="title">of</span> <span class="title">value</span> <span class="title">x</span></span></span><br><span class="line"><span class="class"><span class="title">class</span> <span class="title">G</span>[+<span class="type">A</span>]</span>&#123;<span class="function"><span class="keyword">def</span> <span class="title">fun</span></span>(x: <span class="type">A</span>)&#123;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p>函数参数是逆变点，但此处声明为+A（协变的）</p>
+<p>解决办法：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">G</span>[+<span class="type">A</span>]</span>&#123;<span class="function"><span class="keyword">def</span> <span class="title">fun</span></span>[<span class="type">B</span> &gt;: <span class="type">A</span>](x: <span class="type">B</span>)&#123;&#125;&#125;</span><br><span class="line"><span class="comment">//或</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">G</span>[-<span class="type">A</span>]</span>&#123;<span class="function"><span class="keyword">def</span> <span class="title">fun</span></span>(x: <span class="type">A</span>)&#123;&#125;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>G[+A]类似一个生产者，提供数据。（大部分情况下称G为容器类型）<br>G[-A] 是一个消费者，主要用来消费数据。</p>
+</blockquote>
+<p><strong>PECS</strong> 原则 (<em>Producer</em>-extends, consumer-super) 或者也叫 Get and Put 原则</p>
+<p><a href="https://hongjiang.info/java-generics/" target="_blank" rel="noopener">https://hongjiang.info/java-generics/</a></p>
+<blockquote>
+<p>使用了 <code>&lt;? extends E&gt;</code> 这样的通配符，test方法的参数list变成了只能get不能set（除了null） 或者不严谨的说它变成了只读参数了， 有些类似一个生产者，提供数据。</p>
+<p>使用了<code>&lt;? super E&gt;</code> 这种通配符，test方法的参数list的get受到了很大的制约，只能最宽泛的方式来获取list中的数据，相当于get只提供了数据最小级别的访问权限（想想，你可能原本是放进去了一个Book，却只能当作Object来访问）。它更多适合于set的使用场景，像是一个消费者，主要用来消费数据。</p>
+</blockquote>
+<h1 id="内部类"><a href="#内部类" class="headerlink" title="内部类"></a>内部类</h1><p> 在一些类似 Java 的语言中，内部类是外部类的成员，而 Scala 正好相反，内部类是<strong>绑定到</strong>外部<strong>对象</strong>的。</p>
+<p>同一个类的不同对象的内部类对象类型是不一样的，除非把入参类型写成 outerClass#innerClass的形式</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Graph</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">class</span> <span class="title">Node</span> </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> connectedNodes: <span class="type">List</span>[<span class="type">Graph</span>#<span class="type">Node</span>] = <span class="type">Nil</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">connectTo</span></span>(node: <span class="type">Graph</span>#<span class="type">Node</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!connectedNodes.exists(node.equals)) &#123;</span><br><span class="line">        connectedNodes = node :: connectedNodes</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">var</span> nodes: <span class="type">List</span>[<span class="type">Node</span>] = <span class="type">Nil</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">newNode</span></span>: <span class="type">Node</span> = &#123;</span><br><span class="line">    <span class="keyword">val</span> res = <span class="keyword">new</span> <span class="type">Node</span></span><br><span class="line">    nodes = res :: nodes</span><br><span class="line">    res</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h1 id="抽象类型"><a href="#抽象类型" class="headerlink" title="抽象类型"></a>抽象类型</h1><p>特质和抽象类可以包含一个抽象类型成员，意味着实际类型可由具体实现来确定。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Buffer</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="title">T</span></span></span><br><span class="line"><span class="class">  <span class="title">val</span> <span class="title">element</span></span>: <span class="type">T</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过<strong>抽象类</strong>来扩展这个特质后，就可以添加一个<strong>类型上边界</strong>来让抽象类型<code>T</code>变得更加具体。这个<code>SeqBuffer</code>类就限定了缓冲区中存储的元素类型只能是序列。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">SeqBuffer</span> <span class="keyword">extends</span> <span class="title">Buffer</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="title">U</span></span></span><br><span class="line"><span class="class">  <span class="title">type</span> <span class="title">T</span> <span class="title">&lt;</span></span>: <span class="type">Seq</span>[<span class="type">U</span>]</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">length</span> </span>= element.length</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>含有抽象类型成员的特质或类（<a href="https://docs.scala-lang.org/zh-cn/tour/classes.html" target="_blank" rel="noopener">classes</a>）经常和匿名类的初始化一起使用。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//工厂方法newIntSeqBuf使用了IntSeqBuf的匿名类实现方式，其类型T被设置成了List[Int]。</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">IntSeqBuffer</span> <span class="keyword">extends</span> <span class="title">SeqBuffer</span> </span>&#123;</span><br><span class="line">  <span class="class"><span class="keyword">type</span> <span class="title">U</span> </span>= <span class="type">Int</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">newIntSeqBuf</span></span>(elem1: <span class="type">Int</span>, elem2: <span class="type">Int</span>): <span class="type">IntSeqBuffer</span> =</span><br><span class="line">  <span class="keyword">new</span> <span class="type">IntSeqBuffer</span> &#123;</span><br><span class="line">       <span class="class"><span class="keyword">type</span> <span class="title">T</span> </span>= <span class="type">List</span>[<span class="type">U</span>]</span><br><span class="line">       <span class="keyword">val</span> element = <span class="type">List</span>(elem1, elem2)</span><br><span class="line">     &#125;</span><br><span class="line"><span class="keyword">val</span> buf = newIntSeqBuf(<span class="number">7</span>, <span class="number">8</span>)</span><br><span class="line">println(<span class="string">"length = "</span> + buf.length)</span><br><span class="line">println(<span class="string">"content = "</span> + buf.element)</span><br></pre></td></tr></table></figure>
+<p>把抽象类型成员转成类的类型参数或者反过来，也是可行的。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这里的变量定义少了type T，T直接写在泛型里了</span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Buffer</span>[+<span class="type">T</span>] </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> element: <span class="type">T</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//+T &lt;: Seq[U]必不可少，相当于type T &lt;: Seq[U] </span></span><br><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">SeqBuffer</span>[<span class="type">U</span>, +<span class="type">T</span> &lt;: <span class="type">Seq</span>[<span class="type">U</span>]] <span class="keyword">extends</span> <span class="title">Buffer</span>[<span class="type">T</span>] </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">length</span> </span>= element.length</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">newIntSeqBuf</span></span>(e1: <span class="type">Int</span>, e2: <span class="type">Int</span>): <span class="type">SeqBuffer</span>[<span class="type">Int</span>, <span class="type">Seq</span>[<span class="type">Int</span>]] =</span><br><span class="line">  <span class="keyword">new</span> <span class="type">SeqBuffer</span>[<span class="type">Int</span>, <span class="type">List</span>[<span class="type">Int</span>]] &#123;</span><br><span class="line">      <span class="comment">//这里也不用显示声明type T = List[U]，写在类型参数里了</span></span><br><span class="line">    <span class="keyword">val</span> element = <span class="type">List</span>(e1, e2)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> buf = newIntSeqBuf(<span class="number">7</span>, <span class="number">8</span>)</span><br><span class="line">println(<span class="string">"length = "</span> + buf.length)</span><br><span class="line">println(<span class="string">"content = "</span> + buf.element)</span><br></pre></td></tr></table></figure>
+<h1 id="复合类型"><a href="#复合类型" class="headerlink" title="复合类型"></a>复合类型</h1><p>可以将 <code>obj</code> 的类型同时指定为 <code>Cloneable</code> 和 <code>Resetable</code>。 这种复合类型在 Scala 中写成：<code>Cloneable with Resetable</code>。</p>
+<p>复合类型可以由多个对象类型构成，这些对象类型可以有单个细化，用于缩短已有对象成员的签名。 格式为：<code>A with B with C ... { refinement }</code></p>
+<h1 id="自类型"><a href="#自类型" class="headerlink" title="自类型"></a>自类型</h1><p>自类型用于声明一个特质<strong>必须混入其他特质</strong>，尽管该特质没有直接扩展其他特质。 这使得<strong>所依赖的成员</strong>(就是想用别的trait里的成员)可以在没有导入的情况下使用。</p>
+<p>要在特质中使用自类型，写一个标识符，跟上要混入的另一个特质，以及 <code>=&gt;</code>（例如 <code>someIdentifier: SomeOtherTrait =&gt;</code>）。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">username</span></span>: <span class="type">String</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">trait</span> <span class="title">Tweeter</span> </span>&#123;</span><br><span class="line">  <span class="keyword">this</span>: <span class="type">User</span> =&gt;  <span class="comment">// 重新赋予 this 的类型</span></span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">tweet</span></span>(tweetText: <span class="type">String</span>) = println(<span class="string">s"<span class="subst">$username</span>: <span class="subst">$tweetText</span>"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">VerifiedTweeter</span>(<span class="params">val username_ : <span class="type">String</span></span>) <span class="keyword">extends</span> <span class="title">Tweeter</span> <span class="keyword">with</span> <span class="title">User</span> </span>&#123;  <span class="comment">// 我们混入特质 User 因为 Tweeter 需要</span></span><br><span class="line">	<span class="function"><span class="keyword">def</span> <span class="title">username</span> </span>= <span class="string">s"real <span class="subst">$username_</span>"</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> realBeyoncé = <span class="keyword">new</span> <span class="type">VerifiedTweeter</span>(<span class="string">"Beyoncé"</span>)</span><br><span class="line">realBeyoncé.tweet(<span class="string">"Just spilled my glass of lemonade"</span>)  <span class="comment">// 打印出 "real Beyoncé: Just spilled my glass of lemonade"</span></span><br></pre></td></tr></table></figure>
+<p>因为我们在特质 <code>trait Tweeter</code> 中定义了 <code>this: User =&gt;</code>，现在变量 <code>username</code> 可以在 <code>tweet</code> 方法内使用。 这也意味着，由于 <code>VerifiedTweeter</code> 继承了 <code>Tweeter</code>，它还<strong>必须混入 <code>User</code></strong>（使用 <code>with User</code>）。</p>
+<p>子类型强制A trait必须和B trait一起使用（如果A中自类型B）</p>
+<h1 id="隐式参数"><a href="#隐式参数" class="headerlink" title="隐式参数"></a>隐式参数</h1><p>方法可以具有 <em>隐式</em> 参数列表，由参数列表开头的 <strong><em>implicit</em></strong> 关键字标记。当方法需要多个参数的时候，可以定义一些隐式参数，这些隐式参数可以被自动加到方法填充的参数里，而不必手动填充。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">implicitParamFunc</span></span>(name: <span class="type">String</span>)(<span class="keyword">implicit</span> tiger: <span class="type">Tiger</span>, lion: <span class="type">Lion</span>): <span class="type">Unit</span> = &#123;</span><br><span class="line">    println(name + <span class="string">" have a tiget and a lion, their names are: "</span> + tiger.name + <span class="string">", "</span> + lion.name)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">Zoo</span> </span>&#123;</span><br><span class="line">    <span class="keyword">implicit</span> <span class="keyword">val</span> tiger = <span class="type">Tiger</span>(<span class="string">"tiger1"</span>)</span><br><span class="line">    <span class="keyword">implicit</span> <span class="keyword">val</span> lion = <span class="type">Lion</span>(<span class="string">"lion1"</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="type">Zoo</span>._</span><br><span class="line"></span><br><span class="line">implicitParamFunc(<span class="string">"format"</span>)</span><br></pre></td></tr></table></figure>
+<p>implicitParamFunc方法只调用了一个参数，其他两个参数是隐式的，需要注意的是不仅仅方法中的参数需要被定义成隐式参数，对应的隐式参数的变量也需要被定义成<strong>隐式变量</strong>。</p>
+<h1 id="隐式转换"><a href="#隐式转换" class="headerlink" title="隐式转换"></a>隐式转换</h1><p><a href="https://fangjian0423.github.io/2015/12/20/scala-implicit/" target="_blank" rel="noopener">Scala 隐式转换和隐式参数</a></p>
+<p>隐式转换在两种情况下会用到：</p>
+<ul>
+<li>如果一个表达式 <code>e</code> 的类型为 <code>S</code>， 并且类型 <code>S</code> 不符合表达式的期望类型 <code>T</code>。</li>
+<li>在一个类型为 <code>S</code> 的实例对象 <code>e</code> 中调用 <code>e.m</code>， 如果被调用的 <code>m</code> 并没有在类型 <code>S</code> 中声明。</li>
+</ul>
+<p>在第一种情况下，搜索一个转换 <code>c</code>，它能适用于 <code>e</code>，并且结果类型为 <code>T</code>。 在第二种情况下，搜索一个转换 <code>c</code>，它能适用于 <code>e</code>，其结果包含名为 <code>m</code> 的成员。</p>
+<p>在 <code>scala.Predef.intWrapper</code> 已经自动提供了一个隐式方法 <code>Int =&gt; Ordered[Int]</code>。下面提供了一个隐式方法 <code>List[A] =&gt; Ordered[List[A]]</code> 的例子。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> scala.language.implicitConversions</span><br><span class="line"></span><br><span class="line"><span class="keyword">implicit</span> <span class="function"><span class="keyword">def</span> <span class="title">list2ordered</span></span>[<span class="type">A</span>](x: <span class="type">List</span>[<span class="type">A</span>])</span><br><span class="line">    (<span class="keyword">implicit</span> elem2ordered: <span class="type">A</span> =&gt; <span class="type">Ordered</span>[<span class="type">A</span>]): <span class="type">Ordered</span>[<span class="type">List</span>[<span class="type">A</span>]] =</span><br><span class="line">  <span class="keyword">new</span> <span class="type">Ordered</span>[<span class="type">List</span>[<span class="type">A</span>]] &#123; </span><br><span class="line">    <span class="comment">//replace with a more useful implementation</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">compare</span></span>(that: <span class="type">List</span>[<span class="type">A</span>]): <span class="type">Int</span> = <span class="number">1</span></span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>注意有implicit关键字。这样就可以用下面这个</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">List</span>(<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>) &lt;= <span class="type">List</span>(<span class="number">4</span>, <span class="number">5</span>)</span><br><span class="line"><span class="comment">//&lt;= 是ordered的方法，这里list隐式转成了ordered</span></span><br></pre></td></tr></table></figure>
+<h1 id="多态方法"><a href="#多态方法" class="headerlink" title="多态方法"></a>多态方法</h1><p>Scala 中的方法可以按类型和值进行参数化。 语法和泛型类类似。 类型参数括在方括号中，而值参数括在圆括号中。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">listOfDuplicates</span></span>[<span class="type">A</span>](x: <span class="type">A</span>, length: <span class="type">Int</span>): <span class="type">List</span>[<span class="type">A</span>] = &#123;</span><br><span class="line">  <span class="keyword">if</span> (length &lt; <span class="number">1</span>)</span><br><span class="line">    <span class="type">Nil</span></span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    x :: listOfDuplicates(x, length - <span class="number">1</span>)</span><br><span class="line">&#125;</span><br><span class="line">println(listOfDuplicates[<span class="type">Int</span>](<span class="number">3</span>, <span class="number">4</span>))  <span class="comment">// List(3, 3, 3, 3)</span></span><br><span class="line">println(listOfDuplicates(<span class="string">"La"</span>, <span class="number">8</span>))  <span class="comment">// List(La, La, La, La, La, La, La, La)</span></span><br></pre></td></tr></table></figure>
+<h1 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h1><p>在Scala中，运算符即是方法。 任何具有单个参数的方法都可以用作 <em>中缀运算符</em>。</p>
+<p>当一个表达式使用多个运算符时，将根据运算符的第一个字符来评估优先级：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(characters not shown below)</span><br><span class="line">* / %</span><br><span class="line">+ -</span><br><span class="line">:</span><br><span class="line">= !</span><br><span class="line">&lt; &gt;</span><br><span class="line">&amp;</span><br><span class="line">^</span><br><span class="line">|</span><br><span class="line">(all letters)</span><br></pre></td></tr></table></figure>
+<h2 id="三元表达式"><a href="#三元表达式" class="headerlink" title="三元表达式"></a>三元表达式</h2><p>用if/else代替</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">val</span> j = <span class="keyword">if</span> (i&gt;<span class="number">5</span>) i <span class="keyword">else</span> <span class="number">5</span></span><br></pre></td></tr></table></figure>
+<h1 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h1><p>在编写与 Java 互操作的 Scala 代码时，注解语法中存在一些差异需要注意。 <strong>注意：</strong> 确保你在开启 <code>-target:jvm-1.8</code> 选项时使用 Java 注解。</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@interface</span> <span class="type">SourceURL</span> &#123;</span><br><span class="line">    public <span class="type">String</span> value();</span><br><span class="line">    public <span class="type">String</span> mail() <span class="keyword">default</span> <span class="string">""</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//java只能显示地写出value</span></span><br><span class="line"><span class="meta">@SourceURL</span>(value = <span class="string">"https://coders.com/"</span>,</span><br><span class="line">           mail = <span class="string">"support@coders.com"</span>)</span><br><span class="line">public <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> <span class="keyword">extends</span> <span class="title">HisClass</span> ...</span></span><br><span class="line"><span class="class"></span></span><br><span class="line"><span class="class"><span class="title">//scala更灵活</span></span></span><br><span class="line"><span class="class"><span class="title">@SourceURL</span>(<span class="params">"https://coders.com/",</span></span></span><br><span class="line"><span class="class"><span class="params">           mail = "support@coders.com"</span>)</span></span><br><span class="line"><span class="class">    <span class="title">class</span> <span class="title">MyScalaClass</span> ...</span></span><br></pre></td></tr></table></figure>
+<h1 id="包和导入"><a href="#包和导入" class="headerlink" title="包和导入"></a>包和导入</h1><p>包：可以在文件头部声明<code>package users</code> 或者用大括号</p>
+<p>导入</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> users._  <span class="comment">// 导入包 users 中的所有成员</span></span><br><span class="line"><span class="keyword">import</span> users.<span class="type">User</span>  <span class="comment">// 导入类 User</span></span><br><span class="line"><span class="keyword">import</span> users.&#123;<span class="type">User</span>, <span class="type">UserPreferences</span>&#125;  <span class="comment">// 仅导入选择的成员</span></span><br><span class="line"><span class="keyword">import</span> users.&#123;<span class="type">UserPreferences</span> =&gt; <span class="type">UPrefs</span>&#125;  <span class="comment">// 导入类并且设置别名</span></span><br></pre></td></tr></table></figure>
+<p>Scala 不同于 Java 的一点是 Scala 可以在任何地方使用导入：比如在方法内部</p>
+<p>如果存在命名冲突并且你需要从项目的根目录导入，请在包名称前加上 <code>_root_</code>：</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> accounts</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> _root_.users._</span><br></pre></td></tr></table></figure>
+<p>注意：包 <code>scala</code> 和 <code>java.lang</code> 以及 <code>object Predef</code> 是默认导入的。</p>
+<h1 id="包对象"><a href="#包对象" class="headerlink" title="包对象"></a>包对象</h1><p>Scala 提供包对象作为在整个包中方便的<strong>共享使用的容器</strong>。</p>
+<p>按照惯例，包对象的代码通常放在名为 <code>package.scala</code> 的源文件中。</p>
+<p>每个包都允许有一个包对象。 在包对象中的任何定义都被认为是包自身的成员。</p>
+<p>举例： 假设有一个类 <code>Fruit</code> 和三个 <code>Fruit</code> 对象在包 <code>gardening.fruits</code> 中；</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in file gardening/fruits/Fruit.scala</span></span><br><span class="line"><span class="keyword">package</span> gardening.fruits</span><br><span class="line"></span><br><span class="line"><span class="keyword">case</span> <span class="class"><span class="keyword">class</span> <span class="title">Fruit</span>(<span class="params">name: <span class="type">String</span>, color: <span class="type">String</span></span>)</span></span><br><span class="line"><span class="class"><span class="title">object</span> <span class="title">Apple</span> <span class="keyword">extends</span> <span class="title">Fruit</span>(<span class="params">"<span class="type">Apple</span>", "green"</span>)</span></span><br><span class="line"><span class="class"><span class="title">object</span> <span class="title">Plum</span> <span class="keyword">extends</span> <span class="title">Fruit</span>(<span class="params">"<span class="type">Plum</span>", "blue"</span>)</span></span><br><span class="line"><span class="class"><span class="title">object</span> <span class="title">Banana</span> <span class="keyword">extends</span> <span class="title">Fruit</span>(<span class="params">"<span class="type">Banana</span>", "yellow"</span>)</span></span><br></pre></td></tr></table></figure>
+<p>下面是包对象, 里面有变量 <code>planted</code> 和方法 <code>showFruit</code></p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in file gardening/fruits/package.scala</span></span><br><span class="line"><span class="keyword">package</span> gardening</span><br><span class="line"><span class="keyword">package</span> <span class="class"><span class="keyword">object</span> <span class="title">fruits</span> </span>&#123;</span><br><span class="line">  <span class="keyword">val</span> planted = <span class="type">List</span>(<span class="type">Apple</span>, <span class="type">Plum</span>, <span class="type">Banana</span>)</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">showFruit</span></span>(fruit: <span class="type">Fruit</span>): <span class="type">Unit</span> = &#123;</span><br><span class="line">    println(<span class="string">s"<span class="subst">$&#123;fruit.name&#125;</span>s are <span class="subst">$&#123;fruit.color&#125;</span>"</span>)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用:</p>
+<figure class="highlight scala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// in file PrintPlanted.scala</span></span><br><span class="line"><span class="keyword">import</span> gardening.fruits._</span><br><span class="line"><span class="class"><span class="keyword">object</span> <span class="title">PrintPlanted</span> </span>&#123;</span><br><span class="line">  <span class="function"><span class="keyword">def</span> <span class="title">main</span></span>(args: <span class="type">Array</span>[<span class="type">String</span>]): <span class="type">Unit</span> = &#123;</span><br><span class="line">    <span class="keyword">for</span> (fruit &lt;- planted) &#123;</span><br><span class="line">      showFruit(fruit) <span class="comment">//showFruit方法就是包对象中的</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>包对象与其他对象类似，这意味着你可以使用<strong>继承</strong>来构建它们</p>
+<h1 id="参考链接"><a href="#参考链接" class="headerlink" title="参考链接"></a><strong>参考链接</strong></h1><p><a href="https://docs.scala-lang.org/zh-cn/overviews/collections/overview.html" target="_blank" rel="noopener">https://docs.scala-lang.org/zh-cn/overviews/collections/overview.html</a></p>
+<p><a href="https://docs.scala-lang.org/zh-cn/tour/tour-of-scala.html" target="_blank" rel="noopener">https://docs.scala-lang.org/zh-cn/tour/tour-of-scala.html</a></p>
+<p><a href="https://n3xtchen.github.io/n3xtchen/scala/2016/06/15/scala-top-10-for-new" target="_blank" rel="noopener">Scala 新手眼中的十种有趣用法</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/02/26/concurrentHashMap源码解读(一)/" data-toggle="tooltip" data-placement="top" title="ConcurrentHashMap源码解读(一)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#数据结构"><span class="toc-text">数据结构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#集合类共性"><span class="toc-text">集合类共性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Traversable"><span class="toc-text">Traversable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Iterable"><span class="toc-text">Iterable</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Seq"><span class="toc-text">Seq</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缓冲器"><span class="toc-text">缓冲器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#集合"><span class="toc-text">集合</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mutable-Set"><span class="toc-text">mutable.Set</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#有序集-SortedSet"><span class="toc-text">有序集(SortedSet)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#位集合（Bitset）"><span class="toc-text">位集合（Bitset）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Map"><span class="toc-text">Map</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#mutable-Map"><span class="toc-text">mutable.Map</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同步集合（Set）和映射（Map）"><span class="toc-text">同步集合（Set）和映射（Map）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Array"><span class="toc-text">Array</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#字符串"><span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体的不可变集实体类"><span class="toc-text">具体的不可变集实体类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#List"><span class="toc-text">List</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#基本操作"><span class="toc-text">基本操作</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Stream"><span class="toc-text">Stream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Vector"><span class="toc-text">Vector</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#不可变栈-Immutable-stacks"><span class="toc-text">不可变栈 Immutable stacks</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Immutable-Queues（不可变队列）"><span class="toc-text">Immutable Queues（不可变队列）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Range-等差数列"><span class="toc-text">Range(等差数列)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hash-Tries"><span class="toc-text">Hash Tries</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Red-Black-Trees（红黑树）"><span class="toc-text">Red-Black Trees（红黑树）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Immutable-BitSets（不可变位集合）"><span class="toc-text">Immutable BitSets（不可变位集合）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-Maps"><span class="toc-text">List Maps</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#具体的可变容器类"><span class="toc-text">具体的可变容器类</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Array-Buffers"><span class="toc-text">Array Buffers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#List-Buffers"><span class="toc-text">List Buffers</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#StringBuilders"><span class="toc-text">StringBuilders</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链表"><span class="toc-text">链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#双向链表"><span class="toc-text">双向链表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#可变列表"><span class="toc-text">可变列表</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#队列"><span class="toc-text">队列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组序列"><span class="toc-text">数组序列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#栈"><span class="toc-text">栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数组栈"><span class="toc-text">数组栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#hash-table"><span class="toc-text">hash table</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Weak-Hash-Maps"><span class="toc-text">Weak Hash Maps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Concurrent-Maps"><span class="toc-text">Concurrent Maps</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Mutable-Bitsets"><span class="toc-text">Mutable Bitsets</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元组"><span class="toc-text">元组</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#迭代器"><span class="toc-text">迭代器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#带缓冲的迭代器"><span class="toc-text">带缓冲的迭代器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#视图"><span class="toc-text">视图</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Option"><span class="toc-text">Option</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#从头定义新容器"><span class="toc-text">从头定义新容器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#java和scala容器转换"><span class="toc-text">java和scala容器转换</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#下划线的用途"><span class="toc-text">下划线的用途</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#循环"><span class="toc-text">循环</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#函数与方法"><span class="toc-text">函数与方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#偏函数"><span class="toc-text">偏函数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#省略括号和点号"><span class="toc-text">省略括号和点号</span></a></li></ol></li></ol><li class="toc-item toc-level-1"><a class="toc-link" href="#闭包"><span class="toc-text">闭包</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类与对象"><span class="toc-text">类与对象</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#继承"><span class="toc-text">继承</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器"><span class="toc-text">构造器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#辅助构造器"><span class="toc-text">辅助构造器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#主构造器"><span class="toc-text">主构造器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造器执行顺序"><span class="toc-text">构造器执行顺序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#单例对象"><span class="toc-text">单例对象</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#案例类"><span class="toc-text">案例类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#模式匹配"><span class="toc-text">模式匹配</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#案例类的匹配"><span class="toc-text">案例类的匹配</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模式守卫"><span class="toc-text">模式守卫</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#仅匹配类型"><span class="toc-text">仅匹配类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#密封类"><span class="toc-text">密封类</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#正则表达式"><span class="toc-text">正则表达式</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#提取器对象"><span class="toc-text">提取器对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#泛型"><span class="toc-text">泛型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#型变"><span class="toc-text">型变</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#协变"><span class="toc-text">协变</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逆变"><span class="toc-text">逆变</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#不变"><span class="toc-text">不变</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#类型上界与下界"><span class="toc-text">类型上界与下界</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#内部类"><span class="toc-text">内部类</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#抽象类型"><span class="toc-text">抽象类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#复合类型"><span class="toc-text">复合类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#自类型"><span class="toc-text">自类型</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#隐式参数"><span class="toc-text">隐式参数</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#隐式转换"><span class="toc-text">隐式转换</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#多态方法"><span class="toc-text">多态方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#运算符"><span class="toc-text">运算符</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#三元表达式"><span class="toc-text">三元表达式</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#注解"><span class="toc-text">注解</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#包和导入"><span class="toc-text">包和导入</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#包对象"><span class="toc-text">包对象</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#参考链接"><span class="toc-text">参考链接</span></a></li>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://nulljh.cn/">John Doe</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                    
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Unnnfly 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if ($('#tag_cloud').length !== 0) {
+        async("https://blog.aobtain.cn/js/jquery.tagcloud.js", function () {
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: { start: '#bbbbee', end: '#0085a1' },
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-136985419-1';
+    var _gaDomain = 'aobtain.cn';
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+    (function (w, d, t, u, n, s, e) {
+    w['SwiftypeObject'] = n; w[n] = w[n] || function () {
+        (w[n].q = w[n].q || []).push(arguments);
+    }; s = d.createElement(t);
+        e = d.getElementsByTagName(t)[0]; s.async = 1; s.src = u; e.parentNode.insertBefore(s, e);
+    })(window, document, 'script', '//s.swiftypecdn.com/install/v2/st.js', '_st');
+
+    _st('install', '1Q6gh5NNmDszKaQaUjmv', '2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://cdn.aobtain.cn/dog.jpeg"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+
+</html>
