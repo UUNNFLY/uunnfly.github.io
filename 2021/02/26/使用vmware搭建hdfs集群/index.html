@@ -216,7 +216,7 @@
 </li>
 <li><p>此时能上外网了，但是想要和宿主机互相访问还需要看一下网卡的设置。打开windows的网络中心，选择VMnet8这张虚拟网卡，查看其ipv4设置，ip地址需要跟NAT子网一个网段，最后的主机号不能跟虚拟机的主机号相同。<br> <img src="http://cdn.aobtain.cn/vmware/VMnet8.png" alt></p>
 </li>
-<li><p>vmware的NAT原理大致如下：虚拟机访问外网通过VMware NAT service这个进程直接跟物理网卡相连，而宿主机访问虚拟机需要通过VMnet8这张虚拟网卡。此外，还有一个VMnet8虚拟交换机，跟VMnet8虚拟网卡不是一个东西。VMnet8虚拟网卡与虚拟机网卡在同一个网段，它们之间通信不需要在网络层进行，只需要在数据链路层。虚拟机和宿主机都是这个网段的一台主机。<br> <img src="https://s3.51cto.com/wyfs02/M00/8D/EB/wKioL1ivpTXhXCLbAALG94naNuk950.jpg" alt></p>
+<li><p>vmware的NAT原理大致如下：虚拟机访问外网通过VMware NAT service这个进程直接跟物理网卡相连，而宿主机访问虚拟机需要通过VMnet8这张虚拟网卡。此外，还有一个VMnet8虚拟交换机，跟VMnet8虚拟网卡不是一个东西。VMnet8虚拟网卡与虚拟机网卡在同一个网段，它们之间通信不需要在网络层进行，只需要在数据链路层。虚拟机和宿主机都是这个网段的一台主机。<br> <img src="http://cdn.aobtain.cn/img/wKioL1ivpTXhXCLbAALG94naNuk950.jpg" alt></p>
 </li>
 <li><p>如果虚拟机想要被除了宿主机以外的其他机器访问，需要使用NAT设置里的端口转发。</p>
 </li>
