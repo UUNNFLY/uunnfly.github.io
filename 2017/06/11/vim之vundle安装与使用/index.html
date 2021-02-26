@@ -19,11 +19,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        简明XPath｜uunnfly&#39;s blog
+        vim之vundle安装与使用｜uunnfly&#39;s blog
         
     </title>
 
-    <link rel="canonical" href="https://blog.aobtain.cn/2019/03/23/简明XPath/">
+    <link rel="canonical" href="https://blog.aobtain.cn/2017/06/11/vim之vundle安装与使用/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -153,19 +153,17 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>简明XPath</h1>
+                    <h1>vim之vundle安装与使用</h1>
                     
                     <span class="meta">
                          作者 uunnfly
                         <span>
-                          日期 2019-03-23
+                          日期 2017-06-11
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#scrapy" title="scrapy">scrapy</a>
-                        
-                        <a class="tag" href="/tags/#XPath" title="XPath">XPath</a>
+                        <a class="tag" href="/tags/#vim" title="vim">vim</a>
                         
                     </div>
                 </div>
@@ -174,7 +172,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            简明XPath
+            vim之vundle安装与使用
         </span>
     </div>
 </header>
@@ -185,52 +183,29 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>XPath是一门在XML文档中查找信息的语言，当然也可以在html中使用</p>
-<p>XPath十分简单：你只要把条件连在一起。在节点的集合里选中符合条件的，再作为新的集合继续这个过程。</p>
-<h1 id="vs"><a href="#vs" class="headerlink" title="/ vs []"></a><code>/</code> vs <code>[]</code></h1><ul>
-<li>在<code>/</code>之后的条件意思是：下一步选择匹配的子节点</li>
-<li>在<code>[]</code>之内的条件意思是：在原有的集合中排除那些不符合条件的节点，也就是只选择符合<code>[]</code>内条件的节点</li>
-</ul>
-<p>举个例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;foo&gt;</span><br><span class="line">    &lt;bar&gt;test1&lt;/bar&gt;</span><br><span class="line">&lt;/foo&gt;</span><br><span class="line">&lt;foo&gt;</span><br><span class="line">    test2</span><br><span class="line">&lt;/foo&gt;</span><br></pre></td></tr></table></figure></p>
-<ul>
-<li><code>/foo/bar</code></li>
-</ul>
-<ol>
-<li>从根节点开始</li>
-<li>接着<code>/foo</code>：根节点下有两个子节点，比较一下，把所有的<code>foo</code>元素组成新的集合供下一步使用</li>
-<li>接着<code>/bar</code>: 抓取每个节点的子节点，如果该子节点是<code>bar</code>则把<strong>该子节点</strong>放入新的集合</li>
-<li>得出结果：<code>&lt;bar&gt;test1&lt;/bar&gt;</code></li>
-</ol>
-<ul>
-<li><code>/foo[bar]</code></li>
-</ul>
-<ol>
-<li>从根节点开始</li>
-<li>接着<code>/foo</code>：根节点下有两个子节点，比较一下，把所有的<code>foo</code>元素组成新的集合供下一步使用</li>
-<li>接着<code>/bar</code>: 抓取每个节点的子节点，如果该子节点有<code>bar</code>元素则把<strong>该节点</strong>放入新的集合</li>
-<li>得出结果：<code>&lt;foo&gt;&lt;bar&gt;test1&lt;/bar&gt;&lt;/foo&gt;</code></li>
-</ol>
-<p><code>[]</code>内也可以写坐标： <code>[1]</code> 也就是<code>[position() = 1]</code>，会取得符合条件的第一个元素</p>
-<h1 id="轴"><a href="#轴" class="headerlink" title="轴 ::"></a>轴 <code>::</code></h1><p>轴是用<code>::</code>分割的前缀，轴指定相对于当前节点集的任意元素，既可以是子节点，又可以是当前节点、兄弟节点或者其祖先节点</p>
-<p>举个例子：</p>
-<p><code>/foo/following-sibling:bar</code></p>
-<ol>
-<li>从根节点开始</li>
-<li>接着<code>/foo</code>：检查节点集中的每个节点（这里就一个根节点）的子节点，把所有的<code>foo</code>元素组成新的集合供下一步使用</li>
-<li>接着<code>/following-sibling::bar</code>: 检查节点集中的每个节点的同级节点，如果存在同级节点是<code>bar</code>则把<strong>该节点</strong>放入新的集合(此处实际没什么作用，还是取得所有的<code>foo</code>节点)</li>
-</ol>
-<p>实际上<code>/foo/bar</code>意思是<code>/child::foo/child::bar</code>, <code>/foo[bar]</code> 意思是 <code>/child::foo[child::bar]</code></p>
-<p>此外，还有一些语法糖：<code>attribute::foo</code> 可以写成 <code>@foo</code>, <code>/descendant-or-self::foo</code>可以写成<code>//foo</code>，也就是说<code>//</code>表示自身或者任意后代。</p>
-<h1 id="vs-1"><a href="#vs-1" class="headerlink" title=". vs /"></a><code>.</code> vs <code>/</code></h1><ul>
-<li><code>.</code> 是相对路径，指当前节点</li>
-<li><code>/</code> 是绝对路径，从根节点开始</li>
-</ul>
-<p>注意：在scrapy中使用xpath时<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">users = response.xpath(<span class="string">"//*[id='user']"</span>)</span><br><span class="line"><span class="keyword">for</span> user <span class="keyword">in</span> users:</span><br><span class="line">    item[<span class="string">'passwd'</span>] = user.xpath(<span class="string">".//*[id='passwd']"</span>)</span><br></pre></td></tr></table></figure></p>
-<p><code>user.xpath(&quot;.//*[id=&#39;passwd&#39;]&quot;)</code>必须有这个点<code>.</code>，否则会找出<strong>文档中</strong>所有符合条件的节点,而不是当前<code>user</code>下的集合</p>
-<p><em>参考资料</em></p>
-<blockquote>
-<p><a href="http://plasmasturm.org/log/xpath101/" target="_blank" rel="noopener">Concise XPath</a><br><a href="http://www.w3school.com.cn/xpath/index.asp" target="_blank" rel="noopener">XPath 教程</a></p>
-</blockquote>
+                <p>vundle是一个插件管理的插件，好处是可以便捷地安装升级与卸载。<br><a href="https://github.com/VundleVim/Vundle.vim" target="_blank" rel="noopener">vundle官方链接</a></p>
+<h1 id="安装前准备"><a href="#安装前准备" class="headerlink" title="安装前准备"></a>安装前准备</h1><p>这里主要讲windows下的安装<br>vundle需要git，所以先安装<a href="https://git-for-windows.github.io/" target="_blank" rel="noopener">Git for Windows installer</a>,安装的时候选择第二项<br>[外链图片转存失败,源站可能有防盗链机制,建议将图片保存下来直接上传(img-U0vlfPuz-1614344604569)(<a href="https://camo.githubusercontent.com/e2390bf8aa82db692d315debf724fff6cf166eac/68747470733a2f2f692e696d6775722e636f6d2f7a5a31306963662e706e67" target="_blank" rel="noopener">https://camo.githubusercontent.com/e2390bf8aa82db692d315debf724fff6cf166eac/68747470733a2f2f692e696d6775722e636f6d2f7a5a31306963662e706e67</a>)]</p>
+<p>之后，在命令提示符<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git --version</span><br></pre></td></tr></table></figure></p>
+<p>如果成功显示版本号则成功。</p>
+<p>vundle也需要curl，在你的git安装目录的cmd目录下创建一个<code>curl.cmd</code><br>比如<code>C:\Program Files\Git\cmd\curl.cmd</code><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@rem Do not use &quot;echo off&quot; to not affect any child calls.</span><br><span class="line">@setlocal</span><br><span class="line"> </span><br><span class="line">@rem Get the abolute path to the parent directory, which is assumed to be the</span><br><span class="line">@rem Git installation root.</span><br><span class="line">@for /F &quot;delims=&quot; %%I in (&quot;%~dp0..&quot;) do @set git_install_root=%%~fI</span><br><span class="line">@set PATH=%git_install_root%\bin;%git_install_root%\mingw\bin;%git_install_root%\mingw64\bin;%PATH%</span><br><span class="line">@rem !!!!!!! For 64bit msysgit, replace &apos;mingw&apos; above with &apos;mingw64&apos; !!!!!!!</span><br><span class="line"> </span><br><span class="line">@if not exist &quot;%HOME%&quot; @set HOME=%HOMEDRIVE%%HOMEPATH%</span><br><span class="line">@if not exist &quot;%HOME%&quot; @set HOME=%USERPROFILE%</span><br><span class="line"> </span><br><span class="line">@curl.exe %*</span><br></pre></td></tr></table></figure></p>
+<p>在cmd里输入 <code>curl --version</code>出现版本号则成功。</p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>在cmd里运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/VundleVim/Vundle.vim.git C:\Program Files (x86)\Vim\vimfiles\bundle\Vundle.vim</span><br></pre></td></tr></table></figure></p>
+<p>后面那个地址是你想让vundle安装到的位置，可以自行更改。如果遇到git clone不成功的问题，你可以先cd到安装目录下再自行git命令。（<em>注意，windows中，cd只能在同一个盘中生效，如果你要从c盘到d盘，直接输入d:即可</em>）</p>
+<p>（<em>我在后续安装插件时有出现git无法在系统盘创建文件夹的现象，可以换到非系统盘</em>）</p>
+<p>安装完之后还不能使用，打开配置文件_vimrc<sup><a href="#fn_1" id="reffn_1">1</a></sup>添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">set nocompatible              &quot; 去除VI一致性,必须</span><br><span class="line">   filetype off                  &quot; 必须</span><br><span class="line"></span><br><span class="line">   set rtp+=$VIM/vimfiles/bundle/Vundle.vim &quot;vundle安装地址</span><br><span class="line">   call vundle#begin(&apos;$VIM/vimfiles/bundle&apos;) &quot;插件安装地址</span><br><span class="line"></span><br><span class="line">   Plugin &apos;VundleVim/Vundle.vim&apos;</span><br><span class="line"></span><br><span class="line">   call vundle#end()            &quot; 必须</span><br><span class="line">   filetype plugin indent on    &quot; 必须 加载vim自带和插件相应的语法和文件类型相关脚本</span><br></pre></td></tr></table></figure>
+<p>打开vim，执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: PluginInstall</span><br></pre></td></tr></table></figure>
+<p>出现done完成</p>
+<h1 id="vundle的使用"><a href="#vundle的使用" class="headerlink" title="vundle的使用"></a>vundle的使用</h1><p>怎么用它管理插件<br>以安装一个nerdtree插件为例<br>先打开_vimrc，在vundle#begin()与vundle#end()之间插入一条语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Plugin &apos;scrooloose/nerdtree&apos;</span><br></pre></td></tr></table></figure>
+<p>格式是作者/插件仓库名，vundle之后会自动调用git下载。</p>
+<p>然后打开vim，输入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: PluginInstall</span><br></pre></td></tr></table></figure></p>
+<p>就安装好了。</p>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: PluginInstall！</span><br></pre></td></tr></table></figure>
+<h2 id="列出插件"><a href="#列出插件" class="headerlink" title="列出插件"></a>列出插件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: PluginList</span><br></pre></td></tr></table></figure>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><p>删除在_vimrc的相应配置，然后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">: PluginClean</span><br></pre></td></tr></table></figure></p>
+<p><sup><a href="#fn_1" id="reffn_1">1</a></sup>:在windows中，vim会首先检查<code>$Home</code>目录下的_vimrc与.vimrc文件（_vimrc 比.vimrc优先级更高），若没有，再检查<code>$VIM</code>下的_vimrc与.vimrc文件。你可以在vim中执行<code>:echo $Home</code>与<code>:echo $VIM</code>查看地址。也可以在windows系统变量中修改Home的地址。</p>
 
                 <hr>
                 
@@ -238,12 +213,12 @@
                 <ul class="pager">
                     
                     <li class="previous">
-                        <a href="/2019/03/24/在ubuntu16.04上安装ELK/" data-toggle="tooltip" data-placement="top" title="在ubuntu16.04上安装ELK">&larr; Previous Post</a>
+                        <a href="/2019/03/23/简明XPath/" data-toggle="tooltip" data-placement="top" title="简明XPath">&larr; Previous Post</a>
                     </li>
                     
                     
                     <li class="next">
-                        <a href="/2017/06/11/vim之vundle安装与使用/" data-toggle="tooltip" data-placement="top" title="vim之vundle安装与使用">Next Post &rarr;</a>
+                        <a href="/2017/06/10/vim键位映射map/" data-toggle="tooltip" data-placement="top" title="vim键位映射map">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -281,7 +256,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#vs"><span class="toc-text">/ vs []</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#轴"><span class="toc-text">轴 ::</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vs-1"><span class="toc-text">. vs /</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#安装前准备"><span class="toc-text">安装前准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装"><span class="toc-text">安装</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#vundle的使用"><span class="toc-text">vundle的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#更新"><span class="toc-text">更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#列出插件"><span class="toc-text">列出插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#卸载"><span class="toc-text">卸载</span></a></li></ol></li></ol>
                 </div>
             </div>
         </div>
