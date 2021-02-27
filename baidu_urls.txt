@@ -1,4 +1,5 @@
 https://blog.aobtain.cn/2021/02/27/服务端缓存浅谈/
+https://blog.aobtain.cn/2021/02/27/Redis原理之数据结构学习笔记/
 https://blog.aobtain.cn/2021/02/26/concurrentHashMap源码解读(一)/
 https://blog.aobtain.cn/2021/02/26/使用vmware搭建hdfs集群/
 https://blog.aobtain.cn/2020/12/20/函数式刷题笔记/
@@ -7,4 +8,3 @@ https://blog.aobtain.cn/2019/04/09/java的lambda表达式/
 https://blog.aobtain.cn/2019/04/09/位运算总结/
 https://blog.aobtain.cn/2019/04/03/java-观察者模式/
 https://blog.aobtain.cn/2019/04/02/Paxos算法浅析/
-https://blog.aobtain.cn/2019/03/27/scrapy爬虫实战/

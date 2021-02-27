@@ -163,7 +163,7 @@
 <div class="post-preview " style="background-image: url('http://cdn.aobtain.cn/background.jpg')">
     <a href="/2021/02/27/服务端缓存浅谈/">
         <h2 class="post-title">
-            服务端缓存浅谈
+            服务端缓存初探
         </h2>
         <p class="post-meta">
             <i class="fa fa-calendar" aria-hidden="true"></i> 2021-02-27
@@ -171,7 +171,30 @@
         
         <div class="post-content-preview">
             <p>
-                ​    缓存，在计算机世界中很早就出现了，例如在CPU中，就有一级缓存，二级缓存，三级缓存。根据局部性原理（时间局部性：如果一个信息项正在被访问，那么在近期它很可能还会被再次访问。空间局部性：在最近的将来将用到的信息很可能与现在正在使用的信息在空间地址上是临近的。), 使用缓存能让我们以较低的..
+                ​   缓存，在计算机世界中很早就出现了，例如在CPU中，就有一级缓存，二级缓存，三级缓存。根据局部性原理（时间局部性：如果一个信息项正在被访问，那么在近期它很可能还会被再次访问。空间局部性：在最近的将来将用到的信息很可能与现在正在使用的信息在空间地址上是临近的。), 使用缓存能让我们以较低的成..
+            </p>
+        </div>
+    </a>
+
+</div>
+
+<hr>
+
+
+
+<div class="post-preview " style="background-image: url('http://cdn.aobtain.cn/background.jpg')">
+    <a href="/2021/02/27/Redis原理之数据结构学习笔记/">
+        <h2 class="post-title">
+            Redis原理之数据结构学习笔记
+        </h2>
+        <p class="post-meta">
+            <i class="fa fa-calendar" aria-hidden="true"></i> 2021-02-27
+        </p>
+        
+        <div class="post-content-preview">
+            <p>
+                底层实现dictdict类似于java里的hashmap，当发生冲突时，使用链地址法，把新加入的节点插入到链表的最前面。哈希算法使用Murmruhash2，这种算法即使输入的键是有规律的，算法仍能给出一个很好的随机分布性，计算速度非常快，使用简单。
+dict的数据结构里包含两个哈希表。在重哈希期..
             </p>
         </div>
     </a>
