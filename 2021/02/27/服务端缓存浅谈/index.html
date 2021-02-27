@@ -81,7 +81,7 @@
                         
 							
                         <li>
-                            <a href="/tags/">Tags</a>
+                            <a href="/categories/">categories</a>
                         </li>
 							
 						
@@ -89,7 +89,7 @@
                         
 							
                         <li>
-                            <a href="/categories/">categories</a>
+                            <a href="/tags/">Tags</a>
                         </li>
 							
 						
@@ -236,7 +236,13 @@
 <p>查询数据：memcache客户端计算hash得到目标服务器地址，再从指定节点查询。</p>
 <p>一般需要配合一致性Hash算法以免节点变更时导致所有key都要重新分布。</p>
 <p><img src="http://cdn.aobtain.cn/img2021/1845730-10c10a2fe42741bc.png" alt="img"></p>
+<center>新增数据</center>
+
+
+
 <p><img src="http://cdn.aobtain.cn/img2021/1845730-6c64b4a1fc593b3a.png" alt="img"></p>
+<center>查询数据</center>
+
 <h5 id="一致性Hash"><a href="#一致性Hash" class="headerlink" title="一致性Hash"></a>一致性Hash</h5><p>一致性Hash中的一致性是指当物理节点发生变更时，只影响这个节点相关的键，而不会影响其他节点的键。</p>
 <p>首先构造一个长度为2 ^ 32的哈希环，然后把物理节点经过hash后放入环中对应位置，当有需要查询key对应的节点在哪时，计算key在环上的位置后，顺时针寻找节点，第一个即为key所属的节点。假设某个node下线，也不会导致所有的key都要重新分布。</p>
 <p>为了使key分布更均匀，可以给物理节点几个虚拟节点，分布在环上的不同地方。</p>
