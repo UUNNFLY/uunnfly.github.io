@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head><meta name="generator" content="Hexo 3.8.0">
+    <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+    <meta name="google-site-verification" content="Gf4d1xCBKv4dxZ6FzbxxYjIyYRmsQX7-0ojLY2CfcRQ">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="uunnfly&#39;blog">
+    <meta name="keyword" content>
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="/favicon/cookie.png">
+    <link rel="alternate" type="application/atom+xml" title="uunnfly" href="/atom.xml">
+    <link rel="stylesheet" href="//cdn.bootcss.com/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        操作系统实战（一）实验环境搭建｜uunnfly&#39;s blog
+        
+    </title>
+
+    <link rel="canonical" href="https://blog.aobtain.cn/2021/10/01/操作系统实战（一）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- hexo-inject:begin --><!-- hexo-inject:end --><!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost="true" data-istags="false
+" data-ishome="false">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    uunnfly
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tags/">Tags</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img" src="http://cdn.aobtain.cn/background.jpg">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('http://cdn.aobtain.cn/background.jpg?imageView2/1/w/1400/h/400/interlace/1/q/90')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>操作系统实战（一）实验环境搭建</h1>
+                    
+                    <span class="meta">
+                         作者 uunnfly
+                        <span>
+                          日期 2021-10-01
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#操作系统" title="操作系统">操作系统</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            操作系统实战（一）实验环境搭建
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>实战目的：建立自己的操作系统<br>本节目标：搭建实验环境<br>课程来源：<a href="https://time.geekbang.org/column/article/380507" target="_blank" rel="noopener">操作系统实战45讲</a></p>
+<p>实验环境：windows</p>
+<h1 id="总体思路"><a href="#总体思路" class="headerlink" title="总体思路"></a>总体思路</h1><p>我们使用Ubuntu进行操作系统（COSMOS）的开发工作, 为了避免套娃操作（虚拟机启动Ubuntu，Ubuntu再启动一个虚拟机运行COSMOS），将一块硬盘同时挂载在两个虚拟机下，在Ubuntu里进行修改，COSMOS里进行验证。</p>
+<h1 id="前置准备"><a href="#前置准备" class="headerlink" title="前置准备"></a>前置准备</h1><ol>
+<li><a href="https://www.virtualbox.org/wiki/Downloads" target="_blank" rel="noopener">下载</a>virtualBox并安装 </li>
+<li><a href="http://releases.ubuntu.com/16.04/" target="_blank" rel="noopener">下载</a>Ubuntu 16.04的镜像</li>
+</ol>
+<h1 id="在虚拟机上安装Ubuntu"><a href="#在虚拟机上安装Ubuntu" class="headerlink" title="在虚拟机上安装Ubuntu"></a>在虚拟机上安装Ubuntu</h1><p>点击新建，名字输入Ubuntu<br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001101342.png" alt><br>内存选4G，硬盘选“现在创建虚拟硬盘”，之后选vdi、动态分配，10G，点击创建。<br>现在开始安装Ubuntu，先将iso文件加载为虚拟光盘。点击设置 -&gt; 存储，选择本地的iso文件<br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001102039.png" alt><br>然后点击启动，进行安装。安装并启动之后可以点击设备 -&gt; 安装增强功能，来获得更好的使用体验<br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001102435.png" alt></p>
+<h1 id="新建虚拟硬盘"><a href="#新建虚拟硬盘" class="headerlink" title="新建虚拟硬盘"></a>新建虚拟硬盘</h1><p>在virtualBox的设置 -&gt; 存储里新建虚拟硬盘，选择100M大小。<br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001103556.png" alt><br>进入Ubuntu，查看当前磁盘情况：<code>lsblk</code><br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001104204.png" alt><br>可以看到有块sdb（我已挂载，因此有挂载点）<br>将其格式化并挂载：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo mkfs.ext4 /dev/sdb</span><br><span class="line"><span class="built_in">cd</span> ~</span><br><span class="line">mkdir hdisk</span><br><span class="line">mount /dev/sdb ./hdisk</span><br></pre></td></tr></table></figure></p>
+<p>mount命令是临时挂载，如果要开机自动挂载，需要写道/etc/fstab文件<br><figure class="highlight plain"><figcaption><span>vim</span><a href="/etc/fstab```">link</a></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">在最后一行加入：</span><br></pre></td></tr></table></figure></p>
+<p>/dev/sdb /home/zgq/hdisk ext4 defaults 0 0<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">目录名根据实际调整。</span><br><span class="line"></span><br><span class="line">注：磁盘常用命令：</span><br><span class="line">```bash</span><br><span class="line">lsblk  查看当前磁盘情况</span><br><span class="line">df -lh  查看文件系统情况 -l 查看挂载点</span><br><span class="line">parted -l 会列出文件系统类型</span><br><span class="line">fdisk -l 查看当前未挂载硬盘</span><br></pre></td></tr></table></figure></p>
+<h1 id="新建虚拟机COSMOS"><a href="#新建虚拟机COSMOS" class="headerlink" title="新建虚拟机COSMOS"></a>新建虚拟机COSMOS</h1><p>新建COSMOS，注意在选择硬盘时选择已有的100M硬盘<br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001102915.png" alt><br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001103014.png" alt></p>
+<h1 id="安装并配置grub"><a href="#安装并配置grub" class="headerlink" title="安装并配置grub"></a>安装并配置grub</h1><p>grub是在启动时用来引导操作系统的工具。计算机启动时，首先读取MBR（主引导记录），找到启动管理器grub的安装地址，然后运行grub，grub让用户选择启动某个操作系统。<br>首先在Ubuntu里创建目录<br><code>sudo mkdir hdisk/boot</code><br>然后安装grub<br><code>sudo grub-install --boot-directory=./hdisk/boot/ --force --allow-floppy /dev/sdb</code><br>—boot-directory：执行grub的启动位置<br>—force —allow-floppy ：指向我们的虚拟硬盘设备文件/dev/loop0</p>
+<p>然后在hidsk/boot/grub下建立grub.cfg, grub通过这个文件找到我们的操作系统<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">menuentry <span class="string">'COSMOS'</span> &#123;</span><br><span class="line">insmod part_msdos</span><br><span class="line">insmod ext2</span><br><span class="line"><span class="built_in">set</span> root=<span class="string">'hd0'</span> <span class="comment">#我们的硬盘只有一个分区</span></span><br><span class="line">multiboot2 /boot/COSMOS.eki <span class="comment">#COSMOS.eki文件</span></span><br><span class="line">boot <span class="comment">#引导启动</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="built_in">set</span> timeout_style=menu</span><br><span class="line"><span class="keyword">if</span> [ <span class="string">"<span class="variable">$&#123;timeout&#125;</span>"</span> = 0 ]; <span class="keyword">then</span></span><br><span class="line">  <span class="built_in">set</span> timeout=10 <span class="comment">#等待10秒钟自动启动</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure></p>
+<p>语法可以看<a href="http://www.jinbuguo.com/linux/grub.cfg.html" target="_blank" rel="noopener">Grub2语法学习</a></p>
+<h1 id="启动COSMOS"><a href="#启动COSMOS" class="headerlink" title="启动COSMOS"></a>启动COSMOS</h1><p>关闭Ubuntu，因为一块硬盘不能同时被两个运行的虚拟机挂载。然后启动COSMOS，可以看到已经出现我们的COSMOS，不过点击之后会报错，那是正常的，因为还没有/boot/COSMOS.eki这个内核文件<br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001110635.png" alt><br><img src="https://gitee.com/uunnfly/blogimage/raw/master/img/20211001110659.png" alt></p>
+<h1 id="故障排查"><a href="#故障排查" class="headerlink" title="故障排查"></a>故障排查</h1><p>如果启动COSMOS时grub的报错信息不对，一般是文件路径有问题，通过grub rescue的命令进行排查<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ls (hd0)/boot/grub/</span><br></pre></td></tr></table></figure></p>
+<p>看看有无我们写的grub.cfg。如果还有报错重新进行grub安装这步</p>
+<p>参考链接：<br><a href="https://www.ruanyifeng.com/blog/2013/02/booting.html" target="_blank" rel="noopener">计算机是如何启动的？</a><br><a href="https://zhuanlan.zhihu.com/p/76697397" target="_blank" rel="noopener">Linux之——挂载新硬盘方法</a></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    
+                    <li class="next">
+                        <a href="/2021/02/27/服务端缓存浅谈/" data-toggle="tooltip" data-placement="top" title="服务端缓存初探">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+                <!-- 来必力City版安装代码 -->
+                <div id="lv-container" data-id="city" data-uid="MTAyMC80MzMzNi8xOTg3Nw==">
+                    <script type="text/javascript">
+                        (function(d, s) {
+                            var j, e = d.getElementsByTagName(s)[0];
+
+                            if (typeof LivereTower === 'function') { return; }
+
+                            j = d.createElement(s);
+                            j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+                            j.async = true;
+
+                            e.parentNode.insertBefore(j, e);
+                        })(document, 'script');
+                    </script>
+                    <noscript> 为正常使用来必力评论功能请激活JavaScript</noscript>
+                </div>
+                <!-- City版安装代码已完成 -->
+                
+
+                
+
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#总体思路"><span class="toc-text">总体思路</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#前置准备"><span class="toc-text">前置准备</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#在虚拟机上安装Ubuntu"><span class="toc-text">在虚拟机上安装Ubuntu</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新建虚拟硬盘"><span class="toc-text">新建虚拟硬盘</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#新建虚拟机COSMOS"><span class="toc-text">新建虚拟机COSMOS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#安装并配置grub"><span class="toc-text">安装并配置grub</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#启动COSMOS"><span class="toc-text">启动COSMOS</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#故障排查"><span class="toc-text">故障排查</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+                <div style="margin-top: 20px;">
+                    <h5 class="text-center">FRIENDS</h5>
+                    <ul class="list-inline text-center">
+                        
+                        <li><a href="https://nulljh.cn/">John Doe</a></li>
+                        
+                    </ul>
+                </div>
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                    
+                    
+                    
+
+                    
+
+                    
+
+                    
+
+                    
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; uunnfly 2021
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+        var d = document, t = 'script',
+            o = d.createElement(t),
+            s = d.getElementsByTagName(t)[0];
+        o.src = u;
+        if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+        s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if ($('#tag_cloud').length !== 0) {
+        async("https://blog.aobtain.cn/js/jquery.tagcloud.js", function () {
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: { start: '#bbbbee', end: '#0085a1' },
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function () {
+        var $nav = document.querySelector("nav");
+        if ($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+
+<!-- Google Analytics -->
+
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-136985419-1';
+    var _gaDomain = 'aobtain.cn';
+    // Originial
+    (function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+        (i[r].q = i[r].q || []).push(arguments)
+    }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+    (function (w, d, t, u, n, s, e) {
+    w['SwiftypeObject'] = n; w[n] = w[n] || function () {
+        (w[n].q = w[n].q || []).push(arguments);
+    }; s = d.createElement(t);
+        e = d.getElementsByTagName(t)[0]; s.async = 1; s.src = u; e.parentNode.insertBefore(s, e);
+    })(window, document, 'script', '//s.swiftypecdn.com/install/v2/st.js', '_st');
+
+    _st('install', '1Q6gh5NNmDszKaQaUjmv', '2.0.0');
+</script>
+
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!--wechat title img-->
+<img class="wechat-title-img" src="http://cdn.aobtain.cn/dog.jpeg"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+
+</html>
